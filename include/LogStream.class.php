@@ -67,6 +67,13 @@ class LogStream {
 	function hasDurationInfo() {
 		return $this->hasDurationInfo;
 	}
+	
+	function flush(& $accumulator) {
+		while($query =& $this->pop()) {
+			$query->accumulateTo($accumulator);
+			unset($query);
+		}
+	}
 }
 
 ?>

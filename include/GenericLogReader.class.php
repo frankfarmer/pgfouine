@@ -3,17 +3,17 @@
 require_once('lib/common.lib.php');
 require_once('base.lib.php');
 
-define('DEBUG', 0);
-
 class GenericLogReader {
 	var $fileName;
 	var $lineParserName;
 	var $accumulatorName;
 	
 	var $lineParsedCounter = 0;
-	var $includesDuration = false;
+	var $timeToParse;
 	
 	var $listeners = array();
+	
+	var $includesDuration = false;
 	
 	function GenericLogReader($fileName, $lineParserName, $accumulatorName) {
 		$this->fileName = $fileName;
@@ -48,6 +48,9 @@ class GenericLogReader {
 		}
 		
 		$lineParsedCounter = 0;
+		
+		DEBUG && printMemoryUsage();
+		
 		while (!feof($filePointer)) {
 			$lineParsedCounter ++;
 			$text = fgets($filePointer);
@@ -62,16 +65,19 @@ class GenericLogReader {
 			// TODO
 			//rescue StandardError => e
 			//@parse_errors << ParseError.new(e,line)
+			if(DEBUG && $lineParsedCounter % 100000 == 0) {
+				debug('parsed '.$lineParsedCounter.' lines');
+				printMemoryUsage('    ');
+			}
 		}
+		DEBUG && printMemoryUsage('Before flush - ');
+		$accumulator->flushLogStreams();
+		DEBUG && printMemoryUsage('After flush - ');
+		
 		fclose($filePointer);
 		
-		$timeToParse = time() - $startTimestamp;
+		$this->timeToParse = time() - $startTimestamp;
 		$this->lineParsedCounter = $lineParsedCounter;
-		
-		$accumulator->closeOutAll();
-		
-		$this->queries =& $accumulator->getQueries();
-		$this->errors =& $accumulator->getErrors();
 		$this->includesDuration = $accumulator->hasDurationInfo();
 	}
 	
