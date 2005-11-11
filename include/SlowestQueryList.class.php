@@ -20,7 +20,8 @@ class SlowestQueryList {
 				$this->queries[$duration] = array();
 			}
 			$this->queries[$duration][] =& $query;
-			$queriesCount++;
+			$this->shortestDuration = min($shortestDuration, $duration);
+			$this->queriesCount++;
 		} else {
 			if($shortestDuration < $duration) {
 				$shortestDurationQueriesCount = count($this->queries[$shortestDuration]);
@@ -34,10 +35,9 @@ class SlowestQueryList {
 					$this->queries[$duration] = array();
 				}
 				$this->queries[$duration][] =& $query;
+				$this->shortestDuration = min($shortestDuration, $duration);
 			}
 		}
-		$this->shortestDuration = min($shortestDuration, $duration);
-		$this->queriesCount = $queriesCount;
 	}
 	
 	function & getQueries() {
