@@ -56,8 +56,10 @@ class Query {
 	}
 	
 	function accumulateTo(& $accumulator) {
-		$this->text = normalizeWhitespaces($this->text);
-		$accumulator->appendQuery($this);
+		if(!$this->isIgnored()) {
+			$this->text = normalizeWhitespaces($this->text);
+			$accumulator->appendQuery($this);
+		}
 	}
 
 	function isSelect() {

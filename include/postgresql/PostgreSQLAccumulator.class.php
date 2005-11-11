@@ -17,7 +17,7 @@ class PostgreSQLAccumulator extends Accumulator {
 		} else {
 			$query =& $this->stream->append($line);
 		}
-		if($query && !$query->isIgnored()) {
+		if($query) {
 			$query->accumulateTo($this);
 		}
 	}
