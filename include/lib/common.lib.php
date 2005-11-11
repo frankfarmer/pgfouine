@@ -7,6 +7,19 @@ function debug($string) {
 function stderr($string) {
 }
 
+function printMemoryUsage($prefix = '') {
+	$memoryUsage = memory_get_usage();
+	$output = $prefix.'Memory usage: ';
+	if($memoryUsage < 1024) {
+		$output .= intval($memoryUsage).' o';
+	} elseif($memoryUsage < 1024*1024) {
+		$output .= intval($memoryUsage/1024).' ko';
+	} else {
+		$output .= number_format(($memoryUsage/(1024*1024)), 2, '.', ' ').' mo';
+	}
+	echo $output."\n";
+}
+
 function normalizeWhitespaces($text) {
 	$text = trim($text);
 	$text = preg_replace('/\s+/', ' ', $text);
