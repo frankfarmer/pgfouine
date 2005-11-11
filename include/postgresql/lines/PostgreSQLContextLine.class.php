@@ -23,7 +23,7 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 
 	function appendTo(& $queries) {
 		$subQuery =& $queries->pop();
-		$query =& $query->last();
+		$query =& $queries->last();
 		
 		if(!$subQuery) {
 			stderr('Missing Query for Context');
