@@ -44,7 +44,25 @@ class Accumulator {
 		}
 	}
 	
+	function close() {
+		$this->flushLogStreams();
+		$this->closeListeners();
+	}
+	
 	function flushLogStreams() {
+	}
+	
+	function closeListeners() {
+		$listenerCount = count($this->queryListeners);
+		for($i = 0; $i < $listenerCount; $i++) {
+			$listener =& $this->queryListeners[$i];
+			$listener->close();
+		}
+		$listenerCount = count($this->errorListeners);
+		for($i = 0; $i < $listenerCount; $i++) {
+			$listener =& $this->errorListeners[$i];
+			$listener->close();
+		}
 	}
 }
 

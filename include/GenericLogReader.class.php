@@ -70,9 +70,9 @@ class GenericLogReader {
 				printMemoryUsage('    ');
 			}
 		}
-		DEBUG && printMemoryUsage('Before flush - ');
-		$accumulator->flushLogStreams();
-		DEBUG && printMemoryUsage('After flush - ');
+		DEBUG && printMemoryUsage('Before close - ');
+		$accumulator->close();
+		DEBUG && printMemoryUsage('After close - ');
 		
 		fclose($filePointer);
 		
