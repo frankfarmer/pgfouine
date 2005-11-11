@@ -8,6 +8,7 @@ $commonTests = &new GroupTest('Common tests');
 $commonTests->addTestFile('TestRegExp.class.php');
 $commonTests->addTestFile('TestGenericLogReader.class.php');
 $commonTests->addTestFile('TestQuery.class.php');
+$commonTests->addTestFile('TestErrorQuery.class.php');
 $commonTests->addTestFile('TestLogStream.class.php');
 $commonTests->addTestFile('TestSlowestQueryList.class.php');
 $commonTests->run(new TextReporter());
