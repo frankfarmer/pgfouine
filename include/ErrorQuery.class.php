@@ -11,17 +11,17 @@ class ErrorQuery extends Query {
 	}
 	
 	function appendStatement($text) {
-		if(DEBUG && empty($text)) stderr('Empty text for error statement');
+		if(DEBUG > 1 && empty($text)) stderr('Empty text for error statement');
 		$this->text = $text;
 	}
 	
 	function appendHint($hint) {
-		if(DEBUG && empty($hint)) stderr('Empty text for error hint');
+		if(DEBUG > 1 && empty($hint)) stderr('Empty text for error hint');
 		$this->hint = $hint;
 	}
 	
 	function appendDetail($detail) {
-		if(DEBUG && empty($detail)) stderr('Empty text for error detail');
+		if(DEBUG > 1 && empty($detail)) stderr('Empty text for error detail');
 		$this->detail = $detail;
 	}
 	
