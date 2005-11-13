@@ -1,10 +1,17 @@
 <?php
 
 function debug($string) {
-	echo $string."\n";
+	stderr($string);
 }
 
 function stderr($string) {
+	global $stderr, $lineParsedCounter;
+	if($lineParsedCounter) {
+		$string .= ' - log line '.$lineParsedCounter;
+	}
+	if($stderr) {
+		fwrite($stderr, $string."\n");
+	}
 }
 
 function printMemoryUsage($prefix = '') {
