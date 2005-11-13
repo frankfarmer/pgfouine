@@ -6,19 +6,26 @@ class Query {
 	var $user;
 	var $duration = false;
 	var $ignored;
-	var $normalized = false;
-	var $normalizedText;
+	var $commandNumber = 0;
 	var $parsingSubQueries = false;
 	var $subQueries = array();
 
 	function Query($text = '', $ignored = false) {
-		if(DEBUG && !$text) stderr('Empty text for Query');
+		if(DEBUG > 1 && !$text) stderr('Empty text for Query');
 		$this->text = $text;
 		$this->ignored = $ignored;
 	}
+	
+	function setCommandNumber($commandNumber) {
+		$this->commandNumber = $commandNumber; 
+	}
+	
+	function getCommandNumber() {
+		return $this->commandNumber;
+	}
 
 	function append($text) {
-		if(DEBUG && !$text) stderr('Empty text for append');
+		if(DEBUG > 1 && !$text) stderr('Empty text for append');
 		if($this->parsingSubQueries) {
 			$subQuery =& last($this->subQueries);
 			$subQuery .= ' '.normalizeWhitespaces($text);
@@ -28,7 +35,7 @@ class Query {
 	}
 	
 	function setSubQuery($text) {
-		if(DEBUG && !$text) stderr('Empty text for setSubQuery');
+		if(DEBUG > 1 && !$text) stderr('Empty text for setSubQuery');
 		$this->parsingSubQueries = true;
 		$this->subQueries[] = normalizeWhitespaces($text);
 	}
