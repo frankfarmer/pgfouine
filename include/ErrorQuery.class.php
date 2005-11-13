@@ -4,6 +4,7 @@ class ErrorQuery extends Query {
 	var $hint = '';
 	var $detail = '';
 	var $error = '';
+	var $context = '';
 	
 	function ErrorQuery($text = 'No error message') {
 		$this->error = $text;
@@ -25,6 +26,11 @@ class ErrorQuery extends Query {
 		$this->detail = $detail;
 	}
 	
+	function appendContext($context) {
+		if(DEBUG > 1 && empty($context)) stderr('Empty text for error context');
+		$this->context = $context;
+	}
+	
 	function accumulateTo(& $accumulator) {
 		$accumulator->appendError($this);
 	}
@@ -39,6 +45,10 @@ class ErrorQuery extends Query {
 	
 	function getDetail() {
 		return $this->detail;
+	}
+	
+	function getContext() {
+		return $this->context;
 	}
 }
 
