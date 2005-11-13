@@ -3,14 +3,10 @@
 class LogStream {
 	var $queries = array();
 	var $hasDurationInfo = false;
-	var $host = 'Unknown';
-	var $port = 'Unknown';
-	var $user = 'Unknown';
-	var $db = 'Unknown';
-	
-	/* TODO def queries
-		@queries.reject {|q| q.ignored}
-	end*/
+	var $host = '';
+	var $port = '';
+	var $user = '';
+	var $db = '';
 	
 	function & getQueries() {
 		return $this->queries;
