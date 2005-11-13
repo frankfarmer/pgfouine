@@ -10,6 +10,10 @@ class SlowestQueryList {
 		$this->size = $size;
 	}
 	
+	function setSize($size) {
+		$this->size = $size;
+	}
+	
 	function addQuery(&$query) {
 		$duration = (string) $query->getDuration();
 		$queriesCount = $this->queriesCount;
@@ -27,7 +31,6 @@ class SlowestQueryList {
 				$shortestDurationQueriesCount = count($this->queries[$shortestDuration]);
 				if($shortestDurationQueriesCount == 1) {
 					unset($this->queries[$shortestDuration]);
-					$shortestDuration = min(array_keys($this->queries));
 				} else {
 					unset($this->queries[$shortestDuration][$shortestDurationQueriesCount - 1]);
 				}
@@ -35,7 +38,7 @@ class SlowestQueryList {
 					$this->queries[$duration] = array();
 				}
 				$this->queries[$duration][] =& $query;
-				$this->shortestDuration = min($shortestDuration, $duration);
+				$this->shortestDuration = min(array_keys($this->queries));
 			}
 		}
 	}
