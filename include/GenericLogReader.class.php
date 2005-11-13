@@ -22,6 +22,8 @@ class GenericLogReader {
 	}
 
 	function parse() {
+		global $lineParsedCounter;
+		
 		$startTimestamp = time();
 		
 		$accumulator = new $this->accumulatorName;
