@@ -15,7 +15,7 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 			if($functionMatch) {
 				$this->PostgreSQLLogLine($statementMatch->getMatch(2));
 			} else {
-				if(DEBUG) stderr('Unrecognized Context');
+				if(DEBUG) stderr('Unrecognized context');
 				$this->PostgreSQLLogLine($text);
 			}
 		}
@@ -26,11 +26,11 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 		$query =& $queries->last();
 		
 		if(!$subQuery) {
-			stderr('Missing Query for Context');
+			stderr('Missing query for context');
 		} elseif($query) {
 			$query->setSubQuery($subQuery->getText());
 		} else {
-			stderr('Context for no previous Query');
+			stderr('Context for no previous query');
 		}
 		return false;
 	}
