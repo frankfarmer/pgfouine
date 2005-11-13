@@ -114,14 +114,6 @@ class Query {
 		return $this->text;
 	}
 	
-	function isNormalized() {
-		return $this->normalized;
-	}
-	
-	function getNormalizedText() {
-		return $this->normalizedText;
-	}
-	
 	function isParsingSubQueries() {
 		return $this->parsingSubQueries;
 	}

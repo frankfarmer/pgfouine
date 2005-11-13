@@ -29,6 +29,7 @@ class TestQuery extends UnitTestCase {
 		define('TEST_DB', 'test_db');
 		define('TEST_USER', 'test_user');
 		define('TEST_DURATION', 100);
+		define('TEST_COMMAND_NUMBER', 43);
 		
 		$query = new Query(TEST_TEXT);
 		$query->setDb(TEST_DB);
@@ -41,6 +42,10 @@ class TestQuery extends UnitTestCase {
 		$query = new Query(TEST_TEXT);
 		$query->setDuration(TEST_DURATION);
 		$this->assertEqual(TEST_DURATION, $query->getDuration());
+		
+		$query = new Query(TEST_TEXT);
+		$query->setCommandNumber(TEST_COMMAND_NUMBER);
+		$this->assertEqual(TEST_COMMAND_NUMBER, $query->getCommandNumber());
 	}
 	
 	function testTypeDetection() {
@@ -96,9 +101,6 @@ class TestQuery extends UnitTestCase {
 	function testNormalize() {
 		define('TEST_QUERY', "SELECT * FROM   mytable WHERE field1=4 AND field2='string'");
 		$query = new Query(TEST_QUERY, false);
-		$this->assertFalse($query->isNormalized());
-		$query->normalize();
-		$this->assertTrue($query->isNormalized());
 		$this->assertEqual(TEST_QUERY, $query->getText());
 		$this->assertEqual("SELECT * FROM mytable WHERE field1=0 AND field2=''", $query->getNormalizedText());
 	}

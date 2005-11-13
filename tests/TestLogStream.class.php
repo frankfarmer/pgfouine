@@ -45,18 +45,18 @@ class TestLogStream extends UnitTestCase {
 		$queries =& $logStream->getQueries();
 		
 		$this->assertEqual(1, count($queries));
-		$this->assertEqual('Unknown', $queries[0]->getDb());
-		$this->assertEqual('Unknown', $queries[0]->getUser());
+		$this->assertEqual('', $queries[0]->getDb());
+		$this->assertEqual('', $queries[0]->getUser());
 		$this->assertReference($query1, $queries[0]);
 		
 		$logStream->push($query2);
 		$queries =& $logStream->getQueries();
 		
 		$this->assertEqual(2, count($queries));
-		$this->assertEqual('Unknown', $queries[0]->getDb());
-		$this->assertEqual('Unknown', $queries[0]->getUser());
-		$this->assertEqual('Unknown', $queries[1]->getDb());
-		$this->assertEqual('Unknown', $queries[1]->getUser());
+		$this->assertEqual('', $queries[0]->getDb());
+		$this->assertEqual('', $queries[0]->getUser());
+		$this->assertEqual('', $queries[1]->getDb());
+		$this->assertEqual('', $queries[1]->getUser());
 		$this->assertReference($query1, $queries[0]);
 		$this->assertReference($query2, $queries[1]);
 	}
