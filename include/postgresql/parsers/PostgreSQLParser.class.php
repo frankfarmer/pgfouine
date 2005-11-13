@@ -73,8 +73,10 @@ class PostgreSQLParser {
 			return new PostgreSQLContinuationLine('');
 		}
 
-		stderr('Unrecognized PostgreSQL log line: '.$text);
-		return false;
+		// PostgreSQL cuts lines if they are too long so an unrecognized log line can be in fact
+		// a continuation line. So we add it as a continuation line and we let the ContinuationLine
+		// object decide if it is one or not based on command number.
+		return new PostgreSQLContinuationLine($text);
 	}
 }
 
