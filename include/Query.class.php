@@ -48,18 +48,18 @@ class Query {
 		$this->user = $user;
 	}
 	
-	function normalize() {
+	function getNormalizedText() {
 		$regexpRemoveText = "/'[^']*'/";
 		$regexpRemoveNumbers = '/([^a-zA-Z_\$])([0-9]{1,10})/';
 
+		$text = '';
 		if($this->text) {
 			$text = normalizeWhitespaces($this->text);
 			$text = str_replace("\\'", '', $text);
 			$text = preg_replace($regexpRemoveText, "''", $text);
 			$text = preg_replace($regexpRemoveNumbers, '${1}0', $text);
-			$this->normalized = true;
-			$this->normalizedText = $text;
 		}
+		return $text;
 	}
 	
 	function accumulateTo(& $accumulator) {
