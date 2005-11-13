@@ -4,7 +4,6 @@ class ErrorQuery extends Query {
 	var $hint = '';
 	var $detail = '';
 	var $error = '';
-	var $context = '';
 	
 	function ErrorQuery($text = 'No error message') {
 		$this->error = $text;
@@ -13,6 +12,9 @@ class ErrorQuery extends Query {
 	
 	function appendStatement($text) {
 		if(DEBUG > 1 && empty($text)) stderr('Empty text for error statement');
+		// the text may have been appended so we copy it in error before overwriting it
+		$this->error = $this->text;
+		
 		$this->text = $text;
 	}
 	
@@ -32,6 +34,7 @@ class ErrorQuery extends Query {
 	}
 	
 	function accumulateTo(& $accumulator) {
+		$this->text = normalizeWhitespaces($this->text);
 		$accumulator->appendError($this);
 	}
 	
@@ -45,10 +48,6 @@ class ErrorQuery extends Query {
 	
 	function getDetail() {
 		return $this->detail;
-	}
-	
-	function getContext() {
-		return $this->context;
 	}
 }
 

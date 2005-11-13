@@ -2,6 +2,7 @@
 
 class PostgreSQLContextLine extends PostgreSQLLogLine {
 	var $ignore = false;
+	var $recognized = true;
 
 	function PostgreSQLContextLine($text) {
 		$regexpSqlStatement = new RegExp('/^SQL statement "/');
@@ -15,7 +16,7 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 			if($functionMatch) {
 				$this->PostgreSQLLogLine($statementMatch->getMatch(2));
 			} else {
-				if(DEBUG) stderr('Unrecognized context or context for an error');
+				$this->recognized = false;
 				$this->PostgreSQLLogLine($text);
 			}
 		}
@@ -24,9 +25,11 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 	function appendTo(& $queries) {
 		$lastQuery =& $queries->last();
 		if(is_a($lastQuery, 'ErrorQuery')) {
-			// we have an error query
-			$lastQuery->appendContext($this->text);
+			// we have an error query so we put the context in a subquery
+			$lastQuery->setSubQuery($this->text);
 		} else {
+			if(DEBUG && !$this->recognized) stderr('Unrecognized context or context for an error');
+			
 			$subQuery =& $queries->pop();
 			$query =& $queries->last();
 			
