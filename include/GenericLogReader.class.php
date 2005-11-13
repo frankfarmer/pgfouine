@@ -89,6 +89,10 @@ class GenericLogReader {
 		$listener = new $listenerName();
 		$this->listeners[$listenerName] =& $listener;
 	}
+	
+	function & getListener($listenerName) {
+		return $this->listeners[$listenerName];
+	}
 }
 
 ?>

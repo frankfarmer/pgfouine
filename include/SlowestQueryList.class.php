@@ -45,8 +45,16 @@ class SlowestQueryList {
 	}
 	
 	function & getSortedQueries() {
+		$queryList = array();
 		krsort($this->queries, SORT_NUMERIC);
-		return $this->queries;
+		$keys = array_keys($this->queries);
+		foreach($keys AS $key) {
+			$queryArrayCount = count($this->queries[$key]);
+			for($i = 0; $i < $queryArrayCount; $i++) {
+				$queryList[] =& $this->queries[$key][$i];
+			}
+		}
+		return $queryList;
 	}
 }
 
