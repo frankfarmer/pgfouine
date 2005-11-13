@@ -3,8 +3,8 @@
 class PostgreSQLStatementLine extends PostgreSQLQueryStartLine {
 	var $ignore = false;
 
-	function appendTo(& $errors) {
-		$error =& $errors->last();
+	function appendTo(& $queries) {
+		$error =& $queries->last();
 		if($error) {
 			$error->appendStatement($this->text);
 		} else {
