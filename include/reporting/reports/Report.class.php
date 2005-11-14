@@ -24,7 +24,7 @@ class Report {
 	}
 	
 	function getHtmlTitle($title) {
-		return '<h2>'.$title.'</h2>';
+		return '<h2 id="'.$this->getReportClass().'">'.$title.' <a href="#top" title="Back to top">^</a></h2>';
 	}
 	
 	function pad($string, $length) {
@@ -36,7 +36,19 @@ class Report {
 	}
 	
 	function formatDuration($duration, $decimals = 2) {
-		return number_format($duration, $decimals).' s';
+		return number_format($duration, $decimals).'s';
+	}
+	
+	function getReportClass() {
+		return get_class($this);
+	}
+	
+	function getRowStyle($i) {
+		return 'row'.($i%2);
+	}
+	
+	function highlightSql($sql) {
+		return $this->reportAggregator->highlightSql($sql);
 	}
 } 
 

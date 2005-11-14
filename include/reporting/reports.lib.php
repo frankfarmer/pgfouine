@@ -2,6 +2,8 @@
 
 require_once('ReportAggregator.class.php');
 require_once('TextReportAggregator.class.php');
+
+include_once('geshi/geshi.php');
 require_once('HtmlReportAggregator.class.php');
 
 require_once('reports/Report.class.php');
