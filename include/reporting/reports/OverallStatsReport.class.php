@@ -7,7 +7,7 @@ class OverallStatsReport extends Report {
 	
 	function getText() {
 		$listener = $this->reportAggregator->getListener('GlobalCountersListener');
-		$text = $this->getTextTitle($this->getTitle());
+		$text = '';
 		
 		$text .= 
 			'Number of queries:     '.$listener->getQueryCount()."\n".
@@ -15,6 +15,9 @@ class OverallStatsReport extends Report {
 		;
 		
 		return $text;
+	}
+	
+	function getHtml() {
 	}
 }
 

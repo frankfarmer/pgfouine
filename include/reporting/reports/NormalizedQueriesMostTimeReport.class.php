@@ -7,7 +7,7 @@ class NormalizedQueriesMostTimeReport extends Report {
 	
 	function getText() {
 		$listener = $this->reportAggregator->getListener('NormalizedQueriesListener');
-		$text = $this->getTextTitle($this->getTitle());
+		$text = '';
 		
 		$queries =& $listener->getQueriesMostTime();
 		
@@ -15,14 +15,14 @@ class NormalizedQueriesMostTimeReport extends Report {
 		
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
-			$text .= $this->formatDuration($query['duration']).' - '.$query['count'].' - '.$query['normalizedText']."\n";
+			$text .= ($i+1).') '.$this->formatDuration($query['duration']).' - '.$query['count'].' - '.$query['normalizedText']."\n";
 			$text .= "--\n";
 		}
 		return $text;
 	}
 	
 	function getHtml() {
-	}	
+	}
 }
 
 ?>

@@ -7,20 +7,41 @@ class SlowestQueriesReport extends Report {
 	
 	function getText() {
 		$listener = $this->reportAggregator->getListener('SlowestQueriesListener');
-		$text = $this->getTextTitle($this->getTitle());
+		$text = '';
 		
 		$queries =& $listener->getSortedQueries();
 		$count = count($queries);
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
-			$text .= $this->formatDuration($query->getDuration()).' - '.$query->getText()."\n";
+			$text .= ($i+1).') '.$this->formatDuration($query->getDuration()).' - '.$query->getText()."\n";
 			$text .= "--\n";
 		}
 		return $text;
 	}
 	
 	function getHtml() {
-	}	
+		$listener = $this->reportAggregator->getListener('SlowestQueriesListener');
+		$html = '
+<table class="queryList">
+	<tr>
+		<th>Rank</th>
+		<th>Time</th>
+		<th>Query</th>
+	</tr>';
+		$queries =& $listener->getSortedQueries();
+		$count = count($queries);
+		for($i = 0; $i < $count; $i++) {
+			$query =& $queries[$i];
+			$html .= '<tr class="'.$this->getRowStyle($i).'">
+				<td class="rank top">'.($i+1).'</td>
+				<td class="relevantInformation top">'.$this->formatDuration($query->getDuration()).'</td>
+				<td>'.$this->highlightSql($query->getText()).'</td>
+			</tr>';
+			$html .= "\n";
+		}
+		$html .= '</table>';
+		return $html;
+	}
 }
 
 ?>

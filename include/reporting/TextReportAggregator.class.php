@@ -16,6 +16,7 @@ class TextReportAggregator extends ReportAggregator {
 		$count = count($this->reports);
 		$output = '';
 		for($i = 0; $i < $count; $i++) {
+			$output .= $this->reports[$i]->getTextTitle($this->reports[$i]->getTitle());
 			$output .= $this->reports[$i]->getText();
 			$output .= "\n";
 		}
