@@ -51,8 +51,9 @@ class GenericLogReader {
 		
 		$lineParsedCounter = 0;
 		
-		DEBUG && printMemoryUsage();
+		if(DEBUG) debug(getMemoryUsage());
 		
+		$currentTimestamp = time();
 		while (!feof($filePointer)) {
 			$lineParsedCounter ++;
 			$text = fgets($filePointer);
@@ -68,18 +69,24 @@ class GenericLogReader {
 			//rescue StandardError => e
 			//@parse_errors << ParseError.new(e,line)
 			if(DEBUG && $lineParsedCounter % 100000 == 0) {
+				$currentTime = time() - $currentTimestamp;
+				$currentTimestamp = time();
 				debug('parsed '.$lineParsedCounter.' lines');
-				printMemoryUsage('    ');
+				debug('    '.getMemoryUsage());
+				debug('    Time: '.$currentTime.' s');
 			}
 		}
-		DEBUG && printMemoryUsage('Before close - ');
+		DEBUG && debug('Before close - '.getMemoryUsage());
 		$accumulator->close();
-		DEBUG && printMemoryUsage('After close - ');
+		DEBUG && debug('After close - '.getMemoryUsage());
 		
 		fclose($filePointer);
 		
 		$this->timeToParse = time() - $startTimestamp;
 		$this->lineParsedCounter = $lineParsedCounter;
+		
+		DEBUG && debug("\nParsed ".$lineParsedCounter.' lines in '.$this->timeToParse.' s');
+		
 		$this->includesDuration = $accumulator->hasDurationInfo();
 	}
 	

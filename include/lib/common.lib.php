@@ -1,12 +1,12 @@
 <?php
 
-function debug($string) {
-	stderr($string);
+function debug($string, $displayLineNumber = false) {
+	stderr($string, $displayLineNumber);
 }
 
-function stderr($string) {
+function stderr($string, $displayLineNumber = true) {
 	global $stderr, $lineParsedCounter;
-	if($lineParsedCounter) {
+	if($displayLineNumber && $lineParsedCounter) {
 		$string .= ' - log line '.$lineParsedCounter;
 	}
 	if($stderr) {
@@ -14,9 +14,9 @@ function stderr($string) {
 	}
 }
 
-function printMemoryUsage($prefix = '') {
+function getMemoryUsage() {
 	$memoryUsage = memory_get_usage();
-	$output = $prefix.'Memory usage: ';
+	$output = 'Memory usage: ';
 	if($memoryUsage < 1024) {
 		$output .= intval($memoryUsage).' o';
 	} elseif($memoryUsage < 1024*1024) {
@@ -24,7 +24,7 @@ function printMemoryUsage($prefix = '') {
 	} else {
 		$output .= number_format(($memoryUsage/(1024*1024)), 2, '.', ' ').' mo';
 	}
-	echo $output."\n";
+	return $output;
 }
 
 function normalizeWhitespaces($text) {
