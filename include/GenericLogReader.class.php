@@ -110,6 +110,10 @@ class GenericLogReader {
 	function getTimeToParse() {
 		return $this->timeToParse;
 	}
+	
+	function getLineParsedCount() {
+		return $this->lineParsedCounter;	
+	}
 }
 
 ?>

@@ -49,6 +49,10 @@ class ReportAggregator {
 	function getTimeToParse() {
 		return $this->logReader->getTimeToParse();
 	}
+	
+	function getLineParsedCount() {
+		return $this->logReader->getLineParsedCount();
+	}
 }
 
 ?>
