@@ -102,6 +102,14 @@ class GenericLogReader {
 	function & getListener($listenerName) {
 		return $this->listeners[$listenerName];
 	}
+	
+	function getFileName() {
+		return $this->fileName;
+	}
+	
+	function getTimeToParse() {
+		return $this->timeToParse;
+	}
 }
 
 ?>

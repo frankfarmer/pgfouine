@@ -18,6 +18,15 @@ class OverallStatsReport extends Report {
 	}
 	
 	function getHtml() {
+		$listener = $this->reportAggregator->getListener('GlobalCountersListener');
+		$html = '';
+		
+		$html .= '<ul>';
+		$html .= '<li>Number of queries: '.$listener->getQueryCount().'</li>';
+		$html .= '<li>Total query duration: '.$this->formatDuration($listener->getQueryDuration(), 1).' s</li>';
+		$html .= '</ul>';
+		
+		return $html;
 	}
 }
 

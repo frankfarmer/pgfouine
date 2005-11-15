@@ -41,6 +41,14 @@ class ReportAggregator {
 		$needs = array_unique($needs);
 		return $needs;
 	}
+	
+	function getFileName() {
+		return $this->logReader->getFileName();
+	}
+	
+	function getTimeToParse() {
+		return $this->logReader->getTimeToParse();
+	}
 }
 
 ?>

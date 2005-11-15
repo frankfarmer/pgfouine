@@ -36,7 +36,7 @@ class Report {
 	}
 	
 	function formatDuration($duration, $decimals = 2) {
-		return number_format($duration, $decimals).'s';
+		return number_format($duration, $decimals);
 	}
 	
 	function getReportClass() {

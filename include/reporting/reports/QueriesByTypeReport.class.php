@@ -37,6 +37,43 @@ class QueriesByTypeReport extends Report {
 	}
 	
 	function getHtml() {
+		$listener = $this->reportAggregator->getListener('GlobalCountersListener');
+		
+		$queriesCount = $listener->getQueryCount();
+		
+		$typeCount = array();
+		if($listener->getSelectCount()) {
+			$typeCount['SELECT'] = $listener->getSelectCount();
+		}
+		if($listener->getInsertCount()) {
+			$typeCount['INSERT'] = $listener->getInsertCount();
+		}
+		if($listener->getUpdateCount()) {
+			$typeCount['UPDATE'] = $listener->getUpdateCount();
+		}
+		if($listener->getDeleteCount()) {
+			$typeCount['DELETE'] = $listener->getDeleteCount();
+		}
+		
+		$html = '
+<table class="queryList">
+	<tr>
+		<th>Type</th>
+		<th>Count</th>
+		<th>Percentage</th>
+	</tr>';
+		$i = 0;
+		foreach($typeCount AS $type => $count) {
+			$html .= '<tr class="'.$this->getRowStyle($i).'">
+				<td>'.$type.'</td>
+				<td class="right">'.$count.'</td>
+				<td class="right">'.$this->getPercentage($count, $queriesCount).'</td>
+			</tr>';
+			$html .= "\n";
+			$i++;
+		}
+		$html .= '</table>';
+		return $html;
 	}
 }
 
