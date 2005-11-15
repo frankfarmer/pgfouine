@@ -11,21 +11,10 @@ class NormalizedQueriesListener extends QueryListener {
 	function fireEvent(& $query) {
 		$normalizedText = $query->getNormalizedText();
 		if(isset($this->queryList[$normalizedText])) {
-			$this->queryList[$normalizedText]['count'] ++;
-			$this->queryList[$normalizedText]['duration'] += $query->getDuration();
-			if($this->queryList[$normalizedText]['count'] > 1000) {
-				$this->queryList[$normalizedText]['examples']->setSize(3);
-			}
-			if((intval(rand(1, 9)) % 5) == 0) {
-				$this->queryList[$normalizedText]['examples']->addQuery($query);
-			}
+			$this->queryList[$normalizedText]->addQuery($query);
 		} else {
-			$this->queryList[$normalizedText] = array();
-			$this->queryList[$normalizedText]['normalizedText'] = $normalizedText;
-			$this->queryList[$normalizedText]['count'] = 1;
-			$this->queryList[$normalizedText]['duration'] = $query->getDuration();
-			$this->queryList[$normalizedText]['examples'] = new SlowestQueryList(1);
-			$this->queryList[$normalizedText]['examples']->addQuery($query);
+			$this->queryList[$normalizedText] = new NormalizedQuery($normalizedText);
+			$this->queryList[$normalizedText]->addQuery($query);
 		}
 	}
 	
@@ -35,9 +24,9 @@ class NormalizedQueriesListener extends QueryListener {
 	}
 	
 	function compareMostTime(& $a, & $b) {
-		if($a['duration'] == $b['duration']) {
+		if($a->getTotalDuration() == $b->getTotalDuration()) {
 			return 0;
-		} elseif($a['duration'] < $b['duration']) {
+		} elseif($a->getTotalDuration() < $b->getTotalDuration()) {
 			return 1;
 		} else {
 			return -1;
