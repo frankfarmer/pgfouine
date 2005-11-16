@@ -100,7 +100,11 @@ class GenericLogReader {
 	}
 	
 	function & getListener($listenerName) {
-		return $this->listeners[$listenerName];
+		if(isset($this->listeners[$listenerName])) {
+			return $this->listeners[$listenerName];
+		} else {
+			return false;
+		}
 	}
 	
 	function getFileName() {
