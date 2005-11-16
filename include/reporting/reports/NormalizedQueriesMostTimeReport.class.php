@@ -2,7 +2,7 @@
 
 class NormalizedQueriesMostTimeReport extends Report {
 	function NormalizedQueriesMostTimeReport(& $reportAggregator) {
-		$this->Report($reportAggregator, 'Queries that took up the most time - normalized', array('NormalizedQueriesListener'));
+		$this->Report($reportAggregator, 'Queries that took up the most time (N)', array('NormalizedQueriesListener'));
 	}
 	
 	function getText() {
