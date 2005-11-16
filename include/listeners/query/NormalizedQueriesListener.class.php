@@ -32,6 +32,10 @@ class NormalizedQueriesListener extends QueryListener {
 			return -1;
 		}
 	}
+	
+	function getUniqueQueryCount() {
+		return count($this->queryList);
+	}
 }
 
 ?>
