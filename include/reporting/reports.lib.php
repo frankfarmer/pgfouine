@@ -12,5 +12,6 @@ require_once('reports/OverallStatsReport.class.php');
 require_once('reports/SlowestQueriesReport.class.php');
 require_once('reports/NormalizedQueriesMostTimeReport.class.php');
 require_once('reports/NormalizedQueriesMostFrequentReport.class.php');
+require_once('reports/NormalizedQueriesSlowestAverageReport.class.php');
 
 ?>

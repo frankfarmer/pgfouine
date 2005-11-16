@@ -50,6 +50,22 @@ class NormalizedQueriesListener extends QueryListener {
 		}
 	}
 	
+	function & getSlowestQueries() {
+		$queryList = $this->queryList;
+		usort($queryList, array($this, 'compareSlowest'));
+		return array_slice($queryList, 0, $this->queriesNumber);
+	}
+	
+	function compareSlowest(& $a, & $b) {
+		if($a->getAverageDuration() == $b->getAverageDuration()) {
+			return 0;
+		} elseif($a->getAverageDuration() < $b->getAverageDuration()) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+	
 	function getUniqueQueryCount() {
 		return count($this->queryList);
 	}
