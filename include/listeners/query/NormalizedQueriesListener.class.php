@@ -19,14 +19,31 @@ class NormalizedQueriesListener extends QueryListener {
 	}
 	
 	function & getQueriesMostTime() {
-		usort($this->queryList, array($this, 'compareMostTime'));
-		return array_slice($this->queryList, 0, $this->queriesNumber);
+		$queryList = $this->queryList;
+		usort($queryList, array($this, 'compareMostTime'));
+		return array_slice($queryList, 0, $this->queriesNumber);
 	}
 	
 	function compareMostTime(& $a, & $b) {
 		if($a->getTotalDuration() == $b->getTotalDuration()) {
 			return 0;
 		} elseif($a->getTotalDuration() < $b->getTotalDuration()) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+	
+	function & getMostFrequentQueries() {
+		$queryList = $this->queryList;
+		usort($queryList, array($this, 'compareMostFrequent'));
+		return array_slice($queryList, 0, $this->queriesNumber);
+	}
+	
+	function compareMostFrequent(& $a, & $b) {
+		if($a->getTimesExecuted() == $b->getTimesExecuted()) {
+			return 0;
+		} elseif($a->getTimesExecuted() < $b->getTimesExecuted()) {
 			return 1;
 		} else {
 			return -1;
