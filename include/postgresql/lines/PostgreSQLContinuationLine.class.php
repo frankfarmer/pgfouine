@@ -9,8 +9,10 @@ class PostgreSQLContinuationLine extends PostgreSQLLogLine {
 
 	function appendTo(& $queries) {
 		$query =& $queries->last();
-		if($query && $query->getCommandNumber() == $this->commandNumber) {
-			$query->append($this->text);
+		if($query && ($query->getCommandNumber() == $this->commandNumber)) {
+			if(substr(trim($this->text), 0, 2) != '--') {
+				$query->append($this->text);
+			}
 		} else {
 			stderr('Continuation for no previous query');
 		}
