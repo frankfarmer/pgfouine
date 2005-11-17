@@ -28,15 +28,19 @@ class Report {
 	}
 	
 	function pad($string, $length) {
-		return str_pad($string, $length, ' ', STR_PAD_LEFT);
+		return $this->reportAggregator->pad($string, $length);
 	}
 	
 	function getPercentage($number, $total) {
-		return $this->pad(number_format($number*100/$total, 1), 5);
+		return $this->reportAggregator->getPercentage($number, $total);
 	}
 	
 	function formatDuration($duration, $decimals = 2) {
-		return number_format($duration, $decimals);
+		return $this->reportAggregator->formatDuration($duration, $decimals);
+	}
+	
+	function formatLongDuration($duration) {
+		return $this->reportAggregator->formatLongDuration($duration);
 	}
 	
 	function getReportClass() {

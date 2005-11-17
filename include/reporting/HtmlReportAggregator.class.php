@@ -71,7 +71,7 @@ class HtmlReportAggregator extends ReportAggregator {
 		
 		$output .= '<div class="information"><ul>'.
 			'<li>Generated on '.date('Y-m-d H:i').'</li>'.
-			'<li>Parsed '.$this->getFileName().' ('.$this->getLineParsedCount().' lines) in '.$this->getTimeToParse().' s</li>'.
+			'<li>Parsed '.$this->getFileName().' ('.$this->getLineParsedCount().' lines) in '.$this->formatLongDuration($this->getTimeToParse(), 0).'</li>'.
 			'<li>Executed on '.getenv('HOSTNAME').'</li>'.
 			'</ul></div>';
 		

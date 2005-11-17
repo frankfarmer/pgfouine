@@ -16,7 +16,7 @@ class OverallStatsReport extends Report {
 		}
 		$text .= 
 			'Number of queries:     '.$listener->getQueryCount()."\n".
-			'Total query duration:  '.$this->formatDuration($listener->getQueryDuration(), 1)."\n"
+			'Total query duration:  '.$this->formatLongDuration($listener->getQueryDuration())."\n"
 		;
 		
 		return $text;
@@ -33,7 +33,7 @@ class OverallStatsReport extends Report {
 			$html .= '<li>Number of unique normalized queries: '.$normalizedListener->getUniqueQueryCount().'</li>';
 		}
 		$html .= '<li>Number of queries: '.$listener->getQueryCount().'</li>';
-		$html .= '<li>Total query duration: '.$this->formatDuration($listener->getQueryDuration(), 1).' s</li>';
+		$html .= '<li>Total query duration: '.$this->formatLongDuration($listener->getQueryDuration()).'</li>';
 		$html .= '</ul>';
 		
 		return $html;

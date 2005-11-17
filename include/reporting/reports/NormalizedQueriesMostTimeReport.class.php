@@ -15,7 +15,7 @@ class NormalizedQueriesMostTimeReport extends NormalizedReport {
 		
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
-			$text .= ($i+1).') '.$this->formatDuration($query->getTotalDuration()).' - '.$query->getTimesExecuted().' - '.$query->getNormalizedText()."\n";
+			$text .= ($i+1).') '.$this->formatLongDuration($query->getTotalDuration()).' - '.$query->getTimesExecuted().' - '.$query->getNormalizedText()."\n";
 			$text .= "--\n";
 		}
 		return $text;
@@ -27,7 +27,7 @@ class NormalizedQueriesMostTimeReport extends NormalizedReport {
 <table class="queryList">
 	<tr>
 		<th>Rank</th>
-		<th>Total time&nbsp;(s)</th>
+		<th>Total time</th>
 		<th>Times executed</th>
 		<th>Average time&nbsp;(s)</th>
 		<th>Query</th>
@@ -39,7 +39,7 @@ class NormalizedQueriesMostTimeReport extends NormalizedReport {
 			$query =& $queries[$i];
 			$html .= '<tr class="'.$this->getRowStyle($i).'">
 				<td class="center top">'.($i+1).'</td>
-				<td class="relevantInformation top center">'.$this->formatDuration($query->getTotalDuration()).'</td>
+				<td class="relevantInformation top center">'.$this->formatLongDuration($query->getTotalDuration()).'</td>
 				<td class="top center">'.$query->getTimesExecuted().'</td>
 				<td class="top center">'.$this->formatDuration($query->getAverageDuration()).'</td>
 				<td>'.$this->getNormalizedQueryWithExamplesHtml($i, $query).'</td>
