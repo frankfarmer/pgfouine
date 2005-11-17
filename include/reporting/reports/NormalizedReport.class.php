@@ -28,8 +28,8 @@ class NormalizedReport extends Report {
 				$html .= '</div>';
 				unset($example);
 			}
+			$html .= '</div>';
 		}
-		$html .= '</div>';
 		
 		return $html;
 	}
