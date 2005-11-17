@@ -26,6 +26,19 @@ class HtmlReportAggregator extends ReportAggregator {
 		<style type="text/css">
 			'.$this->getStyles().'
 		</style>
+		<script type="text/javascript">
+			function toggle(idButton, idDiv, label) {
+				if(document.getElementById(idDiv)) {
+					if(document.getElementById(idDiv).style.display == \'none\') {
+						document.getElementById(idDiv).style.display = \'block\';
+						document.getElementById(idButton).value = \'Hide \'+label;
+					} else {
+						document.getElementById(idDiv).style.display = \'none\';
+						document.getElementById(idButton).value = \'Show \'+label;
+					}
+				}
+			}
+		</script>
 	</head>
 	<body>
 		<div id="content">
@@ -46,7 +59,7 @@ class HtmlReportAggregator extends ReportAggregator {
 				$menu .= ' | ';
 			}
 			$menu .= '<a href="#'.$report->getReportClass().'">'.$report->getTitle().'</a>';
-			$reportsOutput .= $report->getHtmlTitle($report->getTitle());
+			$reportsOutput .= $report->getHtmlTitle();
 			$reportsOutput .= $report->getHtml();
 			$reportsOutput .= "\n";
 		}
@@ -104,6 +117,10 @@ class HtmlReportAggregator extends ReportAggregator {
 			table.queryList td.right { text-align:right; }
 			table.queryList td.center { text-align:center; }
 			table.queryList td.relevantInformation { font-weight:bold; }
+			table.queryList div.examples { background-color:#EBF0FC; border:1px solid #FFFFFF; -moz-border-radius:10px; padding:6px; margin:5px; }
+			table.queryList div.examples div.example0 { padding:2px; }
+			table.queryList div.examples div.example1 { background-color:#FFFFFF; padding:2px; border:1px solid #EBF0FC; -moz-border-radius:5px; }
+			table.queryList input { border:1px solid black; background-color:#FFFFFF; padding:1px; font-size:11px; }
 			div.footer { font-size:10px; margin-top:30px; background-color:rgb(180, 80, 80); padding:5px; text-align:right; color:white; }
 			div.footer a, div.footer a:hover { color:white; text-decoration:underline; }
 		';

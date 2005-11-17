@@ -1,8 +1,8 @@
 <?php
 
-class NormalizedQueriesMostFrequentReport extends Report {
+class NormalizedQueriesMostFrequentReport extends NormalizedReport {
 	function NormalizedQueriesMostFrequentReport(& $reportAggregator) {
-		$this->Report($reportAggregator, 'Most frequent queries (N)', array('NormalizedQueriesListener'));
+		$this->NormalizedReport($reportAggregator, 'Most frequent queries');
 	}
 	
 	function getText() {
@@ -27,8 +27,8 @@ class NormalizedQueriesMostFrequentReport extends Report {
 <table class="queryList">
 	<tr>
 		<th>Rank</th>
-		<th>Total time&nbsp;(s)</th>
 		<th>Times executed</th>
+		<th>Total time&nbsp;(s)</th>
 		<th>Average time&nbsp;(s)</th>
 		<th>Query</th>
 	</tr>';
@@ -42,7 +42,7 @@ class NormalizedQueriesMostFrequentReport extends Report {
 				<td class="relevantInformation top center">'.$query->getTimesExecuted().'</td>
 				<td class="top center">'.$this->formatDuration($query->getTotalDuration()).'</td>
 				<td class="top center">'.$this->formatDuration($query->getAverageDuration()).'</td>
-				<td>'.$this->highlightSql($query->getNormalizedText()).'</td>
+				<td>'.$this->getNormalizedQueryWithExamplesHtml($i, $query).'</td>
 			</tr>';
 			$html .= "\n";
 		}

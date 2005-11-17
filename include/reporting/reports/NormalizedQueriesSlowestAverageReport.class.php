@@ -1,8 +1,8 @@
 <?php
 
-class NormalizedQueriesSlowestAverageReport extends Report {
+class NormalizedQueriesSlowestAverageReport extends NormalizedReport {
 	function NormalizedQueriesSlowestAverageReport(& $reportAggregator) {
-		$this->Report($reportAggregator, 'Slowest queries (N)', array('NormalizedQueriesListener'));
+		$this->NormalizedReport($reportAggregator, 'Slowest queries');
 	}
 	
 	function getText() {
@@ -42,7 +42,7 @@ class NormalizedQueriesSlowestAverageReport extends Report {
 				<td class="relevantInformation top center">'.$this->formatDuration($query->getAverageDuration()).'</td>
 				<td class="top center">'.$query->getTimesExecuted().'</td>
 				<td class="top center">'.$this->formatDuration($query->getTotalDuration()).'</td>
-				<td>'.$this->highlightSql($query->getNormalizedText()).'</td>
+				<td>'.$this->getNormalizedQueryWithExamplesHtml($i, $query).'</td>
 			</tr>';
 			$html .= "\n";
 		}

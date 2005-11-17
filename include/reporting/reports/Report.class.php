@@ -19,12 +19,12 @@ class Report {
 		return $this->needs;
 	}
 	
-	function getTextTitle($title) {
-		return "\n#####  ".$title."  #####\n\n";
+	function getTextTitle() {
+		return "\n#####  ".$this->title."  #####\n\n";
 	}
 	
-	function getHtmlTitle($title) {
-		return '<h2 id="'.$this->getReportClass().'">'.$title.' <a href="#top" title="Back to top">^</a></h2>';
+	function getHtmlTitle() {
+		return '<h2 id="'.$this->getReportClass().'">'.$this->title.' <a href="#top" title="Back to top">^</a></h2>';
 	}
 	
 	function pad($string, $length) {
