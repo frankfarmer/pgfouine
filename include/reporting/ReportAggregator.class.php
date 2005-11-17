@@ -78,7 +78,7 @@ class ReportAggregator {
 			if($duration > 59) {
 				$minutes = intval($duration/60);
 				if(!empty($formattedDuration)) {
-					$minute = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+					$minutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
 				}
 				$formattedDuration .= $minutes.'m';
 				$duration = $duration % 60;
