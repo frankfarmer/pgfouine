@@ -54,14 +54,11 @@ class NormalizedQuery {
 		for($i = 0; $i < $exampleCount; $i++) {
 			$example =& $examples[$i];
 			if($example->getText() != $this->getNormalizedText()) {
-				$returnExamples = true;
+				return $examples;
 			}
+			unset($example);
 		}
-		if($returnExamples) {
-			return $examples;
-		} else {
-			return array();
-		}
+		return array();
 	}
 }
 
