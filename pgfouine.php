@@ -1,4 +1,4 @@
-#! /usr/bin/php -q
+#! /usr/bin/php -qC
 <?php
 
 define('VERSION', '0.1');
@@ -38,7 +38,7 @@ for($i = 0; $i < $argvCount; $i++) {
 }
 
 if(!isset($options['file'])) {
-	usage('a -file option is required');
+	usage('the -file option is required');
 } elseif(!$options['file']) {
 	usage('you have to specify a file path');
 } elseif(!is_readable($options['file'])) {
