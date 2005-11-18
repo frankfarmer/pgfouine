@@ -7,7 +7,6 @@ class PostgreSQLQueryStartLine extends PostgreSQLLogLine {
 
 	function filterQuery($text) {
 		$loweredText = strtolower(trim($text));
-		// TODO : vérifier la pertinence des tests
 		$this->ignore = (strpos($loweredText, 'begin') !== false) || (strpos($loweredText, 'vacuum') !== false) || ($loweredText == 'select 1');
 		return $text;
 	}
