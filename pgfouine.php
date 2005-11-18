@@ -4,14 +4,15 @@
 define('VERSION', '0.1');
 define('DEBUG', 1);
 
+ini_set('max_execution_time', 7200);
+error_reporting(E_ALL);
+
 require_once('include/lib/common.lib.php');
 require_once('include/base.lib.php');
 require_once('include/listeners/listeners.lib.php');
 require_once('include/postgresql/postgresql.lib.php');
 require_once('include/reporting/reports.lib.php');
 
-ini_set('max_execution_time', 7200);
-error_reporting(E_ALL);
 $stderr = fopen('php://stderr', 'w');
 
 function usage($error) {
