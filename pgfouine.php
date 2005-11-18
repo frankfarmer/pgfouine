@@ -15,9 +15,22 @@ require_once('include/reporting/reports.lib.php');
 
 $stderr = fopen('php://stderr', 'w');
 
-function usage($error) {
-	// TODO : add help
-	die($error."\n");
+function usage($error = false) {
+	if($error) {
+		stderr('Error: '.$error);
+	}
+	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>]
+  -file <file>          log file to analyze
+  -top <n>              number of queries in lists
+  -format <format>      output format: html or text
+  -logtype <logtype>    log type: only syslog is currently supported
+  -help                 this help
+';
+	if($error) {
+		exit(1);
+	} else {
+		exit(0);
+	}
 }
 
 $executable = array_shift($argv);
@@ -36,6 +49,10 @@ for($i = 0; $i < $argvCount; $i++) {
 	} else {
 		usage('invalid options format');
 	}
+}
+
+if(isset($options['help']) || isset($options['h']) || isset($options['-help'])) {
+	usage();
 }
 
 if(!isset($options['file'])) {
