@@ -2,7 +2,6 @@
 <?php
 
 define('VERSION', '0.1');
-define('DEBUG', 1);
 
 ini_set('max_execution_time', 7200);
 error_reporting(E_ALL);
@@ -24,6 +23,7 @@ function usage($error = false) {
   -top <n>              number of queries in lists
   -format <format>      output format: html or text
   -logtype <logtype>    log type: only syslog is currently supported
+  -debug                debug mode
   -help                 this help
 ';
 	if($error) {
@@ -53,6 +53,12 @@ for($i = 0; $i < $argvCount; $i++) {
 
 if(isset($options['help']) || isset($options['h']) || isset($options['-help'])) {
 	usage();
+}
+
+if(isset($options['debug'])) {
+	define('DEBUG', 1);
+} else {
+	define('DEBUG', 0);
 }
 
 if(!isset($options['file'])) {
