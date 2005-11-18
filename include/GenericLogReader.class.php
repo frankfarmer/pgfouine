@@ -60,17 +60,15 @@ class GenericLogReader {
 			$line =& $lineParser->parse($text);
 			if($line) {
 				$accumulator->append($line);
-			} else {
-				$text = str_replace("\n", '\n', $text);
-				$text = str_replace("\t", '\t', $text);
-				stderr('Unrecognized text: '.$text, true);
 			}
-			if(DEBUG && $lineParsedCounter % 100000 == 0) {
-				$currentTime = time() - $currentTimestamp;
-				$currentTimestamp = time();
-				debug('parsed '.$lineParsedCounter.' lines');
-				debug('    '.getMemoryUsage());
-				debug('    Time: '.$currentTime.' s');
+			if($lineParsedCounter % 100000 == 0) {
+				stderr('parsed '.$lineParsedCounter.' lines');
+				if(DEBUG) {
+					$currentTime = time() - $currentTimestamp;
+					$currentTimestamp = time();
+					debug('    '.getMemoryUsage());
+					debug('    Time: '.$currentTime.' s');
+				}
 			}
 		}
 		DEBUG && debug('Before close - '.getMemoryUsage());
