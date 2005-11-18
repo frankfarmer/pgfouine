@@ -11,7 +11,7 @@ class Query {
 	var $subQueries = array();
 
 	function Query($text = '', $ignored = false) {
-		if(DEBUG > 1 && !$text) stderr('Empty text for Query');
+		if(DEBUG > 1 && !$text) stderr('Empty text for Query', true);
 		$this->text = $text;
 		$this->ignored = $ignored;
 	}
@@ -25,7 +25,7 @@ class Query {
 	}
 
 	function append($text) {
-		if(DEBUG > 1 && !$text) stderr('Empty text for append');
+		if(DEBUG > 1 && !$text) stderr('Empty text for append', true);
 		if($this->parsingSubQueries) {
 			$subQuery =& last($this->subQueries);
 			$subQuery .= ' '.normalizeWhitespaces($text);
@@ -35,7 +35,7 @@ class Query {
 	}
 	
 	function setSubQuery($text) {
-		if(DEBUG > 1 && !$text) stderr('Empty text for setSubQuery');
+		if(DEBUG > 1 && !$text) stderr('Empty text for setSubQuery', true);
 		$this->parsingSubQueries = true;
 		$this->subQueries[] = normalizeWhitespaces($text);
 	}

@@ -8,7 +8,7 @@ class PostgreSQLHintLine extends PostgreSQLLogLine {
 		if($error) {
 			$error->appendHint($this->text);
 		} else {
-			stderr('Hint for no previous error');
+			stderr('Hint for no previous error', true);
 		}
 		return false;
 	}

@@ -8,7 +8,7 @@ class PostgreSQLDetailLine extends PostgreSQLLogLine {
 		if($error) {
 			$error->appendDetail($this->text);
 		} else {
-			stderr('Detail for no previous error');
+			stderr('Detail for no previous error', true);
 		}
 		return false;
 	}

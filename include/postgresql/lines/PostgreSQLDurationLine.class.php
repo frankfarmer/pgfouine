@@ -14,7 +14,7 @@ class PostgreSQLDurationLine extends PostgreSQLLogLine {
 			$query->setDuration($this->duration);
 			return $queries->pop();
 		} else {
-			stderr('Duration for no previous query');
+			stderr('Duration for no previous query', true);
 			return false;
 		}
 	}

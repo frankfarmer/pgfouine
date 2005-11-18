@@ -4,7 +4,7 @@ function debug($string, $displayLineNumber = false) {
 	stderr($string, $displayLineNumber);
 }
 
-function stderr($string, $displayLineNumber = true) {
+function stderr($string, $displayLineNumber = false) {
 	global $stderr, $lineParsedCounter;
 	if($displayLineNumber && $lineParsedCounter) {
 		$string .= ' - log line '.$lineParsedCounter;

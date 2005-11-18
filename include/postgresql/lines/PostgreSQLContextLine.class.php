@@ -28,17 +28,17 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 			// we have an error query so we put the context in a subquery
 			$lastQuery->setSubQuery($this->text);
 		} else {
-			if(DEBUG && !$this->recognized) stderr('Unrecognized context or context for an error');
+			if(DEBUG && !$this->recognized) stderr('Unrecognized context or context for an error', true);
 			
 			$subQuery =& $queries->pop();
 			$query =& $queries->last();
 			
 			if(!$subQuery) {
-				stderr('Missing query for context');
+				stderr('Missing query for context', true);
 			} elseif($query) {
 				$query->setSubQuery($subQuery->getText());
 			} else {
-				stderr('Context for no previous query');
+				stderr('Context for no previous query', true);
 			}
 		}
 		return false;

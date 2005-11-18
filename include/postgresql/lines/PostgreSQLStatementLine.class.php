@@ -8,7 +8,7 @@ class PostgreSQLStatementLine extends PostgreSQLQueryStartLine {
 		if($error) {
 			$error->appendStatement($this->text);
 		} else {
-			stderr('Statement for no previous error');
+			stderr('Statement for no previous error', true);
 		}
 		return false;
 	}

@@ -14,7 +14,7 @@ class PostgreSQLContinuationLine extends PostgreSQLLogLine {
 				$query->append($this->text);
 			}
 		} else {
-			stderr('Continuation for no previous query');
+			stderr('Continuation for no previous query', true);
 		}
 		return false;
 	}

@@ -39,7 +39,7 @@ class PostgreSQLParser {
 				strpos($logOrDebugMatch->getPostMatch(), 'recycled transaction log file') !== 0 &&
 				strpos($logOrDebugMatch->getPostMatch(), 'removing file "') !== 0
 				) {
-				stderr('Unrecognized LOG or DEBUG line: '.$text);
+				stderr('Unrecognized LOG or DEBUG line: '.$text, true);
 			}
 			return false;
 		}

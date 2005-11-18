@@ -12,7 +12,7 @@ class PostgreSQLLogLine {
 		$this->text = rtrim($text);
 		$this->duration = $duration;
 		
-		if(DEBUG > 1 && !$text) stderr('Empty text for line');
+		if(DEBUG > 1 && !$text) stderr('Empty text for line', true);
 	}
 
 	function toString() {

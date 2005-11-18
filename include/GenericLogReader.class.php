@@ -61,13 +61,10 @@ class GenericLogReader {
 			if($line) {
 				$accumulator->append($line);
 			} else {
-				// TODO
-				# text.gsub!(/\n/, '\n').gsub!(/\t/, '\t')
-				# $stderr.puts "Unrecognized text: '#{text}'"
+				$text = str_replace("\n", '\n', $text);
+				$text = str_replace("\t", '\t', $text);
+				stderr('Unrecognized text: '.$text, true);
 			}
-			// TODO
-			//rescue StandardError => e
-			//@parse_errors << ParseError.new(e,line)
 			if(DEBUG && $lineParsedCounter % 100000 == 0) {
 				$currentTime = time() - $currentTimestamp;
 				$currentTimestamp = time();
