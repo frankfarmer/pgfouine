@@ -35,6 +35,10 @@ class Report {
 		return $this->reportAggregator->getPercentage($number, $total);
 	}
 	
+	function formatInteger($integer) {
+		return $this->reportAggregator->formatInteger($integer);
+	}
+	
 	function formatDuration($duration, $decimals = 2) {
 		return $this->reportAggregator->formatDuration($duration, $decimals);
 	}
@@ -51,8 +55,8 @@ class Report {
 		return 'row'.($i%2);
 	}
 	
-	function highlightSql($sql) {
-		return $this->reportAggregator->highlightSql($sql);
+	function highlightSql($sql, $prepend = '', $append = '') {
+		return $this->reportAggregator->highlightSql($sql, $prepend, $append);
 	}
 } 
 

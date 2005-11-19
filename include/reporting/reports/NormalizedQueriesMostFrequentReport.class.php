@@ -15,7 +15,7 @@ class NormalizedQueriesMostFrequentReport extends NormalizedReport {
 		
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
-			$text .= ($i+1).') '.$query->getTimesExecuted().' - '.$this->formatLongDuration($query->getTotalDuration()).' - '.$query->getNormalizedText()."\n";
+			$text .= ($i+1).') '.$this->formatInteger($query->getTimesExecuted()).' - '.$this->formatLongDuration($query->getTotalDuration()).' - '.$query->getNormalizedText()."\n";
 			$text .= "--\n";
 		}
 		return $text;
@@ -39,7 +39,7 @@ class NormalizedQueriesMostFrequentReport extends NormalizedReport {
 			$query =& $queries[$i];
 			$html .= '<tr class="'.$this->getRowStyle($i).'">
 				<td class="center top">'.($i+1).'</td>
-				<td class="relevantInformation top center">'.$query->getTimesExecuted().'</td>
+				<td class="relevantInformation top center">'.$this->formatInteger($query->getTimesExecuted()).'</td>
 				<td class="top center">'.$this->formatLongDuration($query->getTotalDuration()).'</td>
 				<td class="top center">'.$this->formatDuration($query->getAverageDuration()).'</td>
 				<td>'.$this->getNormalizedQueryWithExamplesHtml($i, $query).'</td>

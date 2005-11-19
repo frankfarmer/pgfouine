@@ -62,6 +62,10 @@ class ReportAggregator {
 		return $this->pad(number_format($number*100/$total, 1), 5);
 	}
 	
+	function formatInteger($integer) {
+		return number_format($integer);
+	}
+	
 	function formatDuration($duration, $decimals = 2) {
 		return number_format($duration, $decimals);
 	}

@@ -66,7 +66,7 @@ class QueriesByTypeReport extends Report {
 		foreach($typeCount AS $type => $count) {
 			$html .= '<tr class="'.$this->getRowStyle($i).'">
 				<td>'.$type.'</td>
-				<td class="right">'.$count.'</td>
+				<td class="right">'.$this->formatInteger($count).'</td>
 				<td class="right">'.$this->getPercentage($count, $queriesCount).'</td>
 			</tr>';
 			$html .= "\n";

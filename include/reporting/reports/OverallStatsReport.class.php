@@ -12,10 +12,10 @@ class OverallStatsReport extends Report {
 		$text = '';
 		
 		if($normalizedListener) {
-			$text .= 'Number of unique normalized queries: '.$normalizedListener->getUniqueQueryCount()."\n";
+			$text .= 'Number of unique normalized queries: '.$this->formatInteger($normalizedListener->getUniqueQueryCount())."\n";
 		}
 		$text .= 
-			'Number of queries:     '.$listener->getQueryCount()."\n".
+			'Number of queries:     '.$this->formatInteger($listener->getQueryCount())."\n".
 			'Total query duration:  '.$this->formatLongDuration($listener->getQueryDuration())."\n"
 		;
 		
@@ -30,9 +30,9 @@ class OverallStatsReport extends Report {
 		
 		$html .= '<ul>';
 		if($normalizedListener) {
-			$html .= '<li>Number of unique normalized queries: '.$normalizedListener->getUniqueQueryCount().'</li>';
+			$html .= '<li>Number of unique normalized queries: '.$this->formatInteger($normalizedListener->getUniqueQueryCount()).'</li>';
 		}
-		$html .= '<li>Number of queries: '.$listener->getQueryCount().'</li>';
+		$html .= '<li>Number of queries: '.$this->formatInteger($listener->getQueryCount()).'</li>';
 		$html .= '<li>Total query duration: '.$this->formatLongDuration($listener->getQueryDuration()).'</li>';
 		$html .= '</ul>';
 		

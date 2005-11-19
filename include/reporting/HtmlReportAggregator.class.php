@@ -9,12 +9,15 @@ class HtmlReportAggregator extends ReportAggregator {
 		$this->geshi = new GeSHi('', 'sql');
 		$this->geshi->enable_classes();
 		$this->geshi->set_case_keywords(GESHI_CAPS_UPPER);
-		$this->geshi->set_header_type(GESHI_HEADER_DIV);
+		$this->geshi->set_header_type(GESHI_HEADER_NONE);
 	}
 	
-	function highlightSql($sql) {
+	function highlightSql($sql, $prepend = '', $append = '') {
+		if(substr($sql, -1, 1) != ';') {
+			$sql .= ';';
+		}
 		$this->geshi->set_source($sql);
-		return $this->geshi->parse_code();
+		return '<div class="sql">'.$prepend.$this->geshi->parse_code().$append.'</div>';
 	}
 	
 	function getHeader() {
@@ -71,7 +74,7 @@ class HtmlReportAggregator extends ReportAggregator {
 		
 		$output .= '<div class="information"><ul>'.
 			'<li>Generated on '.date('Y-m-d H:i').'</li>'.
-			'<li>Parsed '.$this->getFileName().' ('.$this->getLineParsedCount().' lines) in '.$this->formatLongDuration($this->getTimeToParse(), 0).'</li>'.
+			'<li>Parsed '.$this->getFileName().' ('.$this->formatInteger($this->getLineParsedCount()).' lines) in '.$this->formatLongDuration($this->getTimeToParse(), 0).'</li>'.
 			'<li>Executed on '.getenv('HOSTNAME').'</li>'.
 			'</ul></div>';
 		
