@@ -8,7 +8,6 @@ class HtmlReportAggregator extends ReportAggregator {
 		
 		$this->geshi = new GeSHi('', 'sql');
 		$this->geshi->enable_classes();
-		$this->geshi->set_case_keywords(GESHI_CAPS_UPPER);
 		$this->geshi->set_header_type(GESHI_HEADER_NONE);
 	}
 	

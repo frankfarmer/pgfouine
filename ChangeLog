@@ -1,0 +1,8 @@
+2005-11-20  Guillaume Smet <guillaume-pg@smet.org>
+	
+	* improved SQL highlighting by adding PostgreSQL specific functions
+	* added the ability to choose reports generated
+
+2005-11-19  Guillaume Smet <guillaume-pg@smet.org>
+
+	* released 0.1

@@ -18,13 +18,14 @@ function usage($error = false) {
 	if($error) {
 		stderr('Error: '.$error);
 	}
-	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>]
-  -file <file>          log file to analyze
-  -top <n>              number of queries in lists. Default is 20.
-  -format <format>      output format: html or text. Default is html.
-  -logtype <logtype>    log type: only syslog is currently supported
-  -debug                debug mode
-  -help                 this help
+	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>] [-reports report1,report2]
+  -file <file>          		log file to analyze
+  -top <n>              		number of queries in lists. Default is 20.
+  -format <format>      		output format: html or text. Default is html.
+  -logtype <logtype>    		log type: only syslog is currently supported
+  -reports <report1,report2>	list of reports type separated by a comma
+  -debug                		debug mode
+  -help                 		this help
 ';
 	if($error) {
 		exit(1);
@@ -104,16 +105,36 @@ if(isset($options['logtype'])) {
 	$parser = $supportedLogTypes['syslog'];
 }
 
+$supportedReports = array(
+	'overall' => 'OverallStatsReport',
+	'bytype' => 'QueriesByTypeReport',
+	'slowest' => 'SlowestQueriesReport',
+	'n-mosttime' => 'NormalizedQueriesMostTimeReport',
+	'n-mostfrequent' => 'NormalizedQueriesMostFrequentReport',
+	'n-slowestaverage' => 'NormalizedQueriesSlowestAverageReport',
+);
+$defaultReports = array('overall', 'bytype', 'slowest', 'n-mosttime', 'n-mostfrequent', 'n-slowestaverage');
+
+if(isset($options['reports'])) {
+	$selectedReports = explode(',', $options['reports']);
+	
+	$notSupportedReports = array_diff($selectedReports, array_keys($supportedReports));
+	if(empty($notSupportedReports)) {
+		$reports = $selectedReports;
+	} else {
+		usage('report types not supported: '.implode(',', $notSupportedReports));
+	}
+} else {
+	$reports = $defaultReports;
+}
+
 $logReader = new GenericLogReader($filePath, $parser, 'PostgreSQLAccumulator');
 
 $reportAggregator = new $aggregator($logReader);
 
-$reportAggregator->addReport('OverallStatsReport');
-$reportAggregator->addReport('QueriesByTypeReport');
-$reportAggregator->addReport('SlowestQueriesReport');
-$reportAggregator->addReport('NormalizedQueriesMostTimeReport');
-$reportAggregator->addReport('NormalizedQueriesMostFrequentReport');
-$reportAggregator->addReport('NormalizedQueriesSlowestAverageReport');
+foreach($reports AS $report) {
+	$reportAggregator->addReport($supportedReports[$report]);
+}
 
 echo $reportAggregator->getOutput();
 

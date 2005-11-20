@@ -5,9 +5,9 @@
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter)
  * Release Version: 1.0.7.4
- * CVS Revision Version: $Revision: 1.1 $
+ * CVS Revision Version: $Revision: 1.2 $
  * Date Started: 2004/06/04
- * Last Modified: $Date: 2005/11/14 21:19:06 $
+ * Last Modified: $Date: 2005/11/20 21:24:46 $
  *
  * SQL language file for GeSHi.
  *
@@ -53,47 +53,69 @@ $language_data = array (
 	'LANG_NAME' => 'SQL',
 	'COMMENT_SINGLE' => array(1 =>'--', 2 => '#'),
 	'COMMENT_MULTI' => array('/*' => '*/'),
-	'CASE_KEYWORDS' => 1,
+	'CASE_KEYWORDS' => 0,
 	'QUOTEMARKS' => array("'", '"', '`'),
 	'ESCAPE_CHAR' => '\\',
 	'KEYWORDS' => array(
 		1 => array(
-			'ALL', 'ASC', 'AS',  'ALTER', 'AND', 'ADD', 'AUTO_INCREMENT',
-			'BETWEEN', 'BINARY', 'BOTH', 'BY', 'BOOLEAN',
-			'CHANGE', 'CHECK', 'COLUMNS', 'COLUMN', 'CROSS','CREATE',
+			'ALL', 'ASC', 'AS',  'ALTER', 'AND', 'ADD', 'AUTO_INCREMENT', 'ANY', 'ANALYZE',
+			'BETWEEN', 'BINARY', 'BOTH', 'BY', 'BOOLEAN', 'BEGIN',
+			'CHANGE', 'CHECK', 'COLUMNS', 'COLUMN', 'CROSS','CREATE', 'CASE', 'COMMIT', 'COALESCE', 'CLUSTER',
 			'DATABASES', 'DATABASE', 'DATA', 'DELAYED', 'DESCRIBE', 'DESC',  'DISTINCT', 'DELETE', 'DROP', 'DEFAULT',
-			'ENCLOSED', 'ESCAPED', 'EXISTS', 'EXPLAIN',
+			'ENCLOSED', 'ESCAPED', 'EXISTS', 'EXPLAIN', 'ELSE', 'END',
 			'FIELDS', 'FIELD', 'FLUSH', 'FOR', 'FOREIGN', 'FUNCTION', 'FROM',
-			'GROUP', 'GRANT',
+			'GROUP', 'GRANT', 'GREATEST',
 			'HAVING',
 			'IGNORE', 'INDEX', 'INFILE', 'INSERT', 'INNER', 'INTO', 'IDENTIFIED', 'IN', 'IS', 'IF',
 			'JOIN',
 			'KEYS', 'KILL','KEY',
-			'LEADING', 'LIKE', 'LIMIT', 'LINES', 'LOAD', 'LOCAL', 'LOCK', 'LOW_PRIORITY', 'LEFT', 'LANGUAGE',
+			'LEADING', 'LIKE', 'LIMIT', 'LINES', 'LOAD', 'LOCAL', 'LOCK', 'LOW_PRIORITY', 'LEFT', 'LANGUAGE', 'LEAST',
 			'MODIFY',
-			'NATURAL', 'NOT', 'NULL', 'NEXTVAL',
-			'OPTIMIZE', 'OPTION', 'OPTIONALLY', 'ORDER', 'OUTFILE', 'OR', 'OUTER', 'ON',
-			'PROCEEDURE','PROCEDURAL', 'PRIMARY',
-			'READ', 'REFERENCES', 'REGEXP', 'RENAME', 'REPLACE', 'RETURN', 'REVOKE', 'RLIKE', 'RIGHT',
-			'SHOW', 'SONAME', 'STATUS', 'STRAIGHT_JOIN', 'SELECT', 'SETVAL', 'SET',
-			'TABLES', 'TEMINATED', 'TO', 'TRAILING','TRUNCATE', 'TABLE', 'TEMPORARY', 'TRIGGER', 'TRUSTED',
+			'NATURAL', 'NOT', 'NULL', 'NEXTVAL', 'NULLIF',
+			'OPTIMIZE', 'OPTION', 'OPTIONALLY', 'ORDER', 'OUTFILE', 'OR', 'OUTER', 'ON', 'OVERLAPS',
+			'PROCEDURE','PROCEDURAL', 'PRIMARY',
+			'READ', 'REFERENCES', 'REGEXP', 'RENAME', 'REPLACE', 'RETURN', 'REVOKE', 'RLIKE', 'RIGHT', 'ROLLBACK',
+			'SHOW', 'SONAME', 'STATUS', 'STRAIGHT_JOIN', 'SELECT', 'SETVAL', 'SET', 'SOME',
+			'TABLES', 'TEMINATED', 'TO', 'TRAILING','TRUNCATE', 'TABLE', 'TEMPORARY', 'TRIGGER', 'TRUSTED', 'THEN',
 			'UNIQUE', 'UNLOCK', 'USE', 'USING', 'UPDATE', 'UNSIGNED',
-			'VALUES', 'VARIABLES', 'VIEW',
-			'WITH', 'WRITE', 'WHERE',
+			'VALUES', 'VARIABLES', 'VIEW', 'VACUUM',
+			'WITH', 'WRITE', 'WHERE', 'WHEN',
 			'ZEROFILL',
 			'XOR',
+			),
+		2 => array(
+			'ascii', 'age',
+			'bit_length', 'btrim',
+			'char_length', 'character_length', 'convert', 'chr', 'current_date', 'current_time', 'current_timestamp', 'count',
+			'decode', 'date_part', 'date_trunc', 
+			'encode', 'extract',
+			'get_byte', 'get_bit',
+			'initcap', 'isfinite', 'interval',
+			'justify_hours', 'justify_days',
+			'lower', 'length', 'lpad', 'ltrim', 'localtime', 'localtimestamp',
+			'md5',
+			'now',
+			'octet_length', 'overlay',
+			'position', 'pg_client_encoding',
+			'quote_ident', 'quote_literal',
+			'repeat', 'replace', 'rpad', 'rtrim',
+			'substring', 'split_part', 'strpos', 'substr', 'set_byte', 'set_bit',
+			'trim', 'to_ascii', 'to_hex', 'translate', 'to_char', 'to_date', 'to_timestamp', 'to_number', 'timeofday',
+			'upper',
 			)
 		),
 	'SYMBOLS' => array(
-		'(', ')', '=', '<', '>', '|'
+		'(', ')', '=', '<', '>', '|', '!='
 		),
 	'CASE_SENSITIVE' => array(
 		GESHI_COMMENTS => false,
-		1 => false
+		1 => false,
+		2 => false
 		),
 	'STYLES' => array(
 		'KEYWORDS' => array(
-			1 => 'color: #993333; font-weight: bold;'
+			1 => 'color: #993333; font-weight: bold; text-transform: uppercase;',
+			2 => 'color: #993333; text-transform: uppercase;'
 			),
 		'COMMENTS' => array(
 			1 => 'color: #808080; font-style: italic;',
@@ -114,7 +136,7 @@ $language_data = array (
 		'METHODS' => array(
 			),
 		'SYMBOLS' => array(
-			0 => 'color: #66cc66;'
+			0 => 'color: #000000;'
 			),
 		'SCRIPT' => array(
 			),
