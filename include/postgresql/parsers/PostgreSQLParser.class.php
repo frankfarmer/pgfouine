@@ -3,13 +3,13 @@
 class PostgreSQLParser {
 
 	function & parse($text) {
-		$regexpLogOrDebugLine = new RegExp("/^(LOG|DEBUG):[\s]*/");
+		$regexpLogOrDebugLine = new RegExp("/^(.*?)(LOG|DEBUG):[\s]*/");
 		$regexpContinuationLine = new RegExp("/^(\^I|\s|\t)/");
-		$regexpContextLine = new RegExp("/^CONTEXT:[\s]*/");
-		$regexpErrorLine = new RegExp("/^(WARNING|ERROR|FATAL|PANIC):[\s]*/");
-		$regexpHintLine = new RegExp("/^HINT:[\s]*/");
-		$regexpDetailLine = new RegExp("/^DETAIL:[\s]*/");
-		$regexpStatementLine = new RegExp("/^STATEMENT:[\s]*/");
+		$regexpContextLine = new RegExp("/^(.*?)CONTEXT:[\s]*/");
+		$regexpErrorLine = new RegExp("/^(.*?)(WARNING|ERROR|FATAL|PANIC):[\s]*/");
+		$regexpHintLine = new RegExp("/^(.*?)HINT:[\s]*/");
+		$regexpDetailLine = new RegExp("/^(.*?)DETAIL:[\s]*/");
+		$regexpStatementLine = new RegExp("/^(.*?)STATEMENT:[\s]*/");
 		
 		$regexpQueryStart = new RegExp("/^(query|statement):[\s]*/");
 		$regexpStatus = new RegExp("/^(connection|received|unexpected EOF)/");
