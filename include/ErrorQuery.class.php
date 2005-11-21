@@ -34,8 +34,20 @@ class ErrorQuery extends Query {
 	}
 	
 	function accumulateTo(& $accumulator) {
-		$this->text = normalizeWhitespaces($this->text);
-		$accumulator->appendError($this);
+		if(!$this->isIgnored()) {
+			$this->text = normalizeWhitespaces($this->text);
+			$accumulator->appendError($this);
+		}
+	}
+	
+	function isIgnored() {
+		 if($this->error == 'terminating connection due to administrator command' ||
+		 	$this->error == 'the database system is shutting down'
+		 	) {
+		 	return true;
+		 } else {
+		 	return false;
+		 }
 	}
 	
 	function getError() {
