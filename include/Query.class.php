@@ -91,7 +91,7 @@ class Query {
 	}
 	
 	function isIgnored() {
-		return $this->ignored;
+		return ($this->ignored || (getConfig('only_select') && !$this->isSelect()));
 	}
 	
 	function setDuration($duration) {
