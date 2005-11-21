@@ -4,8 +4,8 @@ class NormalizedQueriesListener extends QueryListener {
 	var $queryList = array();
 	var $queriesNumber = 10;
 	
-	function NormalizedQueriesListener($queriesNumber = DEFAULT_TOP_QUERIES_NUMBER) {
-		$this->queriesNumber = $queriesNumber;
+	function NormalizedQueriesListener() {
+		$this->queriesNumber = getConfig('default_top_queries_number');
 	}
 	
 	function fireEvent(& $query) {
@@ -13,8 +13,7 @@ class NormalizedQueriesListener extends QueryListener {
 		if(isset($this->queryList[$normalizedText])) {
 			$this->queryList[$normalizedText]->addQuery($query);
 		} else {
-			$this->queryList[$normalizedText] = new NormalizedQuery($normalizedText);
-			$this->queryList[$normalizedText]->addQuery($query);
+			$this->queryList[$normalizedText] = new NormalizedQuery($query);
 		}
 	}
 	

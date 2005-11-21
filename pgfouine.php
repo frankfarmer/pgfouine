@@ -81,7 +81,7 @@ if(isset($options['top'])) {
 } else {
 	$top = 20;
 }
-define('DEFAULT_TOP_QUERIES_NUMBER', $top);
+setConfig('default_top_queries_number', $top);
 
 $supportedFormats = array('text' => 'TextReportAggregator', 'html' => 'HtmlReportAggregator');
 if(isset($options['format'])) {
@@ -112,6 +112,7 @@ $supportedReports = array(
 	'n-mosttime' => 'NormalizedQueriesMostTimeReport',
 	'n-mostfrequent' => 'NormalizedQueriesMostFrequentReport',
 	'n-slowestaverage' => 'NormalizedQueriesSlowestAverageReport',
+	'n-mostfrequenterrors' => 'NormalizedErrorsMostFrequentReport',
 );
 $defaultReports = array('overall', 'bytype', 'slowest', 'n-mosttime', 'n-mostfrequent', 'n-slowestaverage');
 
