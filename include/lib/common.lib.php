@@ -1,5 +1,20 @@
 <?php
 
+function setConfig($key, $value) {
+	if(!isset($GLOBALS['config'])) {
+		$GLOBALS['config'] = array();
+	}
+	$GLOBALS['config'][$key] = $value;
+}
+
+function getConfig($key) {
+	if(isset($GLOBALS['config'][$key])) {
+		return $GLOBALS['config'][$key];
+	} else {
+		return false;
+	}
+}
+
 function debug($string, $displayLineNumber = false) {
 	stderr($string, $displayLineNumber);
 }
@@ -12,6 +27,15 @@ function stderr($string, $displayLineNumber = false) {
 	if($stderr) {
 		fwrite($stderr, $string."\n");
 	}
+}
+
+function stderrArray($array) {
+	ob_start();
+	print_r($array);
+	$content = ob_get_contents();
+	ob_end_clean();
+
+	stderr($content);
 }
 
 function getMemoryUsage() {
