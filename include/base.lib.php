@@ -8,5 +8,6 @@ require_once('LogStream.class.php');
 require_once('GenericLogReader.class.php');
 require_once('SlowestQueryList.class.php');
 require_once('NormalizedQuery.class.php');
+require_once('NormalizedError.class.php');
 
 ?>

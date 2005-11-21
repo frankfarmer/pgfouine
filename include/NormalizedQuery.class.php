@@ -6,9 +6,11 @@ class NormalizedQuery {
 	var $count = 0;
 	var $examples;
 	
-	function NormalizedQuery($normalizedText) {
-		$this->normalizedText = $normalizedText;
+	function NormalizedQuery(& $query) {
+		$this->normalizedText = $query->getNormalizedText();
 		$this->examples = new SlowestQueryList(1);
+		
+		$this->addQuery($query);
 	}
 	
 	function addQuery(& $query) {

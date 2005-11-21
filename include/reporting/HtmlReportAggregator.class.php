@@ -122,6 +122,7 @@ class HtmlReportAggregator extends ReportAggregator {
 			table.queryList div.examples { background-color:#EBF0FC; border:1px solid #FFFFFF; -moz-border-radius:10px; padding:6px; margin:5px; }
 			table.queryList div.examples div.example0 { padding:2px; }
 			table.queryList div.examples div.example1 { background-color:#FFFFFF; padding:2px; border:1px solid #EBF0FC; -moz-border-radius:5px; }
+			table.queryList div.error { color: #D53131; font-weight:bold; }
 			table.queryList input { border:1px solid black; background-color:#FFFFFF; padding:1px; font-size:11px; }
 			div.footer { font-size:10px; margin-top:30px; background-color:rgb(180, 80, 80); padding:5px; text-align:right; color:white; }
 			div.footer a, div.footer a:hover { color:white; text-decoration:underline; }
