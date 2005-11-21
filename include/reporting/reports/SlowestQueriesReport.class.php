@@ -6,7 +6,7 @@ class SlowestQueriesReport extends Report {
 	}
 	
 	function getText() {
-		$listener = $this->reportAggregator->getListener('SlowestQueriesListener');
+		$listener =& $this->reportAggregator->getListener('SlowestQueriesListener');
 		$text = '';
 		
 		$queries =& $listener->getSortedQueries();
@@ -20,7 +20,7 @@ class SlowestQueriesReport extends Report {
 	}
 	
 	function getHtml() {
-		$listener = $this->reportAggregator->getListener('SlowestQueriesListener');
+		$listener =& $this->reportAggregator->getListener('SlowestQueriesListener');
 		$html = '
 <table class="queryList">
 	<tr>

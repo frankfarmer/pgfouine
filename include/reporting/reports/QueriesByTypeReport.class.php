@@ -6,7 +6,7 @@ class QueriesByTypeReport extends Report {
 	}
 	
 	function getText() {
-		$listener = $this->reportAggregator->getListener('GlobalCountersListener');
+		$listener =& $this->reportAggregator->getListener('GlobalCountersListener');
 		$text = '';
 		
 		$queriesCount = $listener->getQueryCount();
@@ -37,7 +37,7 @@ class QueriesByTypeReport extends Report {
 	}
 	
 	function getHtml() {
-		$listener = $this->reportAggregator->getListener('GlobalCountersListener');
+		$listener =& $this->reportAggregator->getListener('GlobalCountersListener');
 		
 		$queriesCount = $listener->getQueryCount();
 		

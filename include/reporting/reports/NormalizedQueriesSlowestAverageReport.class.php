@@ -6,7 +6,7 @@ class NormalizedQueriesSlowestAverageReport extends NormalizedReport {
 	}
 	
 	function getText() {
-		$listener = $this->reportAggregator->getListener('NormalizedQueriesListener');
+		$listener =& $this->reportAggregator->getListener('NormalizedQueriesListener');
 		$text = '';
 		
 		$queries =& $listener->getSlowestQueries();
@@ -22,7 +22,7 @@ class NormalizedQueriesSlowestAverageReport extends NormalizedReport {
 	}
 	
 	function getHtml() {
-		$listener = $this->reportAggregator->getListener('NormalizedQueriesListener');
+		$listener =& $this->reportAggregator->getListener('NormalizedQueriesListener');
 		$html = '
 <table class="queryList">
 	<tr>
