@@ -1,3 +1,12 @@
+2005-11-21  Guillaume Smet <guillaume-pg@smet.org>
+
+	* pgFouine should now work with PostgreSQL 8 log prefix feature
+	* added the -onlyselect option to command line
+	* added config functions
+	* preliminary work on error reports
+	* ignored more common LOG: lines which should not raise an error
+	* added missing references to listeners in reports
+
 2005-11-20  Guillaume Smet <guillaume-pg@smet.org>
 	
 	* improved SQL highlighting by adding PostgreSQL specific functions
