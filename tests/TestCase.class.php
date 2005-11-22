@@ -8,6 +8,7 @@ define('DEBUG', 0);
 $commonTests = &new GroupTest('Common tests');
 
 $commonTests->addTestFile('TestRegExp.class.php');
+$commonTests->addTestFile('TestProfiler.class.php');
 $commonTests->addTestFile('TestGenericLogReader.class.php');
 $commonTests->addTestFile('TestQuery.class.php');
 $commonTests->addTestFile('TestErrorQuery.class.php');
