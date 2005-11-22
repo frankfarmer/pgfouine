@@ -1,3 +1,9 @@
+2005-11-22  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added the Profiler test case
+	* added the -profile option to command line
+	* added the -examples option to command line
+
 2005-11-21  Guillaume Smet <guillaume-pg@smet.org>
 
 	* pgFouine should now work with PostgreSQL 8 log prefix feature
@@ -5,7 +11,7 @@
 	* added config functions
 	* preliminary work on error reports
 	* ignored more common LOG: lines which should not raise an error
-	* added missing references to listeners in reports
+	* fixed references to listeners in reports
 
 2005-11-20  Guillaume Smet <guillaume-pg@smet.org>
 	
