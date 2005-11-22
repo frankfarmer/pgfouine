@@ -8,7 +8,7 @@ class NormalizedQuery {
 	
 	function NormalizedQuery(& $query) {
 		$this->normalizedText = $query->getNormalizedText();
-		$this->examples = new SlowestQueryList(1);
+		$this->examples = new SlowestQueryList(getConfig('max_number_of_examples'));
 		
 		$this->addQuery($query);
 	}
@@ -19,10 +19,7 @@ class NormalizedQuery {
 		if($this->count == 1) {
 			$this->examples->addQuery($query);
 		} else {
-			if($this->count > 1000) {
-				$this->examples->setSize(3);
-			}
-			if((intval(rand(1, 9)) % 5) == 0) {
+			if(intval(rand(1, 100)) == 50) {
 				$this->examples->addQuery($query);
 			}
 		}

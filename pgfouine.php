@@ -24,6 +24,7 @@ function usage($error = false) {
   -format <format>      		output format: html or text. Default is html.
   -logtype <logtype>    		log type: only syslog is currently supported
   -reports <report1,report2>	list of reports type separated by a comma
+  -examples <n>                 maximum number of examples for a normalized query
   -onlyselect                   ignore all queries but SELECT
   -debug                		debug mode
   -profile                      profile mode
@@ -135,6 +136,13 @@ if(isset($options['reports'])) {
 } else {
 	$reports = $defaultReports;
 }
+
+if(isset($options['examples'])) {
+	$maxExamples = (int) $options['examples'];
+} else {
+	$maxExamples = 3;
+}
+setConfig('max_number_of_examples', $maxExamples);
 
 if(isset($options['onlyselect'])) {
 	setConfig('only_select', true);
