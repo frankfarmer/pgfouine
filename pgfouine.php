@@ -26,6 +26,7 @@ function usage($error = false) {
   -reports <report1,report2>	list of reports type separated by a comma
   -onlyselect                   ignore all queries but SELECT
   -debug                		debug mode
+  -profile                      profile mode
   -help                 		this help
 ';
 	if($error) {
@@ -61,6 +62,11 @@ if(isset($options['debug'])) {
 	define('DEBUG', 1);
 } else {
 	define('DEBUG', 0);
+}
+if(isset($options['profile'])) {
+	define('PROFILE', 1);
+} else {
+	define('PROFILE', 0);
 }
 
 if(!isset($options['file'])) {
