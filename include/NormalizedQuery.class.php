@@ -4,11 +4,14 @@ class NormalizedQuery {
 	var $normalizedText;
 	var $duration = 0;
 	var $count = 0;
-	var $examples;
+	var $examples = false;
 	
 	function NormalizedQuery(& $query) {
 		$this->normalizedText = $query->getNormalizedText();
-		$this->examples = new SlowestQueryList(getConfig('max_number_of_examples'));
+		$maxExamples = getConfig('max_number_of_examples');
+		if($maxExamples) {
+			$this->examples = new SlowestQueryList($maxExamples);
+		}
 		
 		$this->addQuery($query);
 	}
@@ -16,11 +19,13 @@ class NormalizedQuery {
 	function addQuery(& $query) {
 		$this->count ++;
 		$this->duration += $query->getDuration();
-		if($this->count == 1) {
-			$this->examples->addQuery($query);
-		} else {
-			if(intval(rand(1, 100)) == 50) {
+		if($this->examples) {
+			if($this->count == 1) {
 				$this->examples->addQuery($query);
+			} else {
+				if(intval(rand(1, 100)) == 50) {
+					$this->examples->addQuery($query);
+				}
 			}
 		}
 	}
