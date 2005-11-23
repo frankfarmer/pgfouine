@@ -7,19 +7,21 @@ require_once('../include/lib/Profiler.class.php');
 
 class TestProfiler extends UnitTestCase {
 	
-	function testGetMicrotime() {
-		$this->assertTrue(is_float(getMicrotime()));
+	function testGetTime() {
+		$this->assertTrue(is_float(getTime(microtime())));
 	}
 	
 	function testStage() {
 		define('TEST_PROFILER_STAGE', 'stage1');
 		
 		$profiler = new Profiler();
+		$profiler->start();
 		
 		$profiler->startStage(TEST_PROFILER_STAGE);
 		sleep(1);
 		$profiler->endStage(TEST_PROFILER_STAGE);
 		
+		$profiler->end();
 		$stages = $profiler->getStages();
 		$this->assertTrue(isset($stages[TEST_PROFILER_STAGE]));
 		$this->assertEqual(1, $stages[TEST_PROFILER_STAGE]['count']);
@@ -32,6 +34,7 @@ class TestProfiler extends UnitTestCase {
 		define('TEST_PROFILER_STAGE_2', 'stage2');
 		
 		$profiler = new Profiler();
+		$profiler->start();
 		
 		$profiler->startStage(TEST_PROFILER_STAGE_1);
 		sleep(1);
@@ -41,6 +44,7 @@ class TestProfiler extends UnitTestCase {
 		sleep(1);
 		$profiler->endStage(TEST_PROFILER_STAGE_2);
 		
+		$profiler->end();
 		$stages = $profiler->getStages();
 		$this->assertTrue(isset($stages[TEST_PROFILER_STAGE_1]));
 		$this->assertEqual(1, $stages[TEST_PROFILER_STAGE_1]['count']);
@@ -57,6 +61,7 @@ class TestProfiler extends UnitTestCase {
 		define('TEST_PROFILER_STAGE_1', 'stage1');
 		
 		$profiler = new Profiler();
+		$profiler->start();
 		
 		$profiler->startStage(TEST_PROFILER_STAGE_1);
 		sleep(1);
@@ -66,6 +71,7 @@ class TestProfiler extends UnitTestCase {
 		sleep(1);
 		$profiler->endStage(TEST_PROFILER_STAGE_1);
 		
+		$profiler->end();
 		$stages = $profiler->getStages();
 		$this->assertTrue(isset($stages[TEST_PROFILER_STAGE_1]));
 		$this->assertEqual(2, $stages[TEST_PROFILER_STAGE_1]['count']);
@@ -80,6 +86,7 @@ class TestProfiler extends UnitTestCase {
 		define('TEST_PROFILER_STAGE_4', 'stage4');
 		
 		$profiler = new Profiler();
+		$profiler->start();
 		
 		$profiler->startStage(TEST_PROFILER_STAGE_1);
 		sleep(1);
@@ -103,6 +110,7 @@ class TestProfiler extends UnitTestCase {
 		sleep(1);
 		$profiler->endStage(TEST_PROFILER_STAGE_1);
 		
+		$profiler->end();
 		$stages = $profiler->getStages();
 		$this->assertTrue(isset($stages[TEST_PROFILER_STAGE_1]));
 		$this->assertEqual(2, $stages[TEST_PROFILER_STAGE_1]['count']);
@@ -135,6 +143,7 @@ class TestProfiler extends UnitTestCase {
 		define('TEST_PROFILER_TAG_2', 'tag2');
 		
 		$profiler = new Profiler();
+		$profiler->start();
 		
 		$profiler->startStage(TEST_PROFILER_STAGE_1);
 		sleep(1);
@@ -158,6 +167,7 @@ class TestProfiler extends UnitTestCase {
 		sleep(1);
 		$profiler->endStage(TEST_PROFILER_STAGE_1);
 		
+		$profiler->end();
 		$tags = $profiler->getTags();
 		
 		$this->assertTrue(isset($tags[TEST_PROFILER_TAG_1]));
@@ -167,8 +177,8 @@ class TestProfiler extends UnitTestCase {
 		
 		$this->assertTrue(isset($tags[TEST_PROFILER_TAG_2]));
 		$this->assertEqual(1, $tags[TEST_PROFILER_TAG_2]['count']);
-		$this->assertTrue($tags[TEST_PROFILER_TAG_2]['duration'] > 2);
-		$this->assertTrue($tags[TEST_PROFILER_TAG_2]['duration'] < 3);
+		$this->assertTrue($tags[TEST_PROFILER_TAG_2]['duration'] > 1);
+		$this->assertTrue($tags[TEST_PROFILER_TAG_2]['duration'] < 2);
 	}
 }
 
