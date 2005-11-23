@@ -50,6 +50,7 @@ class Profiler {
 	function addToTag($tag, $start, $end) {
 		if(!isset($this->tags[$tag])) {
 			$this->tags[$tag] = array();
+			$this->tags[$tag]['count'] = 0;
 			$this->tags[$tag]['time'] = array();
 		}
 		$this->tags[$tag]['count'] ++;
@@ -135,7 +136,7 @@ class Profiler {
 				$line .= number_format($tag['duration'], 5).' (';
 				$line .= 'cnt: '.$tag['count'];
 				if($tag['count'] > 1) {
-					$line .= ' - avg: '.number_format($tag['duration']/$stage['count'], 5);
+					$line .= ' - avg: '.number_format($tag['duration']/$tag['count'], 5);
 				}
 				$line .= ' - pct: '.number_format(($tag['duration']/$this->totalTime)*100, 2).'%';
 				$line .= ')';
