@@ -3,13 +3,8 @@
 $postgreSQLRegexps = array();
 
 // PostgreSQLParser
-$postgreSQLRegexps['LogOrDebugLine'] = new RegExp("/^(.*?)(LOG|DEBUG):[\s]+/");
+$postgreSQLRegexps['LogLine'] = new RegExp("/^(?:.*?)(LOG|DEBUG|CONTEXT|WARNING|ERROR|FATAL|PANIC|HINT|DETAIL|STATEMENT):[\s]+/");
 $postgreSQLRegexps['ContinuationLine'] = new RegExp("/^(\^I|\s)/");
-$postgreSQLRegexps['ContextLine'] = new RegExp("/^(.*?)CONTEXT:[\s]+/");
-$postgreSQLRegexps['ErrorLine'] = new RegExp("/^(.*?)(WARNING|ERROR|FATAL|PANIC):[\s]+/");
-$postgreSQLRegexps['HintLine'] = new RegExp("/^(.*?)HINT:[\s]+/");
-$postgreSQLRegexps['DetailLine'] = new RegExp("/^(.*?)DETAIL:[\s]+/");
-$postgreSQLRegexps['StatementLine'] = new RegExp("/^(.*?)STATEMENT:[\s]+/");
 $postgreSQLRegexps['QueryStartPart'] = new RegExp("/^(query|statement):[\s]+/");
 $postgreSQLRegexps['StatusPart'] = new RegExp("/^(connection|received|unexpected EOF)/");
 $postgreSQLRegexps['DurationPart'] = new RegExp("/^duration:([\s\d\.]+)(sec|ms)/");

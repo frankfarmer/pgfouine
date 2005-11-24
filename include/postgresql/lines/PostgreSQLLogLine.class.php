@@ -32,15 +32,9 @@ class PostgreSQLLogLine {
 		return get_class($this).' ('.$this->connectionId.'): '.$this->text;
 	}
 	
-	function setConnectionId($connectionId) {
+	function setContextInformation($connectionId, $commandNumber, $lineNumber) {
 		$this->connectionId = $connectionId;
-	}
-	
-	function setCommandNumber($commandNumber) {
 		$this->commandNumber = $commandNumber;
-	}
-	
-	function setLineNumber($lineNumber) {
 		$this->lineNumber = $lineNumber;
 	}
 	

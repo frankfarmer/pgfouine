@@ -4,30 +4,27 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 	var $regexpPostgresPid;
 	
 	function SyslogPostgreSQLParser($syslogString = 'postgres') {
-		$this->regexpSyslogContext = new RegExp('/ '.$syslogString.'\[(\d{1,5})\]: \[(\d{1,10})(\-\d{1,5}){0,1}\] /');
+		$this->regexpSyslogContext = new RegExp('/ '.$syslogString.'\[(\d{1,5})\]: \[(\d{1,10})(?:\-(\d{1,5}))?\] /');
 	}
 
 	function & parse($data) {
-		if(PROFILE) $GLOBALS['profiler']->startStage('SyslogPostgreSQLParser::parse');
-		
-		$syslogContextMatch = $this->regexpSyslogContext->match($data);
+		$syslogContextMatch =& $this->regexpSyslogContext->match($data);
 		if($syslogContextMatch === false) {
-			if(PROFILE) $GLOBALS['profiler']->endStage('SyslogPostgreSQLParser::parse');
 			return false;
 		}
 		
-		$connectionId = $syslogContextMatch->getMatch(1);
-		$commandNumber = $syslogContextMatch->getMatch(2);
-		$lineId = $syslogContextMatch->getMatch(3);
+		$matches = $syslogContextMatch->getMatches();
 		$text = $syslogContextMatch->getPostMatch();
 		
-		if(!$connectionId || !$commandNumber || !$text) {
-			if(PROFILE) $GLOBALS['profiler']->endStage('SyslogPostgreSQLParser::parse');
+		if(count($matches) < 3 || !$text) {
 			return false;
 		}
 		
-		if($lineId) {
-			$lineNumber = substr($lineId, 1);
+		$connectionId = $matches[1][0];
+		$commandNumber = $matches[2][0];
+		
+		if(isset($matches[3][0])) {
+			$lineNumber = $matches[3][0];
 		} else {
 			$lineNumber = 1;
 		}
@@ -35,15 +32,11 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 		$line =& parent::parse($text);
 		
 		if(!$line) {
-			if(PROFILE) $GLOBALS['profiler']->endStage('SyslogPostgreSQLParser::parse');
 			return false;
 		}
 		
-		$line->setConnectionId($connectionId);
-		$line->setCommandNumber($commandNumber);
-		$line->setLineNumber($lineNumber);
+		$line->setContextInformation($connectionId, $commandNumber, $lineNumber);
 		
-		if(PROFILE) $GLOBALS['profiler']->endStage('SyslogPostgreSQLParser::parse');
 		return $line;
 	}
 }
