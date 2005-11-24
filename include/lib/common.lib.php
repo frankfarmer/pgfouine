@@ -103,6 +103,10 @@ class RegExpMatch {
 		$this->matches =& $matches;
 	}
 	
+	function & getMatches() {
+		return $this->matches;
+	}
+	
 	function getMatch($position) {
 		if(isset($this->matches[$position])) {
 			return $this->matches[$position][0];
