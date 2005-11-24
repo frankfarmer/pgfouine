@@ -10,7 +10,6 @@ class PostgreSQLDurationLine extends PostgreSQLLogLine {
 	function appendTo(& $queries) {
 		$query =& $queries->last();
 		if($query) {
-			$queries->gotDuration();
 			$query->setDuration($this->duration);
 			return $queries->pop();
 		} else {

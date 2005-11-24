@@ -25,18 +25,14 @@ class PostgreSQLAccumulator extends Accumulator {
 	function flushLogStreams() {
 		// flush default stream
 		$this->stream->flush($this);
-		$hasDurationInfo = $this->stream->hasDurationInfo();
 		
 		// flush streams with connection id
 		$logStreamsKeys = array_keys($this->working);
 		foreach($logStreamsKeys AS $key) {
 			$logStream =& $this->working[$key];
 			$logStream->flush($this);
-			$hasDurationInfo = $hasDurationInfo || $logStream->hasDurationInfo();
 			unset($logStream);
 		}
-		
-		$this->hasDurationInfo = $hasDurationInfo;
 	}
 }
 

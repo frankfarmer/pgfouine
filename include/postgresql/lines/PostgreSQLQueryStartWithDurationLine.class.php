@@ -15,7 +15,6 @@ class PostgreSQLQueryStartWithDurationLine extends PostgreSQLQueryStartLine {
 	}
 
 	function & appendTo(& $queries) {
-		$queries->gotDuration();
 		$closedQuery = $queries->pop();
 		
 		$query = new Query($this->text, $this->ignore);

@@ -3,13 +3,8 @@
 class Accumulator {
 	var $queryListeners = array();
 	var $errorListeners = array();
-	var $hasDurationInfo = false;
 	
 	function append(& $line) {
-	}
-	
-	function hasDurationInfo() {
-		return $this->hasDurationInfo;
 	}
 	
 	function addQueryListener(& $queryListener) {

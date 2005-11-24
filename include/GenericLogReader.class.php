@@ -13,8 +13,6 @@ class GenericLogReader {
 	
 	var $listeners = array();
 	
-	var $includesDuration = false;
-	
 	function GenericLogReader($fileName, $lineParserName, $accumulatorName) {
 		$this->fileName = $fileName;
 		$this->lineParserName = $lineParserName;
@@ -90,8 +88,6 @@ class GenericLogReader {
 			$GLOBALS['profiler']->end();
 			$GLOBALS['profiler']->displayProfile();
 		}
-		
-		$this->includesDuration = $accumulator->hasDurationInfo();
 	}
 	
 	function getLineParsedCounter() {

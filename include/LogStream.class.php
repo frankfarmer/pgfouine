@@ -2,7 +2,6 @@
 
 class LogStream {
 	var $queries = array();
-	var $hasDurationInfo = false;
 	var $host = '';
 	var $port = '';
 	var $user = '';
@@ -39,10 +38,6 @@ class LogStream {
 		$this->user = $user;
 		$this->db = $db;
 	}
-
-	function gotDuration() {
-		$this->hasDurationInfo = true;		
-	}
 	
 	function getHost() {
 		return $this->host;
@@ -58,10 +53,6 @@ class LogStream {
 	
 	function getDb() {
 		return $this->db;
-	}
-	
-	function hasDurationInfo() {
-		return $this->hasDurationInfo;
 	}
 	
 	function flush(& $accumulator) {
