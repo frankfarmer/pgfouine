@@ -2,6 +2,8 @@
 
 	* added a Profiler class
 	* updated the Profiler test case
+	* implemented the Profiler in the parsers
+	* optimized the parsers
 
 2005-11-22  Guillaume Smet <guillaume-pg@smet.org>
 
