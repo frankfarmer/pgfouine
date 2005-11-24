@@ -1,5 +1,7 @@
 <?php
 
+require_once('lib/Profiler.class.php');
+
 require_once('Accumulator.class.php');
 require_once('Parser.class.php');
 require_once('Query.class.php');

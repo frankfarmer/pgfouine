@@ -52,6 +52,10 @@ class GenericLogReader {
 		$lineParsedCounter = 0;
 		
 		if(DEBUG) debug(getMemoryUsage());
+		if(PROFILE) {
+			$GLOBALS['profiler'] = new Profiler();
+			$GLOBALS['profiler']->start();
+		}
 		
 		$currentTimestamp = time();
 		while (!feof($filePointer)) {
@@ -81,6 +85,11 @@ class GenericLogReader {
 		$this->lineParsedCounter = $lineParsedCounter;
 		
 		DEBUG && debug("\nParsed ".$lineParsedCounter.' lines in '.$this->timeToParse.' s');
+		
+		if(PROFILE) {
+			$GLOBALS['profiler']->end();
+			$GLOBALS['profiler']->displayProfile();
+		}
 		
 		$this->includesDuration = $accumulator->hasDurationInfo();
 	}
