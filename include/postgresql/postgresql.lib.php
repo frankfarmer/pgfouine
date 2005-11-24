@@ -2,6 +2,9 @@
 
 require_once('PostgreSQLAccumulator.class.php');
 
+// regexps
+include_once('PostgreSQLRegexps.lib.php');
+
 // lines
 require_once('lines/PostgreSQLLogLine.class.php');
 require_once('lines/PostgreSQLDurationLine.class.php');

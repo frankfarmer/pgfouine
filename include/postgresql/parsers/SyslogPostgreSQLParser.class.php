@@ -4,39 +4,46 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 	var $regexpPostgresPid;
 	
 	function SyslogPostgreSQLParser($syslogString = 'postgres') {
-		$this->regexpPostgresPid = new RegExp('/ '.$syslogString.'\[(\d{1,5})\]: /');
+		$this->regexpSyslogContext = new RegExp('/ '.$syslogString.'\[(\d{1,5})\]: \[(\d{1,10})(\-\d{1,5}){0,1}\] /');
 	}
 
 	function & parse($data) {
-		$pidMatch = $this->regexpPostgresPid->match($data);
-		if($pidMatch === false) {
+		if(PROFILE) $GLOBALS['profiler']->startStage('SyslogPostgreSQLParser::parse');
+		
+		$syslogContextMatch = $this->regexpSyslogContext->match($data);
+		if($syslogContextMatch === false) {
+			if(PROFILE) $GLOBALS['profiler']->endStage('SyslogPostgreSQLParser::parse');
 			return false;
 		}
 		
-		$connectionId = $pidMatch->getMatch(1);
-		$text = $pidMatch->getPostMatch();
-		if(!$text) return false;
+		$connectionId = $syslogContextMatch->getMatch(1);
+		$commandNumber = $syslogContextMatch->getMatch(2);
+		$lineId = $syslogContextMatch->getMatch(3);
+		$text = $syslogContextMatch->getPostMatch();
 		
-		$regexpCommandLine =  new RegExp('/\[(\d{1,10})(\-\d{1,5}){0,1}\] /');
+		if(!$connectionId || !$commandNumber || !$text) {
+			if(PROFILE) $GLOBALS['profiler']->endStage('SyslogPostgreSQLParser::parse');
+			return false;
+		}
 		
-		$lineIdMatch = $regexpCommandLine->match($text);
-		if(!$lineIdMatch) return false;
-		
-		$text = $lineIdMatch->getPostMatch();
-		$commandNumber = $lineIdMatch->getMatch(1);
-		if($lineIdMatch->getMatch(2)) {
-			$lineNumber = substr($lineIdMatch->getMatch(2), 1);
+		if($lineId) {
+			$lineNumber = substr($lineId, 1);
 		} else {
 			$lineNumber = 1;
 		}
 		
 		$line =& parent::parse($text);
-		if(!$line) return false;
+		
+		if(!$line) {
+			if(PROFILE) $GLOBALS['profiler']->endStage('SyslogPostgreSQLParser::parse');
+			return false;
+		}
 		
 		$line->setConnectionId($connectionId);
 		$line->setCommandNumber($commandNumber);
 		$line->setLineNumber($lineNumber);
 		
+		if(PROFILE) $GLOBALS['profiler']->endStage('SyslogPostgreSQLParser::parse');
 		return $line;
 	}
 }

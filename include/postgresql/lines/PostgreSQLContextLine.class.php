@@ -5,14 +5,13 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 	var $recognized = true;
 
 	function PostgreSQLContextLine($text) {
-		$regexpSqlStatement = new RegExp('/^SQL statement "/');
-		$regexpSqlFunction = new RegExp('/([^\s]+)[\s]+function[\s]+"([^"]+)"(.*)$/');
+		global $postgreSQLRegexps;
 		
-		$statementMatch =& $regexpSqlStatement->match($text);
+		$statementMatch =& $postgreSQLRegexps['ContextSqlStatement']->match($text);
 		if($statementMatch) {
 			$this->PostgreSQLLogLine(substr($statementMatch->getPostMatch(), -1, 1));
 		} else {
-			$functionMatch =& $regexpSqlFunction->match($text);
+			$functionMatch =& $postgreSQLRegexps['ContextSqlFunction']->match($text);
 			if($functionMatch) {
 				$this->PostgreSQLLogLine($statementMatch->getMatch(2));
 			} else {
