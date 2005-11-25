@@ -6,7 +6,7 @@ class OverallStatsReport extends Report {
 	}
 	
 	function getText() {
-		$listener =& $this->reportAggregator->getListener('GlobalCountersListener');
+		$statsListener =& $this->reportAggregator->getListener('GlobalCountersListener');
 		$normalizedListener =& $this->reportAggregator->getListener('NormalizedQueriesListener');
 		$errorCountersListener =& $this->reportAggregator->getListener('GlobalErrorCountersListener');
 		$normalizedErrorsListener =& $this->reportAggregator->getListener('NormalizedErrorsListener');
@@ -17,8 +17,8 @@ class OverallStatsReport extends Report {
 			$text .= 'Number of unique normalized queries: '.$this->formatInteger($normalizedListener->getUniqueQueryCount())."\n";
 		}
 		$text .= 
-			'Number of queries:     '.$this->formatInteger($listener->getQueryCount())."\n".
-			'Total query duration:  '.$this->formatLongDuration($listener->getQueryDuration())."\n"
+			'Number of queries:     '.$this->formatInteger($statsListener->getQueryCount())."\n".
+			'Total query duration:  '.$this->formatLongDuration($statsListener->getQueryDuration())."\n"
 		;
 		if($errorCountersListener) {
 			$text .= 'Number of errors:     '.$this->formatInteger($errorCountersListener->getErrorCount())."\n";
@@ -31,7 +31,7 @@ class OverallStatsReport extends Report {
 	}
 	
 	function getHtml() {
-		$listener =& $this->reportAggregator->getListener('GlobalCountersListener');
+		$statsListener =& $this->reportAggregator->getListener('GlobalCountersListener');
 		$normalizedListener =& $this->reportAggregator->getListener('NormalizedQueriesListener');
 		$errorCountersListener =& $this->reportAggregator->getListener('GlobalErrorCountersListener');
 		$normalizedErrorsListener =& $this->reportAggregator->getListener('NormalizedErrorsListener');
@@ -42,10 +42,10 @@ class OverallStatsReport extends Report {
 		if($normalizedListener) {
 			$html .= '<li>Number of unique normalized queries: '.$this->formatInteger($normalizedListener->getUniqueQueryCount()).'</li>';
 		}
-		$html .= '<li>Number of queries: '.$this->formatInteger($listener->getQueryCount()).'</li>';
-		$html .= '<li>Total query duration: '.$this->formatLongDuration($listener->getQueryDuration()).'</li>';
+		$html .= '<li>Number of queries: '.$this->formatInteger($statsListener->getQueryCount()).'</li>';
+		$html .= '<li>Total query duration: '.$this->formatLongDuration($statsListener->getQueryDuration()).'</li>';
 		if($errorCountersListener) {
-			$html .= '<li>Number of errors:     '.$this->formatInteger($errorCountersListener->getErrorCount()).'</li>';
+			$html .= '<li>Number of errors: '.$this->formatInteger($errorCountersListener->getErrorCount()).'</li>';
 			if($normalizedErrorsListener) {
 				$html .= '<li>Number of unique normalized errors: '.$this->formatInteger($normalizedErrorsListener->getUniqueErrorCount()).'</li>';
 			}
