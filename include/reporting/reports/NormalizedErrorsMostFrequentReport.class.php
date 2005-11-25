@@ -6,16 +6,23 @@ class NormalizedErrorsMostFrequentReport extends NormalizedErrorsReport {
 	}
 	
 	function getText() {
-		$listener = $this->reportAggregator->getListener('NormalizedQueriesListener');
+		$listener = $this->reportAggregator->getListener('NormalizedErrorsListener');
 		$text = '';
 		
-		$queries =& $listener->getMostFrequentQueries();
+		$errors =& $listener->getMostFrequentErrors();
 		
-		$count = count($queries);
+		$count = count($errors);
 		
 		for($i = 0; $i < $count; $i++) {
-			$query =& $queries[$i];
-			$text .= ($i+1).') '.$this->formatInteger($query->getTimesExecuted()).' - '.$this->formatLongDuration($query->getTotalDuration()).' - '.$query->getNormalizedText()."\n";
+			$error =& $errors[$i];
+			$text .= ($i+1).') '.$this->formatInteger($error->getTimesExecuted()).' - '.$error->getNormalizedText()."\n";
+			$text .= 'Error: '.$error->getError()."\n";
+			if($error->getDetail()) {
+				$text .= 'Detail: '.$error->getDetail()."\n";
+			}
+			if($error->getHint()) {
+				$text .= 'Hint: '.$error->getHint()."\n";
+			}
 			$text .= "--\n";
 		}
 		return $text;
@@ -43,8 +50,20 @@ class NormalizedErrorsMostFrequentReport extends NormalizedErrorsReport {
 			$html .= '<tr class="'.$this->getRowStyle($i).'">
 				<td class="center top">'.($i+1).'</td>
 				<td class="relevantInformation top center">'.$this->formatInteger($error->getTimesExecuted()).'</td>
-				<td><div class=error>'.$error->getError().'</div>
-					'.$this->getNormalizedErrorWithExamplesHtml($i, $error).'</td>
+				<td><div class=error>Error: '.$error->getError().'</div>';
+			if($error->getDetail() || $error->getHint()) {
+				$html .= '<div class="errorInformation">';
+				if($error->getDetail()) {
+					$html .= 'Detail: '.$error->getDetail();
+					$html .= '<br />';
+				}
+				if($error->getHint()) {
+					$html .= 'Hint: '.$error->getHint();
+					$html .= '<br />';
+				}
+				$html .= '</div>';
+			}
+			$html .= $this->getNormalizedErrorWithExamplesHtml($i, $error).'</td>
 			</tr>';
 			$html .= "\n";
 		}

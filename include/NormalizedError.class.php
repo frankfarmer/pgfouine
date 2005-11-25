@@ -11,6 +11,8 @@ class NormalizedError {
 	function NormalizedError(& $error) {
 		$this->normalizedText = $error->getNormalizedText();
 		$this->error = $error->getError();
+		$this->hint = $error->getHint();
+		$this->detail = $error->getDetail();
 		
 		$this->addError($error);
 	}
@@ -46,6 +48,14 @@ class NormalizedError {
 			unset($example);
 		}
 		return array();
+	}
+	
+	function getDetail() {
+		return $this->detail;
+	}
+	
+	function getHint() {
+		return $this->hint;
 	}
 }
 
