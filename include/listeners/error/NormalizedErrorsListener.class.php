@@ -9,8 +9,6 @@ class NormalizedErrorsListener extends ErrorListener {
 	}
 	
 	function fireEvent(& $error) {
-		//stderrArray($error);
-		
 		$normalizedText = $error->getNormalizedText();
 		if(isset($this->errorsList[$normalizedText])) {
 			$this->errorsList[$normalizedText]->addError($error);
