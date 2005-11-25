@@ -1,3 +1,8 @@
+2005-11-24  Guillaume Smet <guillaume-pg@smet.org>
+
+	* optimized the parsers
+	* improved html error report and fixed text error report
+
 2005-11-23  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added a Profiler class
