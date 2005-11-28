@@ -13,7 +13,7 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 		} else {
 			$functionMatch =& $postgreSQLRegexps['ContextSqlFunction']->match($text);
 			if($functionMatch) {
-				$this->PostgreSQLLogLine($statementMatch->getMatch(2));
+				$this->PostgreSQLLogLine($functionMatch->getMatch(2));
 			} else {
 				$this->recognized = false;
 				$this->PostgreSQLLogLine($text);
