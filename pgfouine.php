@@ -1,7 +1,7 @@
 #! /usr/bin/php -qC
 <?php
 
-define('VERSION', '0.1');
+define('VERSION', '0.2');
 
 ini_set('max_execution_time', 7200);
 error_reporting(E_ALL);

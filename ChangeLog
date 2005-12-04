@@ -1,3 +1,11 @@
+2005-12-04  Guillaume Smet <guillaume-pg@smet.org>
+
+	* released 0.2
+
+2005-11-28  Guillaume Smet <guillaume-pg@smet.org>
+
+	* applied [#1000450] from Laurent Almeras
+
 2005-11-24  Guillaume Smet <guillaume-pg@smet.org>
 
 	* optimized the parsers
