@@ -19,16 +19,16 @@ function usage($error = false) {
 		stderr('Error: '.$error);
 	}
 	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>] [-reports report1,report2]
-  -file <file>          		log file to analyze
-  -top <n>              		number of queries in lists. Default is 20.
-  -format <format>      		output format: html or text. Default is html.
-  -logtype <logtype>    		log type: only syslog is currently supported
-  -reports <report1,report2>	list of reports type separated by a comma
+  -file <file>                  log file to analyze
+  -top <n>                      number of queries in lists. Default is 20.
+  -format <format>              output format: html or text. Default is html.
+  -logtype <logtype>            log type: only syslog is currently supported
+  -reports <report1,report2>    list of reports type separated by a comma
   -examples <n>                 maximum number of examples for a normalized query
   -onlyselect                   ignore all queries but SELECT
-  -debug                		debug mode
+  -debug                        debug mode
   -profile                      profile mode
-  -help                 		this help
+  -help                         this help
 ';
 	if($error) {
 		exit(1);
