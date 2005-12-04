@@ -27,13 +27,6 @@ class TestLogStream extends UnitTestCase {
 		$this->assertEqual(LOG_STREAM_DB, $logStream->getDb());
 	}
 	
-	function testGotDuration() {
-		$logStream = new LogStream();
-		$this->assertFalse($logStream->hasDurationInfo());
-		$logStream->gotDuration();
-		$this->assertTrue($logStream->hasDurationInfo());
-	}
-	
 	function testGetQueriesAndPush() {
 		$query1 = new Query('');
 		$query2 = new Query('');
