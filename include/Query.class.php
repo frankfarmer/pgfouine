@@ -27,6 +27,7 @@ class Query {
 	var $user;
 	var $duration = false;
 	var $ignored;
+	var $timestamp = 0;
 	var $commandNumber = 0;
 	var $parsingSubQueries = false;
 	var $subQueries = array();
@@ -37,12 +38,17 @@ class Query {
 		$this->ignored = $ignored;
 	}
 	
-	function setCommandNumber($commandNumber) {
+	function setContextInformation($timestamp, $commandNumber) {
+		$this->timestamp = $timestamp;
 		$this->commandNumber = $commandNumber; 
 	}
 	
 	function getCommandNumber() {
 		return $this->commandNumber;
+	}
+	
+	function getTimestamp() {
+		return $this->timestamp;
 	}
 
 	function append($text) {

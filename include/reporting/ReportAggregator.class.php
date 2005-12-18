@@ -87,6 +87,10 @@ class ReportAggregator {
 		return number_format($integer);
 	}
 	
+	function formatTimestamp($timestamp) {
+		return date('Y-m-d H:i:s', $timestamp);
+	}
+	
 	function formatDuration($duration, $decimals = 2) {
 		return number_format($duration, $decimals);
 	}

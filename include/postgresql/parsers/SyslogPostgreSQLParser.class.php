@@ -25,7 +25,7 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 	var $regexpPostgresPid;
 	
 	function SyslogPostgreSQLParser($syslogString = 'postgres') {
-		$this->regexpSyslogContext = new RegExp('/ '.$syslogString.'\[(\d{1,5})\]: \[(\d{1,10})(?:\-(\d{1,5}))?\] /');
+		$this->regexpSyslogContext = new RegExp('/^([A-Z][a-z]{2} [ 0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}) .*? '.$syslogString.'\[(\d{1,5})\]: \[(\d{1,10})(?:\-(\d{1,5}))?\] /');
 	}
 
 	function & parse($data) {
@@ -37,15 +37,21 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 		$matches = $syslogContextMatch->getMatches();
 		$text = $syslogContextMatch->getPostMatch();
 		
-		if(count($matches) < 3 || !$text) {
+		if(count($matches) < 4 || !$text) {
 			return false;
 		}
 		
-		$connectionId = $matches[1][0];
-		$commandNumber = $matches[2][0];
+		$formattedDate = $matches[1][0];
+		$timestamp = strtotime($formattedDate.' '.date('Y'));
+		if($timestamp > time()) {
+			$timestamp = strtotime($formattedDate.' '.(date('Y')-1));	
+		}
 		
-		if(isset($matches[3][0])) {
-			$lineNumber = $matches[3][0];
+		$connectionId = $matches[2][0];
+		$commandNumber = $matches[3][0];
+		
+		if(isset($matches[4][0])) {
+			$lineNumber = $matches[4][0];
 		} else {
 			$lineNumber = 1;
 		}
@@ -56,7 +62,7 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 			return false;
 		}
 		
-		$line->setContextInformation($connectionId, $commandNumber, $lineNumber);
+		$line->setContextInformation($timestamp, $connectionId, $commandNumber, $lineNumber);
 		
 		return $line;
 	}

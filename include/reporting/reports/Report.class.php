@@ -60,6 +60,10 @@ class Report {
 		return $this->reportAggregator->formatInteger($integer);
 	}
 	
+	function formatTimestamp($timestamp) {
+		return $this->reportAggregator->formatTimestamp($timestamp);
+	}
+	
 	function formatDuration($duration, $decimals = 2) {
 		return $this->reportAggregator->formatDuration($duration, $decimals);
 	}

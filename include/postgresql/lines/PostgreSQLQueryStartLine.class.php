@@ -34,7 +34,7 @@ class PostgreSQLQueryStartLine extends PostgreSQLLogLine {
 	
 	function appendTo(& $queries) {
 		$query = new Query($this->text, $this->ignore);
-		$query->setCommandNumber($this->commandNumber);
+		$query->setContextInformation($this->timestamp, $this->commandNumber);
 		$queries->push($query);
 		return false;
 	}

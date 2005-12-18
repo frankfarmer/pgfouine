@@ -40,7 +40,7 @@ class PostgreSQLQueryStartWithDurationLine extends PostgreSQLQueryStartLine {
 		
 		$query = new Query($this->text, $this->ignore);
 		$query->setDuration($this->duration);
-		$query->setCommandNumber($this->commandNumber);
+		$query->setContextInformation($this->timestamp, $this->commandNumber);
 		$queries->push($query);
 		
 		return $closedQuery;

@@ -22,6 +22,7 @@
  */
 
 class PostgreSQLLogLine {
+	var $timestamp = false;
 	var $connectionId = false;
 	var $commandNumber = false;
 	var $lineNumber = false;
@@ -53,10 +54,15 @@ class PostgreSQLLogLine {
 		return get_class($this).' ('.$this->connectionId.'): '.$this->text;
 	}
 	
-	function setContextInformation($connectionId, $commandNumber, $lineNumber) {
+	function setContextInformation($timestamp, $connectionId, $commandNumber, $lineNumber) {
+		$this->timestamp = $timestamp;
 		$this->connectionId = $connectionId;
 		$this->commandNumber = $commandNumber;
 		$this->lineNumber = $lineNumber;
+	}
+	
+	function getTimestamp() {
+		return $this->timestamp;
 	}
 	
 	function getConnectionId() {
