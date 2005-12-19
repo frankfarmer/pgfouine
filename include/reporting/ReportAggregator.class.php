@@ -75,6 +75,14 @@ class ReportAggregator {
 		return $this->logReader->getLineParsedCount();
 	}
 	
+	function getFirstLineTimestamp() {
+		return $this->logReader->getFirstLineTimestamp();
+	}
+	
+	function getLastLineTimestamp() {
+		return $this->logReader->getLastLineTimestamp();
+	}
+	
 	function pad($string, $length) {
 		return str_pad($string, $length, ' ', STR_PAD_LEFT);
 	}

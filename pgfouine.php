@@ -49,6 +49,8 @@ function usage($error = false) {
                                  n-mostfrequent, n-slowestaverage, n-mostfrequenterrors
   -examples <n>                 maximum number of examples for a normalized query
   -onlyselect                   ignore all queries but SELECT
+  -from "date"                  ignore lines logged before this date (uses strtotime)
+  -to "date"                    ignore lines logged after this date (uses strtotime)
   -debug                        debug mode
   -profile                      profile mode
   -help                         this help
@@ -172,6 +174,22 @@ if(isset($options['onlyselect'])) {
 } else {
 	setConfig('only_select', false);
 }
+
+if(isset($options['from'])) {
+	setConfig('from_timestamp', strtotime($options['from']));
+} else {
+	setConfig('from_timestamp', MIN_TIMESTAMP);
+}
+
+if(isset($options['to'])) {
+	$toTimestamp = strtotime($options['to']);
+	if($toTimestamp <= 0) {
+		$toTimestamp = MAX_TIMESTAMP;
+	}
+} else {
+	$toTimestamp = MAX_TIMESTAMP;
+}
+setConfig('to_timestamp', $toTimestamp);
 
 $logReader = new GenericLogReader($filePath, $parser, 'PostgreSQLAccumulator');
 

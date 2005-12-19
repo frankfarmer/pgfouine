@@ -32,6 +32,9 @@ class GenericLogReader {
 	var $lineParsedCounter = 0;
 	var $timeToParse;
 	
+	var $firstLineTimestamp;
+	var $lastLineTimestamp;
+	
 	var $listeners = array();
 	
 	function GenericLogReader($fileName, $lineParserName, $accumulatorName) {
@@ -82,6 +85,10 @@ class GenericLogReader {
 			$text = fgets($filePointer);
 			$line =& $lineParser->parse($text);
 			if($line) {
+				if(!isset($this->firstLineTimestamp)) {
+					$this->firstLineTimestamp = $line->getTimestamp();
+				}
+				$this->lastLineTimestamp = $line->getTimestamp();
 				$accumulator->append($line);
 			}
 			if($lineParsedCounter % 100000 == 0) {
@@ -138,6 +145,14 @@ class GenericLogReader {
 	
 	function getLineParsedCount() {
 		return $this->lineParsedCounter;	
+	}
+	
+	function getFirstLineTimestamp() {
+		return $this->firstLineTimestamp;
+	}
+	
+	function getLastLineTimestamp() {
+		return $this->lastLineTimestamp;
 	}
 }
 
