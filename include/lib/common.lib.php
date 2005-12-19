@@ -53,13 +53,19 @@ function stderr($string, $displayLineNumber = false) {
 	}
 }
 
-function stderrArray($array) {
+function stderrArray(& $array) {
+	$content = getFormattedArray($array);
+
+	stderr($content);
+}
+
+function getFormattedArray(& $array) {
 	ob_start();
 	print_r($array);
 	$content = ob_get_contents();
 	ob_end_clean();
-
-	stderr($content);
+	
+	return $content;
 }
 
 function getMemoryUsage() {
@@ -142,6 +148,63 @@ class RegExpMatch {
 	function getPostMatch() {
 		$postMatch = substr($this->text, $this->matches[0][1] + strlen($this->matches[0][0]));
 		return $postMatch;
+	}
+}
+
+class QueryCounter {
+	var $queryCount = 0;
+	var $queryDuration = 0;
+	var $selectCount = 0;
+	var $updateCount = 0;
+	var $insertCount = 0;
+	var $deleteCount = 0;
+	
+	function incrementQueryCount() {
+		$this->queryCount ++;
+	}
+	
+	function incrementQueryDuration($duration) {
+		$this->queryDuration += $duration;
+	}
+	
+	function incrementSelectCount() {
+		$this->selectCount ++;
+	}
+	
+	function incrementUpdateCount() {
+		$this->updateCount ++;
+	}
+	
+	function incrementInsertCount() {
+		$this->insertCount ++;
+	}
+	
+	function incrementDeleteCount() {
+		$this->deleteCount ++;
+	}
+	
+	function getQueryCount() {
+		return $this->queryCount;
+	}
+	
+	function getQueryDuration() {
+		return $this->queryDuration;
+	}
+	
+	function getSelectCount() {
+		return $this->selectCount;
+	}
+	
+	function getUpdateCount() {
+		return $this->updateCount;
+	}
+	
+	function getInsertCount() {
+		return $this->insertCount;
+	}
+	
+	function getDeleteCount() {
+		return $this->deleteCount;
 	}
 }
 

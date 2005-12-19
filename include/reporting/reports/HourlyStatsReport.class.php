@@ -21,23 +21,32 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-require_once('ReportAggregator.class.php');
-require_once('TextReportAggregator.class.php');
+class HourlyStatsReport extends Report {
+	function HourlyStatsReport(& $reportAggregator) {
+		$this->Report($reportAggregator, 'Hourly statistics', array('HourlyCountersListener'));
+	}
+	
+	function getText() {
+		$statsListener =& $this->reportAggregator->getListener('HourlyCountersListener');
+		
+		$text = '';
+		
+		// TODO
 
-include_once('geshi/geshi.php');
-require_once('HtmlReportAggregator.class.php');
-
-require_once('reports/Report.class.php');
-require_once('reports/QueriesByTypeReport.class.php');
-require_once('reports/OverallStatsReport.class.php');
-require_once('reports/HourlyStatsReport.class.php');
-require_once('reports/SlowestQueriesReport.class.php');
-require_once('reports/NormalizedReport.class.php');
-require_once('reports/NormalizedQueriesMostTimeReport.class.php');
-require_once('reports/NormalizedQueriesMostFrequentReport.class.php');
-require_once('reports/NormalizedQueriesSlowestAverageReport.class.php');
-
-require_once('reports/NormalizedErrorsReport.class.php');
-require_once('reports/NormalizedErrorsMostFrequentReport.class.php');
+		return $text;
+	}
+	
+	function getHtml() {
+		$statsListener =& $this->reportAggregator->getListener('HourlyCountersListener');
+		
+		$html = '';
+		
+		$html .= '<pre>';
+		$html .= getFormattedArray($statsListener->getHourlyStatistics());
+		$html .= '</pre>';
+		
+		return $html;
+	}
+}
 
 ?>
