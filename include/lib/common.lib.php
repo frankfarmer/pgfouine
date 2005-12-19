@@ -21,6 +21,9 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+define('MIN_TIMESTAMP', 0);
+define('MAX_TIMESTAMP', 9999999999);
+
 function setConfig($key, $value) {
 	if(!isset($GLOBALS['config'])) {
 		$GLOBALS['config'] = array();

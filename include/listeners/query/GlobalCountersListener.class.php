@@ -28,17 +28,15 @@ class GlobalCountersListener extends QueryListener {
 	var $updateCount = 0;
 	var $insertCount = 0;
 	var $deleteCount = 0;
-	var $firstQueryTimestamp = 0;
-	var $lastQueryTimestamp = 0;
+	var $firstQueryTimestamp = MAX_TIMESTAMP;
+	var $lastQueryTimestamp = MIN_TIMESTAMP;
 	
 	function fireEvent(& $query) {
 		$this->queryCount++;
 		$this->queryDuration += $query->getDuration();
 		
-		if($this->firstQueryTimestamp == 0) {
-			$this->firstQueryTimestamp = $query->getTimestamp();
-		}
-		$this->lastQueryTimestamp = $query->getTimestamp();
+		$this->firstQueryTimestamp = min($query->getTimestamp(), $this->firstQueryTimestamp);
+		$this->lastQueryTimestamp = max($query->getTimestamp(), $this->lastQueryTimestamp);
 		
 		if($query->isSelect()) {
 			$this->selectCount ++;
