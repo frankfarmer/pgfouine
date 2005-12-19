@@ -1,5 +1,17 @@
-2005-12-04  Guillaume Smet <guillaume-pg@smet.org>
+2005-12-19  Guillaume Smet <guillaume-pg@smet.org>
 
+	* applied patch from Laurent Almeras to add -from and -to
+	options (ability to filter on timestamps)
+	* worked on hourly statistics (no pretty output yet)
+
+2005-12-18  Guillaume Smet <guillaume-pg@smet.org>
+
+	* enhanced the syslog parser to get log line timestamps
+	* added the ability to get the timestamp of a query
+
+2005-12-16  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed a few bugs
 	* released 0.2
 
 2005-11-28  Guillaume Smet <guillaume-pg@smet.org>
