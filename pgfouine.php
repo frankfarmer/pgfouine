@@ -45,7 +45,7 @@ function usage($error = false) {
   -format <format>              output format: html or text. Default is html.
   -logtype <logtype>            log type: only syslog is currently supported
   -reports <report1,report2>    list of reports type separated by a comma
-                                reports can be: overall, bytype, slowest, n-mosttime,
+                                reports can be: overall, hourly, bytype, slowest, n-mosttime,
                                  n-mostfrequent, n-slowestaverage, n-mostfrequenterrors
   -examples <n>                 maximum number of examples for a normalized query
   -onlyselect                   ignore all queries but SELECT
@@ -140,6 +140,7 @@ if(isset($options['logtype'])) {
 
 $supportedReports = array(
 	'overall' => 'OverallStatsReport',
+	'hourly' => 'HourlyStatsReport',
 	'bytype' => 'QueriesByTypeReport',
 	'slowest' => 'SlowestQueriesReport',
 	'n-mosttime' => 'NormalizedQueriesMostTimeReport',
@@ -175,13 +176,13 @@ if(isset($options['onlyselect'])) {
 	setConfig('only_select', false);
 }
 
-if(isset($options['from'])) {
+if(isset($options['from']) && !empty($options['from'])) {
 	setConfig('from_timestamp', strtotime($options['from']));
 } else {
 	setConfig('from_timestamp', MIN_TIMESTAMP);
 }
 
-if(isset($options['to'])) {
+if(isset($options['to']) && !empty($options['to'])) {
 	$toTimestamp = strtotime($options['to']);
 	if($toTimestamp <= 0) {
 		$toTimestamp = MAX_TIMESTAMP;
