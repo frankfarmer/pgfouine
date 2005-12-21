@@ -27,6 +27,10 @@ require_once('TextReportAggregator.class.php');
 include_once('geshi/geshi.php');
 require_once('HtmlReportAggregator.class.php');
 
+require_once('artichow/LinePlot.class.php');
+require_once('artichow/BarPlot.class.php');
+require_once('HtmlWithGraphsReportAggregator.class.php');
+
 require_once('reports/Report.class.php');
 require_once('reports/QueriesByTypeReport.class.php');
 require_once('reports/OverallStatsReport.class.php');

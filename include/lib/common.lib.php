@@ -104,6 +104,15 @@ function &pop(& $array) {
 	return $object;
 }
 
+function arrayAdd($array1, $array2) {
+	$size = count($array1);
+	$sum = array();
+	for($i = 0; $i < $size; $i++) {
+		$sum[] = $array1[$i] + $array2[$i];
+	}
+	return $sum;
+}
+
 class RegExp {
 	var $pattern;
 	
@@ -155,32 +164,37 @@ class QueryCounter {
 	var $queryCount = 0;
 	var $queryDuration = 0;
 	var $selectCount = 0;
+	var $selectDuration = 0;
 	var $updateCount = 0;
+	var $updateDuration = 0;
 	var $insertCount = 0;
+	var $insertDuration = 0;
 	var $deleteCount = 0;
+	var $deleteDuration = 0;
 	
-	function incrementQueryCount() {
+	function incrementQuery($duration) {
 		$this->queryCount ++;
-	}
-	
-	function incrementQueryDuration($duration) {
 		$this->queryDuration += $duration;
 	}
 	
-	function incrementSelectCount() {
+	function incrementSelect($duration) {
 		$this->selectCount ++;
+		$this->selectDuration += $duration;
 	}
 	
-	function incrementUpdateCount() {
+	function incrementUpdate($duration) {
 		$this->updateCount ++;
+		$this->updateDuration += $duration;
 	}
 	
-	function incrementInsertCount() {
+	function incrementInsert($duration) {
 		$this->insertCount ++;
+		$this->insertDuration += $duration;
 	}
 	
-	function incrementDeleteCount() {
+	function incrementDelete($duration) {
 		$this->deleteCount ++;
+		$this->deleteDuration += $duration;
 	}
 	
 	function getQueryCount() {
@@ -195,16 +209,32 @@ class QueryCounter {
 		return $this->selectCount;
 	}
 	
+	function getSelectDuration() {
+		return $this->selectDuration;
+	}
+	
 	function getUpdateCount() {
 		return $this->updateCount;
+	}
+	
+	function getUpdateDuration() {
+		return $this->updateDuration;
 	}
 	
 	function getInsertCount() {
 		return $this->insertCount;
 	}
 	
+	function getInsertDuration() {
+		return $this->insertDuration;
+	}
+	
 	function getDeleteCount() {
 		return $this->deleteCount;
+	}
+	
+	function getDeleteDuration() {
+		return $this->deleteDuration;
 	}
 }
 

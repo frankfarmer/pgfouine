@@ -22,7 +22,7 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-define('VERSION', '0.2');
+define('VERSION', '0.4.99');
 
 ini_set('max_execution_time', 7200);
 error_reporting(E_ALL);
@@ -39,10 +39,12 @@ function usage($error = false) {
 	if($error) {
 		stderr('Error: '.$error);
 	}
+	echo "\n";
 	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>] [-reports <report1,report2>]
   -file <file>                  log file to analyze
+  -outputfile <file>            output file (necessary for html-with-graphs format)
   -top <n>                      number of queries in lists. Default is 20.
-  -format <format>              output format: html or text. Default is html.
+  -format <format>              output format: html, html-with-graphs or text. Default is html.
   -logtype <logtype>            log type: only syslog is currently supported
   -reports <report1,report2>    list of reports type separated by a comma
                                 reports can be: overall, hourly, bytype, slowest, n-mosttime,
@@ -105,6 +107,26 @@ if(!isset($options['file'])) {
 	$filePath = realpath($options['file']);
 }
 
+
+if(isset($options['outputfile'])) {
+	$tmpOutputFilePath = $options['outputfile'];
+	$tmpOutputDirectory = dirname($tmpOutputFilePath);
+	$tmpOutputFileName = basename($tmpOutputFilePath);
+
+	if(file_exists($tmpOutputFilePath) && (!is_file($tmpOutputFilePath) || !is_writable($tmpOutputFilePath))) {
+		usage($tmpOutputFilePath.' already exists and is not a file or is not writable');
+	} elseif(!is_dir($tmpOutputDirectory) || !is_writable($tmpOutputDirectory)) {
+		usage($tmpOutputDirectory.'is not a directory, does not exist or is not writable');
+	} elseif(!$tmpOutputFileName) {
+		usage('cannot find a valid basename in '.$tmpOutputFilePath);
+	} else {
+		$outputFilePath = realpath($tmpOutputDirectory).'/'.$tmpOutputFileName;
+	}
+} else {
+	$outputFilePath = false;
+}
+setConfig('output_file_path', $outputFilePath);
+
 if(isset($options['top'])) {
 	if((int) $options['top'] > 0) {
 		$top = (int) $options['top'];
@@ -116,9 +138,12 @@ if(isset($options['top'])) {
 }
 setConfig('default_top_queries_number', $top);
 
-$supportedFormats = array('text' => 'TextReportAggregator', 'html' => 'HtmlReportAggregator');
+$supportedFormats = array('text' => 'TextReportAggregator', 'html' => 'HtmlReportAggregator', 'html-with-graphs' => 'HtmlWithGraphsReportAggregator');
 if(isset($options['format'])) {
 	if(array_key_exists($options['format'], $supportedFormats)) {
+		if($options['format'] == 'html-with-graphs' && !$outputFilePath) {
+			usage('you need to define an output file with -outputfile to use HTML with graphs format');
+		}
 		$aggregator = $supportedFormats[$options['format']];
 	} else {
 		usage('format not supported');
@@ -200,7 +225,17 @@ foreach($reports AS $report) {
 	$reportAggregator->addReport($supportedReports[$report]);
 }
 
-echo $reportAggregator->getOutput();
+if($outputFilePath) {
+	$outputFilePointer = @fopen($outputFilePath, 'w');
+	if($outputFilePointer) {
+		fwrite($outputFilePointer, $reportAggregator->getOutput());
+		fclose($outputFilePointer);
+	} else {
+		stderr('cannot open file '.$outputFilePath.' for writing');
+	}
+} else {
+	echo $reportAggregator->getOutput();
+}
 
 fclose($stderr);
 

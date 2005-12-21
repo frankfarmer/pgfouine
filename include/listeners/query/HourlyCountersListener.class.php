@@ -32,21 +32,21 @@ class HourlyCountersListener extends QueryListener {
 		}
 		$queryCounter =& $this->hourlyStatistics[$formattedTimestamp];
 		
-		$queryCounter->incrementQueryCount();
-		$queryCounter->incrementQueryDuration($query->getDuration());
+		$queryCounter->incrementQuery($query->getDuration());
 		
 		if($query->isSelect()) {
-			$queryCounter->incrementSelectCount();
+			$queryCounter->incrementSelect($query->getDuration());
 		} elseif($query->isUpdate()) {
-			$queryCounter->incrementUpdateCount();
+			$queryCounter->incrementUpdate($query->getDuration());
 		} elseif($query->isInsert()) {
-			$queryCounter->incrementInsertCount();
+			$queryCounter->incrementInsert($query->getDuration());
 		} elseif($query->isDelete()) {
-			$queryCounter->incrementDeleteCount();
+			$queryCounter->incrementDelete($query->getDuration());
 		}
 	}
 	
 	function & getHourlyStatistics() {
+		ksort($this->hourlyStatistics);
 		return $this->hourlyStatistics;
 	}
 }

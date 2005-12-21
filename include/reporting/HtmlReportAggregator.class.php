@@ -83,7 +83,7 @@ class HtmlReportAggregator extends ReportAggregator {
 			}
 			$menu .= '<a href="#'.$report->getReportClass().'">'.$report->getTitle().'</a>';
 			$reportsOutput .= $report->getHtmlTitle();
-			$reportsOutput .= $report->getHtml();
+			$reportsOutput .= $this->getHtmlOutput($report);
 			$reportsOutput .= "\n";
 		}
 		$menu .= '</div>';
@@ -106,6 +106,10 @@ class HtmlReportAggregator extends ReportAggregator {
 		$output .= '</div>';
 		
 		return $output;
+	}
+	
+	function getHtmlOutput(& $report) {
+		return $report->getHtml();
 	}
 	
 	function getFooter() {
