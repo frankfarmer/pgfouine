@@ -444,7 +444,7 @@ class awLabel {
 			$text->border = $this->border;
 			
 			if($this->padding !== NULL) {
-				call_user_func_array(array($text, 'setPadding'), $this->padding);
+				call_user_func_array(array(&$text, 'setPadding'), $this->padding);
 			}
 			
 			return $text;
