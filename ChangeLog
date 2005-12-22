@@ -1,3 +1,18 @@
+2005-12-22  Guillaume Smet <guillaume-pg@smet.org>
+
+	* more work on graphs
+	* tagged RELEASE_0_3 even if it is not an official release
+	before major parser changes
+
+2005-12-21  Guillaume Smet <guillaume-pg@smet.org>
+
+	* worked on graphs for hourly reports
+	* added all the command line stuff to manage graphs
+
+2005-12-20  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added Artichow library to draw graphs
+
 2005-12-19  Guillaume Smet <guillaume-pg@smet.org>
 
 	* applied patch from Laurent Almeras to add -from and -to
