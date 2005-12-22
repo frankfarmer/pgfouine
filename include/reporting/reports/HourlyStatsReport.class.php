@@ -63,6 +63,7 @@ class HourlyStatsReport extends Report {
 	function generateGraphs(& $statsListener) {
 		$hourlyStatistics =& $statsListener->getHourlyStatistics();
 		$hours = array_keys($hourlyStatistics);
+		$hourCount = count($hours);
 		
 		$hoursAxis = array();
 		$selectCountValues = array();
@@ -74,9 +75,20 @@ class HourlyStatsReport extends Report {
 		$writeDurationValues = array();
 		
 		$currentDay = 0;
-		foreach($hours AS $hour) {
+		for($i = 0; $i < $hourCount; $i++) {
+			$hour = $hours[$i];
+			$hourTimestamp = strtotime($hour);
+			
 			$counter =& $hourlyStatistics[$hour];
-			$hoursAxis[] = date("ga", strtotime($hour));
+			if($hourCount <= 24 || (date('G', $hourTimestamp) % 6 == 0)) {
+				if($i == 0 || date('G', $hourTimestamp) == 0) {
+					$hoursAxis[] = date("ga\nM j", $hourTimestamp);
+				} else {
+					$hoursAxis[] = date("ga", $hourTimestamp);
+				}
+			} else {
+				$hoursAxis[] = '';
+			}
 			$selectCountValues[] = $counter->getSelectCount();
 			if($counter->getSelectCount() > 0) {
 				$selectDurationValues[] = $counter->getSelectDuration() / $counter->getSelectCount();
@@ -94,6 +106,7 @@ class HourlyStatsReport extends Report {
 			} else {
 				$writeDurationValues[] = NULL;
 			}
+			unset($counter);
 		}
 		
 		// SELECT queries
@@ -139,7 +152,11 @@ class HourlyStatsReport extends Report {
 
 		$plot->mark->setType(MARK_CIRCLE);
 		$plot->mark->setFill(new MidRed);
-		$plot->mark->setSize(6);
+		if($hourCount <= 24) {
+			$plot->mark->setSize(6);
+		} else {
+			$plot->mark->setSize(2);
+		}
 
 		$group->legend->add($plot, 'Number of queries', LEGEND_MARK);
 		$group->add($plot);
@@ -150,10 +167,14 @@ class HourlyStatsReport extends Report {
 		
 		$plot->mark->setType(MARK_SQUARE);
 		$plot->mark->setFill(new DarkGreen);
-		$plot->mark->setSize(5);
+		if($hourCount <= 24) {
+			$plot->mark->setSize(5);
+		} else {
+			$plot->mark->setSize(2);
+		}
 		
 		$plot->setYAxis(PLOT_RIGHT);
-		$plot->setYMax(intval(max($selectDurationValues)) + 1);
+		$plot->setYMax(max($selectDurationValues));
 		
 		$group->legend->add($plot, 'Average duration (s)', LEGEND_MARK);
 		$group->add($plot);
@@ -228,10 +249,13 @@ class HourlyStatsReport extends Report {
 		
 		$plot->mark->setType(MARK_SQUARE);
 		$plot->mark->setFill(new DarkGreen);
-		$plot->mark->setSize(5);
+		if($hourCount <= 24) {
+			$plot->mark->setSize(5);
+		} else {
+			$plot->mark->setSize(2);
+		}
 		
 		$plot->setYAxis(PLOT_RIGHT);
-		$plot->setYMax(intval(max($writeDurationValues)) + 1);
 		
 		$group->legend->add($plot, 'Average duration (s)', LEGEND_MARK);
 		$group->add($plot);
