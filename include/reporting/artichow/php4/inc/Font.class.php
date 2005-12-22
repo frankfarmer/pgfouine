@@ -63,15 +63,17 @@ class awFont {
 		$color = $text->getColor();
 		$rgb = $color->getColor($drawer->resource);
 		
-		$function(
-			$drawer->resource,
-			$this->font,
-			$drawer->x + $p->x,
-			$drawer->y + $p->y + $add,
-			$text->getText(),
-			$rgb
-		);
-	
+		$lines = explode("\n", $text->getText());
+		for($i = 0; $i < count($lines); $i++) {
+			$function(
+				$drawer->resource,
+				$this->font,
+				$drawer->x + $p->x,
+				$drawer->y + $p->y + $add + $i * $this->getLineHeight($text),
+				$lines[$i],
+				$rgb
+			);
+		}
 	}
 	
 	/**
@@ -95,16 +97,24 @@ class awFont {
 			trigger_error("Unable to get font size", E_USER_ERROR);
 		}
 		
-		return (int)$fontWidth * strlen($text->getText());
+		$lines = explode("\n", $text->getText());
+		/* this is the correct algorithm but I consider only the first line for my needs
+		$textLength = 0;
+		for($i = 0; $i < count($lines); $i++) {
+			$textLength = max($textLength, strlen($lines[$i]));
+		}*/
+		$textLength = strlen($lines[0]);
+		
+		return (int)$fontWidth * $textLength;
 	
 	}
 	
 	/**
-	 * Get the height of a string
+	 * Get the height of a line
 	 *
 	 * @param &$text A string
 	 */
-	 function getTextHeight(&$text) {
+	 function getLineHeight(&$text) {
 	
 		if($text->getAngle() === 90) {
 			$text->setAngle(45);
@@ -122,6 +132,18 @@ class awFont {
 		
 		return (int)$fontHeight;
 
+	}
+	
+	/**
+	 * Get the height of a string
+	 *
+	 * @param &$text A string
+	 */
+	 function getTextHeight(&$text) {
+		$lines = explode("\n", $text->getText());
+		$lineCount = count($lines);
+		
+		return $this->getLineHeight($text) * $lineCount;
 	}
 
 }
