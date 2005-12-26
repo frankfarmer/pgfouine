@@ -21,44 +21,49 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class Accumulator {
-	var $listeners = array();
+class LogBlock {
+	var $logStream;
+	var $commandNumber;
+	var $lines = array();
+	var $host = '';
+	var $port = '';
+	var $user = '';
+	var $db = '';
+	var $complete = false;
 	
-	function append(& $line) {
+	function LogBlock($logStream, $commandNumber, & $line) {
+		$this->logStream =& $logStream;
+		$this->commandNumber = $commandNumber;
+		$this->addLine($line);
 	}
 	
-	function addListener($eventType, & $listener) {
-		$this->listeners[$eventType][] =& $listener;
+	function getCommandNumber() {
+		return $this->commandNumber;
 	}
 	
-	function fireEvent(& $logObject) {
-		$listeners =& $this->listeners[$logObject->getEventType()];
-		$countListeners = count($listeners);
-		for($i = 0; $i < $countListeners; $i++) {
-			$listener =& $listeners[$i];
-			$listener->fireEvent($logObject);
-			unset($listener);
-		}
+	function & getLines() {
+		return $this->lines;
+	}
+	
+	function addLine(& $line) {
+		$this->complete = $this->complete || $line->complete();
+		$this->lines[] =& $line;
+	}
+	
+	function isComplete() {
+		return $this->complete;
 	}
 	
 	function close() {
-		$this->flushLogStreams();
-		$this->closeListeners();
-	}
-	
-	function flushLogStreams() {
-	}
-	
-	function closeListeners() {
-		$eventTypes = array_keys($this->listeners);
-		foreach($eventTypes AS $eventType) {
-			$listenerCount = count($this->listeners[$eventType]);
-			for($i = 0; $i < $listenerCount; $i++) {
-				$listener =& $this->listeners[$eventType][$i];
-				$listener->close();
-				unset($listener);
+		$count = count($this->lines);
+		$logObject =& $this->lines[0]->getLogObject($this->logStream);
+				
+		if($logObject) {
+			for($i = 1; $i < $count; $i++) {
+				$this->lines[$i]->appendTo($logObject);
 			}
 		}
+		return $logObject;
 	}
 }
 

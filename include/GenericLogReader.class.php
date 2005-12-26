@@ -53,10 +53,8 @@ class GenericLogReader {
 		
 		foreach(array_keys($this->listeners) AS $listenerName) {
 			$listener =& $this->listeners[$listenerName];
-			if(is_a($listener, 'QueryListener')) {
-				$accumulator->addQueryListener($listener);
-			} else {
-				$accumulator->addErrorListener($listener);
+			foreach($listener->getSubscriptions() AS $eventType) {
+				$accumulator->addListener($eventType, $listener);
 			}
 		}
 		

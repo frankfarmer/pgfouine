@@ -21,19 +21,20 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class Query {
+class LogObject {
 	var $text;
 	var $db;
 	var $user;
+	var $timestamp;
+	var $commandNumber = 0;
 	var $duration = false;
 	var $ignored;
-	var $timestamp = 0;
-	var $commandNumber = 0;
-	var $parsingSubQueries = false;
-	var $subQueries = array();
+	var $context;
+	var $complete = false;
 
-	function Query($text = '', $ignored = false) {
-		if(DEBUG > 1 && !$text) stderr('Empty text for Query', true);
+	function LogObject($user, $db, $text = '', $ignored = false) {
+		$this->user = $user;
+		$this->db = $db;
 		$this->text = $text;
 		$this->ignored = $ignored;
 	}
@@ -50,29 +51,18 @@ class Query {
 	function getTimestamp() {
 		return $this->timestamp;
 	}
+	
+	function getEventType() {
+		return false;
+	}
 
 	function append($text) {
 		if(DEBUG > 1 && !$text) stderr('Empty text for append', true);
-		if($this->parsingSubQueries) {
-			$subQuery =& last($this->subQueries);
-			$subQuery .= ' '.normalizeWhitespaces($text);
-		} else {
-			$this->text .= ' '.$text;
-		}
+		$this->text .= ' '.$text;
 	}
 	
-	function setSubQuery($text) {
-		if(DEBUG > 1 && !$text) stderr('Empty text for setSubQuery', true);
-		$this->parsingSubQueries = true;
-		$this->subQueries[] = normalizeWhitespaces($text);
-	}
-	
-	function setDb($db) {
-		$this->db = $db;
-	}
-	
-	function setUser($user) {
-		$this->user = $user;
+	function setContext($context) {
+		$this->context = normalizeWhitespaces($context);
 	}
 	
 	function getNormalizedText() {
@@ -92,41 +82,12 @@ class Query {
 	function accumulateTo(& $accumulator) {
 		if(!$this->isIgnored()) {
 			$this->text = normalizeWhitespaces($this->text);
-			$accumulator->appendQuery($this);
+			$accumulator->fireEvent($this);
 		}
 	}
 
-	function isSelect() {
-		return $this->check('select');
-	}
-	
-	function isDelete() {
-		return $this->check('delete');
-	}
-	
-	function isInsert() {
-		return $this->check('insert');
-	}
-	
-	function isUpdate() {
-		return $this->check('update');
-	}
-	
-	function check($start) {
-		$queryStart = strtolower(substr(trim($this->text), 0, 10));
-		return (strpos($queryStart, $start) === 0);
-	}
-	
 	function isIgnored() {
-		return ($this->ignored || (getConfig('only_select') && !$this->isSelect()));
-	}
-	
-	function setDuration($duration) {
-		$this->duration = $duration;
-	}
-	
-	function getDuration() {
-		return $this->duration;
+		return $this->ignored;
 	}
 	
 	function getDb() {
@@ -141,12 +102,8 @@ class Query {
 		return $this->text;
 	}
 	
-	function isParsingSubQueries() {
-		return $this->parsingSubQueries;
-	}
-	
-	function getSubQueries() {
-		return $this->subQueries;
+	function getContext() {
+		return $this->context;
 	}
 }
 

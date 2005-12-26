@@ -22,32 +22,42 @@
  */
 
 class LogStream {
-	var $queries = array();
+	var $currentBlock = false;
+	var $logObjects = array();
 	var $host = '';
 	var $port = '';
 	var $user = '';
 	var $db = '';
 	
-	function & getQueries() {
-		return $this->queries;
+	function & getLogObjects() {
+		return $this->logObjects;
 	}
 
 	function append(& $line) {
-		return $line->appendTo($this);
-	}
-	
-	function push(& $query) {
-		$query->setDb($this->db);
-		$query->setUser($this->user);
-		$this->queries[] =& $query;
-	}
-
-	function & pop() {
-		return pop($this->queries);
-	}
-
-	function & last() {
-		return last($this->queries);
+		$logObject = false;
+		$lineCommandNumber = $line->getCommandNumber();
+		
+		if(!$this->currentBlock || (($lineCommandNumber != $this->currentBlock->getCommandNumber()) && $this->currentBlock->isComplete())) {
+			if($this->currentBlock) {
+				$logObject =& $this->currentBlock->close();
+			}
+			if($line->getLineNumber() == 1) {
+				$this->currentBlock = new LogBlock($this, $lineCommandNumber, $line);
+			} else {
+				stderr('we just close a LogBlock, line number should be 1 and is not', true);
+				stderr('line command number: '.$lineCommandNumber);
+				stderr('block command number: '.$this->currentBlock->getCommandNumber());
+				$this->currentBlock = false;
+			}
+		} else {
+			if(is_a($line, 'PostgreSQLContinuationLine') && $line->getText()) {
+				$lastLine =& last($this->currentBlock->getLines());
+				$lastLine->appendText($line->getText());
+			} else {
+				$this->currentBlock->addLine($line);
+			}
+		}
+		return $logObject;
 	}
 
 	function setHostConnection($host, $port) {
@@ -77,9 +87,11 @@ class LogStream {
 	}
 	
 	function flush(& $accumulator) {
-		while($query =& $this->pop()) {
-			$query->accumulateTo($accumulator);
-			unset($query);
+		if($this->currentBlock && $this->currentBlock->isComplete()) {
+			$logObject =& $this->currentBlock->close();
+			if($logObject) {
+				$logObject->accumulateTo($accumulator);
+			}
 		}
 	}
 }

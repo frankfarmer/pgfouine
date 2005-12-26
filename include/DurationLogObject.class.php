@@ -21,21 +21,21 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-require_once('lib/Profiler.class.php');
-
-require_once('Accumulator.class.php');
-require_once('Parser.class.php');
-require_once('LogBlock.class.php');
-require_once('LogStream.class.php');
-
-require_once('LogObject.class.php');
-require_once('QueryLogObject.class.php');
-require_once('DurationLogObject.class.php');
-require_once('ErrorLogObject.class.php');
-
-require_once('GenericLogReader.class.php');
-require_once('SlowestQueryList.class.php');
-require_once('NormalizedQuery.class.php');
-require_once('NormalizedError.class.php');
+class DurationLogObject extends LogObject {
+	var $duration;
+	
+	function DurationLogObject($user, $db, $duration) {
+		$this->LogObject($user, $db);
+		$this->duration = $duration;
+	}
+	
+	function getEventType() {
+		return EVENT_DURATION_ONLY;
+	}
+	
+	function getDuration() {
+		return $this->duration;
+	}
+}
 
 ?>

@@ -21,14 +21,18 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class ErrorQuery extends Query {
+class ErrorLogObject extends LogObject {
 	var $hint = '';
 	var $detail = '';
 	var $error = '';
 	
-	function ErrorQuery($text = 'No error message') {
+	function ErrorLogObject($user, $db, $text = 'No error message') {
 		$this->error = $text;
-		$this->Query($text);
+		$this->LogObject($user, $db, $text);
+	}
+	
+	function getEventType() {
+		return EVENT_ERROR;
 	}
 	
 	function appendStatement($text) {
@@ -52,13 +56,6 @@ class ErrorQuery extends Query {
 	function appendContext($context) {
 		if(DEBUG > 1 && empty($context)) stderr('Empty text for error context', true);
 		$this->context = $context;
-	}
-	
-	function accumulateTo(& $accumulator) {
-		if(!$this->isIgnored()) {
-			$this->text = normalizeWhitespaces($this->text);
-			$accumulator->appendError($this);
-		}
 	}
 	
 	function isIgnored() {
