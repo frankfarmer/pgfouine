@@ -25,18 +25,26 @@ class PostgreSQLDurationLine extends PostgreSQLLogLine {
 	var $ignore = false;
 	
 	function PostgreSQLDurationLine($timeString, $unit) {
-		$this->PostgreSQLLogLine('NO TEXT', $this->parseDuration($timeString, $unit));
+		$this->PostgreSQLLogLine('', $this->parseDuration($timeString, $unit));
 	}
 	
-	function appendTo(& $queries) {
-		$query =& $queries->last();
-		if($query) {
-			$query->setDuration($this->duration);
-			return $queries->pop();
+	function & getLogObject(& $logStream) {
+		if($this->lineNumber == 1) {
+			$durationLogObject = new DurationLogObject($logStream->getUser(), $logStream->getDb(), $this->duration);
+			$durationLogObject->setContextInformation($this->timestamp, $this->commandNumber);
+			return $durationLogObject;
 		} else {
 			stderr('Duration for no previous query', true);
 			return false;
 		}
+	}
+	
+	function appendTo(& $logObject) {
+		$logObject->setDuration($this->duration);
+	}
+	
+	function complete() {
+		return true;
 	}
 }
 

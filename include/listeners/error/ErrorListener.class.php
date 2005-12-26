@@ -27,6 +27,10 @@ class ErrorListener {
 	
 	function close() {
 	}
+	
+	function getSubscriptions() {
+		return array(EVENT_ERROR);
+	}
 }
 
 ?>

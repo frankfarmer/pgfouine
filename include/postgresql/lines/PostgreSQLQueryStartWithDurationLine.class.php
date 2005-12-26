@@ -35,15 +35,16 @@ class PostgreSQLQueryStartWithDurationLine extends PostgreSQLQueryStartLine {
 		}
 	}
 
-	function & appendTo(& $queries) {
-		$closedQuery =& $queries->pop();
-		
-		$query = new Query($this->text, $this->ignore);
+	function & getLogObject(& $logStream) {
+		$query = new QueryLogObject($logStream->getUser(), $logStream->getDb(), $this->text, $this->ignore);
 		$query->setDuration($this->duration);
 		$query->setContextInformation($this->timestamp, $this->commandNumber);
-		$queries->push($query);
 		
-		return $closedQuery;
+		return $query;
+	}
+	
+	function complete() {
+		return true;
 	}
 }
 

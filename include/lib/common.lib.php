@@ -24,6 +24,10 @@
 define('MIN_TIMESTAMP', 0);
 define('MAX_TIMESTAMP', 9999999999);
 
+define('EVENT_QUERY', 'query_event_type');
+define('EVENT_ERROR', 'error_event_type');
+define('EVENT_DURATION_ONLY', 'duration_only_event_type');
+
 function setConfig($key, $value) {
 	if(!isset($GLOBALS['config'])) {
 		$GLOBALS['config'] = array();
@@ -163,6 +167,8 @@ class RegExpMatch {
 class QueryCounter {
 	var $queryCount = 0;
 	var $queryDuration = 0;
+	var $identifiedQueryCount = 0;
+	var $identifiedQueryDuration = 0;
 	var $selectCount = 0;
 	var $selectDuration = 0;
 	var $updateCount = 0;
@@ -175,6 +181,11 @@ class QueryCounter {
 	function incrementQuery($duration) {
 		$this->queryCount ++;
 		$this->queryDuration += $duration;
+	}
+	
+	function incrementIdentifiedQuery($duration) {
+		$this->identifiedQueryCount ++;
+		$this->identifiedQueryDuration += $duration;
 	}
 	
 	function incrementSelect($duration) {
@@ -203,6 +214,14 @@ class QueryCounter {
 	
 	function getQueryDuration() {
 		return $this->queryDuration;
+	}
+	
+	function getIdentifiedQueryCount() {
+		return $this->identifiedQueryCount;
+	}
+	
+	function getIdentifiedQueryDuration() {
+		return $this->identifiedQueryDuration;
 	}
 	
 	function getSelectCount() {

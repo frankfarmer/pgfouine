@@ -1,3 +1,8 @@
+2005-12-25  Guillaume Smet <guillaume-pg@smet.org>
+
+	* rewrote large parts of the parser to fix various problems
+	* added the ability to take into account duration only log lines
+
 2005-12-22  Guillaume Smet <guillaume-pg@smet.org>
 
 	* more work on graphs

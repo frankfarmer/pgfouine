@@ -28,6 +28,10 @@ class QueryListener {
 	function close() {
 		//print_r($this);
 	}
+	
+	function getSubscriptions() {
+		return array(EVENT_QUERY);
+	}
 }
 
 ?>

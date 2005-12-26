@@ -30,14 +30,18 @@ class PostgreSQLLogLine {
 	var $duration;
 	var $ignore;
 	
-	function PostgreSQLLogLine($text = 'NO TEXT', $duration = false) {
+	function PostgreSQLLogLine($text = '', $duration = false) {
 		$this->text = rtrim($text);
 		$this->duration = $duration;
 		
 		if(DEBUG > 1 && !$text) stderr('Empty text for line', true);
 	}
+	
+	function appendText($text) {
+		$this->text .= $text;
+	}
 
-	function toString() {
+	function getText() {
 		return $this->text;
 	}
 
@@ -50,8 +54,12 @@ class PostgreSQLLogLine {
 		return $duration;
 	}
 	
-	function dump() {
-		return get_class($this).' ('.$this->connectionId.'): '.$this->text;
+	function getLogObject(& $logStream) {
+		return false;
+	}
+	
+	function appendTo(& $logObject) {
+		return false;
 	}
 	
 	function setContextInformation($timestamp, $connectionId, $commandNumber, $lineNumber) {
@@ -75,6 +83,10 @@ class PostgreSQLLogLine {
 	
 	function getLineNumber() {
 		return $this->lineNumber;
+	}
+	
+	function complete() {
+		return false;
 	}
 }
 

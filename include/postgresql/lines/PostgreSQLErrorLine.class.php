@@ -24,12 +24,15 @@
 class PostgreSQLErrorLine extends PostgreSQLLogLine {
 	var $ignore = false;
 
-	function appendTo(& $queries) {
-		$closedQuery = $queries->pop();
-		$errorQuery = new ErrorQuery($this->text);
-		$errorQuery->setContextInformation($this->timestamp, $this->commandNumber);
-		$queries->push($errorQuery);
-		return $closedQuery;
+	function & getLogObject(& $logStream) {
+		$error = new ErrorLogObject($logStream->getUser(), $logStream->getDb(), $this->text);
+		$error->setContextInformation($this->timestamp, $this->commandNumber);
+		
+		return $error;
+	}
+	
+	function complete() {
+		return true;
 	}
 }
 

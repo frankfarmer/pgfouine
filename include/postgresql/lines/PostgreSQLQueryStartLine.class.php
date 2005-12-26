@@ -32,11 +32,18 @@ class PostgreSQLQueryStartLine extends PostgreSQLLogLine {
 		return $text;
 	}
 	
-	function appendTo(& $queries) {
-		$query = new Query($this->text, $this->ignore);
+	function & getLogObject(& $logStream) {
+		$query = new QueryLogObject($logStream->getUser(), $logStream->getDb(), $this->text, $this->ignore);
 		$query->setContextInformation($this->timestamp, $this->commandNumber);
-		$queries->push($query);
-		return false;
+		
+		return $query;
+	}
+	
+	function appendTo(& $logObject) {
+		$query = new QueryLogObject($logObject->getUser(), $logObject->getDb(), $this->text, $this->ignore);
+		$query->setContextInformation($this->timestamp, $this->commandNumber);
+		
+		$logObject->addSubQuery($logObject);
 	}
 }
 

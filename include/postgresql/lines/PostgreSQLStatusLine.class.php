@@ -22,22 +22,24 @@
  */
 
 class PostgreSQLStatusLine extends PostgreSQLLogLine {
-	var $ignore = true;
-	
-	function appendTo(& $stream) {
+	function getLogObject(& $logStream) {
 		global $postgreSQLRegexps;
 		
 		$connectionReceived =& $postgreSQLRegexps['ConnectionReceived']->match($this->text);
 		if($connectionReceived) {
-			$stream->setHostConnection($connectionReceived->getMatch(1), $connectionReceived->getMatch(2));
+			$logStream->setHostConnection($connectionReceived->getMatch(1), $connectionReceived->getMatch(2));
+			return false;
 		}
 		
 		$connectionAuthorized =& $postgreSQLRegexps['ConnectionAuthorized']->match($this->text);
 		if($connectionAuthorized) {
-			$stream->setUserDb($connectionAuthorized->getMatch(1), $connectionAuthorized->getMatch(2));
+			$logStream->setUserDb($connectionAuthorized->getMatch(1), $connectionAuthorized->getMatch(2));
 		}
-		
 		return false;
+	}
+	
+	function complete() {
+		return true;
 	}
 }
 
