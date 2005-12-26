@@ -41,6 +41,8 @@ class HourlyStatsReport extends Report {
 		
 		$html = '';
 		
+		// TODO
+		
 		$html .= '<pre>';
 		$html .= getFormattedArray($statsListener->getHourlyStatistics());
 		$html .= '</pre>';
@@ -54,6 +56,7 @@ class HourlyStatsReport extends Report {
 		$this->generateGraphs($statsListener);
 
 		$html = '';
+		$html .= '<p><img src="'.$this->reportAggregator->getImageBaseName('hourly_all_queries').'" alt="Hourly queries" /></p>';
 		$html .= '<p><img src="'.$this->reportAggregator->getImageBaseName('hourly_select_queries').'" alt="Hourly SELECT queries" /></p>';
 		$html .= '<p><img src="'.$this->reportAggregator->getImageBaseName('hourly_write_queries').'" alt="Hourly write queries" /></p>';
 
@@ -66,6 +69,8 @@ class HourlyStatsReport extends Report {
 		$hourCount = count($hours);
 		
 		$hoursAxis = array();
+		$queryCountValues = array();
+		$queryDurationValues = array();
 		$selectCountValues = array();
 		$selectDurationValues = array();
 		$insertCountValues = array();
@@ -89,6 +94,12 @@ class HourlyStatsReport extends Report {
 			} else {
 				$hoursAxis[] = '';
 			}
+			$queryCountValues[] = $counter->getQueryCount();
+			if($counter->getQueryCount() > 0) {
+				$queryDurationValues[] = $counter->getQueryDuration() / $counter->getQueryCount();
+			} else {
+				$queryDurationValues[] = NULL;
+			}
 			$selectCountValues[] = $counter->getSelectCount();
 			if($counter->getSelectCount() > 0) {
 				$selectDurationValues[] = $counter->getSelectDuration() / $counter->getSelectCount();
@@ -108,6 +119,79 @@ class HourlyStatsReport extends Report {
 			}
 			unset($counter);
 		}
+		
+		// All queries
+		$graph = new Graph(800, 250);
+		$graph->setAntiAliasing(true);
+		$graph->setBackgroundColor(new Color(0xFF, 0xFF, 0xFF));
+		
+		$graph->title->set('All queries');
+		$graph->title->setPadding(30, 30, 2, 2);
+		$graph->title->setFont(new Vera(8));
+		$graph->title->setColor(new Color(0x00, 0x00, 0x00));
+		$graph->title->setBackgroundColor(new Color(0xFE, 0xE3, 0xC4));
+		$graph->title->border->show();
+		$graph->title->border->setColor(new Color(0xFF, 0xB4, 0x62));
+		
+		$group = new PlotGroup();
+		$group->setSize(0.82, 1);
+		$group->setCenter(0.41, 0.5);
+		$group->setPadding(40, 40, 30, 27);
+		$group->setSpace(1, 1);
+		
+		$group->grid->setColor(new Color(0xC4, 0xC4, 0xC4));
+		$group->grid->setType(LINE_DASHED);
+		$group->grid->setBackgroundColor(new White);
+		
+		$group->axis->left->setColor(new MidRed);
+		$group->axis->left->label->setFont(new Font2);
+		
+		$group->axis->right->setColor(new DarkGreen);
+		$group->axis->right->label->setFont(new Font2);
+
+		$group->axis->bottom->setLabelText($hoursAxis);
+		$group->axis->bottom->label->setFont(new Font1);
+		
+		$group->legend->setAlign(LEGEND_RIGHT, LEGEND_BOTTOM);
+		$group->legend->setPosition(1.21, 0.88);
+		$group->legend->setTextFont(new Vera(8));
+		$group->legend->setSpace(10);
+		
+		$plot = new LinePlot($queryCountValues, LINEPLOT_MIDDLE);
+		$plot->setColor(new Orange());
+		$plot->setFillColor(new LightOrange(80));
+
+		$plot->mark->setType(MARK_CIRCLE);
+		$plot->mark->setFill(new MidRed);
+		if($hourCount <= 24) {
+			$plot->mark->setSize(6);
+		} else {
+			$plot->mark->setSize(2);
+		}
+
+		$group->legend->add($plot, 'Number of queries', LEGEND_MARK);
+		$group->add($plot);
+		
+		$plot = new LinePlot($queryDurationValues, LINEPLOT_MIDDLE);
+		$plot->setColor(new Color(120, 120, 30, 10));
+		$plot->setFillColor(new Color(120, 120, 60, 90));
+		
+		$plot->mark->setType(MARK_SQUARE);
+		$plot->mark->setFill(new DarkGreen);
+		if($hourCount <= 24) {
+			$plot->mark->setSize(5);
+		} else {
+			$plot->mark->setSize(2);
+		}
+		
+		$plot->setYAxis(PLOT_RIGHT);
+		$plot->setYMax(max($selectDurationValues));
+		
+		$group->legend->add($plot, 'Average duration (s)', LEGEND_MARK);
+		$group->add($plot);
+		
+		$graph->add($group);
+		$graph->draw($this->reportAggregator->getImagePath('hourly_all_queries'));
 		
 		// SELECT queries
 		$graph = new Graph(800, 250);

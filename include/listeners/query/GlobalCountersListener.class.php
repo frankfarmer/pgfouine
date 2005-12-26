@@ -22,55 +22,68 @@
  */
 
 class GlobalCountersListener extends QueryListener {
-	var $queryCount = 0;
-	var $queryDuration = 0;
-	var $selectCount = 0;
-	var $updateCount = 0;
-	var $insertCount = 0;
-	var $deleteCount = 0;
+	var $counter;
 	var $firstQueryTimestamp = MAX_TIMESTAMP;
 	var $lastQueryTimestamp = MIN_TIMESTAMP;
 	
-	function fireEvent(& $query) {
-		$this->queryCount++;
-		$this->queryDuration += $query->getDuration();
+	function GlobalCountersListener() {
+		$this->counter = new QueryCounter();
+	}
+	
+	function fireEvent(& $logObject) {
+		$this->firstQueryTimestamp = min($logObject->getTimestamp(), $this->firstQueryTimestamp);
+		$this->lastQueryTimestamp = max($logObject->getTimestamp(), $this->lastQueryTimestamp);
 		
-		$this->firstQueryTimestamp = min($query->getTimestamp(), $this->firstQueryTimestamp);
-		$this->lastQueryTimestamp = max($query->getTimestamp(), $this->lastQueryTimestamp);
+		$this->counter->incrementQuery($logObject->getDuration());
 		
-		if($query->isSelect()) {
-			$this->selectCount ++;
-		} elseif($query->isUpdate()) {
-			$this->updateCount ++;
-		} elseif($query->isInsert()) {
-			$this->insertCount ++;
-		} elseif($query->isDelete()) {
-			$this->deleteCount ++;
+		if($logObject->getEventType() == EVENT_QUERY) {
+			$this->counter->incrementIdentifiedQuery($logObject->getDuration());
+			if($logObject->isSelect()) {
+				$this->counter->incrementSelect($logObject->getDuration());
+			} elseif($logObject->isUpdate()) {
+				$this->counter->incrementUpdate($logObject->getDuration());
+			} elseif($logObject->isInsert()) {
+				$this->counter->incrementInsert($logObject->getDuration());
+			} elseif($logObject->isDelete()) {
+				$this->counter->incrementDelete($logObject->getDuration());
+			}
 		}
 	}
 	
+	function getSubscriptions() {
+		return array_merge(parent::getSubscriptions(), array(EVENT_DURATION_ONLY));
+	}
+	
 	function getQueryCount() {
-		return $this->queryCount;
+		return $this->counter->getQueryCount();
 	}
 	
 	function getQueryDuration() {
-		return $this->queryDuration;
+		return $this->counter->getQueryDuration();
+	}
+	
+	function getIdentifiedQueryCount() {
+		return $this->counter->getIdentifiedQueryCount();
+	}
+	
+	function getIdentifiedQueryDuration() {
+		return $this->counter->getIdentifiedQueryDuration();
 	}
 	
 	function getSelectCount() {
-		return $this->selectCount;
+		return $this->counter->getSelectCount();
 	}
 	
 	function getUpdateCount() {
-		return $this->updateCount;
+		return $this->counter->getUpdateCount();
 	}
 	
 	function getInsertCount() {
-		return $this->insertCount;
+		return $this->counter->getInsertCount();
 	}
 	
 	function getDeleteCount() {
-		return $this->deleteCount;
+		return $this->counter->getDeleteCount();
 	}
 	
 	function getFirstQueryTimestamp() {

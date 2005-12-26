@@ -24,25 +24,32 @@
 class HourlyCountersListener extends QueryListener {
 	var $hourlyStatistics = array();
 	
-	function fireEvent(& $query) {
-		$formattedTimestamp = date('Y-m-d H:00:00', $query->getTimestamp());
+	function fireEvent(& $logObject) {
+		$formattedTimestamp = date('Y-m-d H:00:00', $logObject->getTimestamp());
 		
 		if(!isset($this->hourlyStatistics[$formattedTimestamp])) {
 			$this->hourlyStatistics[$formattedTimestamp] = new QueryCounter();
 		}
 		$queryCounter =& $this->hourlyStatistics[$formattedTimestamp];
 		
-		$queryCounter->incrementQuery($query->getDuration());
+		$queryCounter->incrementQuery($logObject->getDuration());
 		
-		if($query->isSelect()) {
-			$queryCounter->incrementSelect($query->getDuration());
-		} elseif($query->isUpdate()) {
-			$queryCounter->incrementUpdate($query->getDuration());
-		} elseif($query->isInsert()) {
-			$queryCounter->incrementInsert($query->getDuration());
-		} elseif($query->isDelete()) {
-			$queryCounter->incrementDelete($query->getDuration());
+		if($logObject->getEventType() == EVENT_QUERY) {
+			$queryCounter->incrementIdentifiedQuery($logObject->getDuration());
+			if($logObject->isSelect()) {
+				$queryCounter->incrementSelect($logObject->getDuration());
+			} elseif($logObject->isUpdate()) {
+				$queryCounter->incrementUpdate($logObject->getDuration());
+			} elseif($logObject->isInsert()) {
+				$queryCounter->incrementInsert($logObject->getDuration());
+			} elseif($logObject->isDelete()) {
+				$queryCounter->incrementDelete($logObject->getDuration());
+			}
 		}
+	}
+	
+	function getSubscriptions() {
+		return array_merge(parent::getSubscriptions(), array(EVENT_DURATION_ONLY));
 	}
 	
 	function & getHourlyStatistics() {
