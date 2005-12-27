@@ -79,8 +79,12 @@ class GenericLogReader {
 		
 		$currentTimestamp = time();
 		while (!feof($filePointer)) {
+			$text = rtrim(fgets($filePointer), "\r\n");
+			if(empty($text)) {
+				continue;
+			}
 			$lineParsedCounter ++;
-			$text = fgets($filePointer);
+			
 			$line =& $lineParser->parse($text);
 			if($line) {
 				if(!isset($this->firstLineTimestamp)) {
