@@ -74,6 +74,13 @@ class awLabel {
 	 * @var string
 	 */
 	var $function;
+	
+	/**
+	 * Callback function to format output
+	 *
+	 * @var string
+	 */
+	var $formatFunction;
 
 	/**
 	 * Padding
@@ -237,6 +244,15 @@ class awLabel {
 	 */
 	 function getCallbackFunction() {
 		return $this->function;
+	}
+	
+	/**
+	 * Set a callback function to format the labels
+	 *
+	 * @param string $function
+	 */
+	 function setCallbackFormatFunction($function) {
+		$this->formatFunction =& $function;
 	}
 	
 	/**
@@ -428,6 +444,9 @@ class awLabel {
 			
 			if(is_string($this->function)) {
 				$value = call_user_func($this->function, $value);
+			}
+			if(!is_null($this->formatFunction)) {
+				$value = call_user_func($this->formatFunction, $value);
 			}
 		
 			$text = new awText($value);
