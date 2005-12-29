@@ -96,7 +96,7 @@ class ReportAggregator {
 	}
 	
 	function formatTimestamp($timestamp) {
-		return date('Y-m-d G:i:s', $timestamp);
+		return date('Y-m-d H:i:s', $timestamp);
 	}
 	
 	function formatDuration($duration, $decimals = 2) {
