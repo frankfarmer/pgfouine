@@ -24,7 +24,7 @@
 
 define('VERSION', '0.4');
 
-ini_set('max_execution_time', 7200);
+ini_set('max_execution_time', 18000);
 error_reporting(E_ALL);
 
 require_once('include/lib/common.lib.php');
