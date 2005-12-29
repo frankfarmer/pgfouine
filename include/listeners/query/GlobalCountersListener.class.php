@@ -26,13 +26,21 @@ class GlobalCountersListener extends QueryListener {
 	var $firstQueryTimestamp = MAX_TIMESTAMP;
 	var $lastQueryTimestamp = MIN_TIMESTAMP;
 	
+	var $currentTimestamp = 0;
+	var $currentTimestampQueryCount = 0;
+	
+	var $queryPeakTimestamp = 0;
+	var $queryPeakQueryCount = 0;
+	
 	function GlobalCountersListener() {
 		$this->counter = new QueryCounter();
 	}
 	
 	function fireEvent(& $logObject) {
-		$this->firstQueryTimestamp = min($logObject->getTimestamp(), $this->firstQueryTimestamp);
-		$this->lastQueryTimestamp = max($logObject->getTimestamp(), $this->lastQueryTimestamp);
+		$objectTimestamp = $logObject->getTimestamp();
+		
+		$this->firstQueryTimestamp = min($objectTimestamp, $this->firstQueryTimestamp);
+		$this->lastQueryTimestamp = max($objectTimestamp, $this->lastQueryTimestamp);
 		
 		$this->counter->incrementQuery($logObject->getDuration());
 		
@@ -47,6 +55,17 @@ class GlobalCountersListener extends QueryListener {
 			} elseif($logObject->isDelete()) {
 				$this->counter->incrementDelete($logObject->getDuration());
 			}
+		}
+		
+		if($objectTimestamp == $this->currentTimestamp) {
+			$this->currentTimestampQueryCount++;
+		} else {
+			if($this->currentTimestampQueryCount > $this->queryPeakQueryCount) {
+				$this->queryPeakQueryCount = $this->currentTimestampQueryCount;
+				$this->queryPeakTimestamp = $this->currentTimestamp;
+			}
+			$this->currentTimestampQueryCount = 0;
+			$this->currentTimestamp = $objectTimestamp;
 		}
 	}
 	
@@ -92,6 +111,14 @@ class GlobalCountersListener extends QueryListener {
 	
 	function getLastQueryTimestamp() {
 		return $this->lastQueryTimestamp;
+	}
+	
+	function getQueryPeakTimestamp() {
+		return $this->queryPeakTimestamp;
+	}
+	
+	function getQueryPeakQueryCount() {
+		return $this->queryPeakQueryCount;
 	}
 }
 

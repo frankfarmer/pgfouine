@@ -24,8 +24,11 @@
 class HourlyCountersListener extends QueryListener {
 	var $hourlyStatistics = array();
 	
+	var $queryPeaksStatistics = array();
+	
 	function fireEvent(& $logObject) {
-		$formattedTimestamp = date('Y-m-d H:00:00', $logObject->getTimestamp());
+		$objectTimestamp = $logObject->getTimestamp();
+		$formattedTimestamp = date('Y-m-d H:00:00', $objectTimestamp);
 		
 		if(!isset($this->hourlyStatistics[$formattedTimestamp])) {
 			$this->hourlyStatistics[$formattedTimestamp] = new QueryCounter();
@@ -46,6 +49,12 @@ class HourlyCountersListener extends QueryListener {
 				$queryCounter->incrementDelete($logObject->getDuration());
 			}
 		}
+		
+		$mainKey = $objectTimestamp - ($objectTimestamp % (5*60));
+		if(!isset($this->queryPeaksStatistics[$mainKey][$objectTimestamp])) {
+			$this->queryPeaksStatistics[$mainKey][$objectTimestamp] = 0;
+		}
+		$this->queryPeaksStatistics[$mainKey][$objectTimestamp] ++;
 	}
 	
 	function getSubscriptions() {
@@ -55,6 +64,11 @@ class HourlyCountersListener extends QueryListener {
 	function & getHourlyStatistics() {
 		ksort($this->hourlyStatistics);
 		return $this->hourlyStatistics;
+	}
+	
+	function & getQueryPeaksStatistics() {
+		ksort($this->queryPeaksStatistics);
+		return $this->queryPeaksStatistics;
 	}
 }
 
