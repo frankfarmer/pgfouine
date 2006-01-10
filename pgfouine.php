@@ -76,7 +76,14 @@ for($i = 0; $i < $argvCount; $i++) {
 			$value = $argv[$i+1];
 			$i++;
 		}
-		$options[$optionKey] = $value;
+		if($optionKey == 'report') {
+			if(!isset($options[$optionKey])) {
+				$options[$optionKey] = array();
+			}
+			$options[$optionKey][] = $value;
+		} else {
+			$options[$optionKey] = $value;
+		}
 	} else {
 		usage('invalid options format');
 	}
@@ -219,12 +226,17 @@ setConfig('to_timestamp', $toTimestamp);
 
 $logReader = new GenericLogReader($filePath, $parser, 'PostgreSQLAccumulator');
 
-$reportAggregator = new $aggregator($logReader);
-
-foreach($reports AS $report) {
-	$reportAggregator->addReport($supportedReports[$report]);
+foreach($reports AS $file => $reportList) {
+	$reportAggregator = new $aggregator($file);
+	foreach($reportList AS $report) {
+		$reportAggregator->addReport($supportedReports[$report]);
+	}
+	$logReader->addAggregator($reportAggregator);
+	unset($reportAggregator);
 }
 
+$logReader->parse();
+$logReader->output();
 if($outputFilePath) {
 	$outputFilePointer = @fopen($outputFilePath, 'w');
 	if($outputFilePointer) {
