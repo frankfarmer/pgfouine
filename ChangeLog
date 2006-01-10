@@ -1,37 +1,12 @@
-2005-12-25  Guillaume Smet <guillaume-pg@smet.org>
+2006-01-10  Guillaume Smet <guillaume-pg@smet.org>
 
-	* rewrote large parts of the parser to fix various problems
-	* added the ability to take into account duration only log lines
+	* fixed a bug on duration if log_duration was set to true
+	submitted by David Link
+	* improved the sort in normalized queries reports
+	* released 0.2.1
 
-2005-12-22  Guillaume Smet <guillaume-pg@smet.org>
+2005-12-04  Guillaume Smet <guillaume-pg@smet.org>
 
-	* more work on graphs
-	* tagged RELEASE_0_3 even if it is not an official release
-	before major parser changes
-
-2005-12-21  Guillaume Smet <guillaume-pg@smet.org>
-
-	* worked on graphs for hourly reports
-	* added all the command line stuff to manage graphs
-
-2005-12-20  Guillaume Smet <guillaume-pg@smet.org>
-
-	* added Artichow library to draw graphs
-
-2005-12-19  Guillaume Smet <guillaume-pg@smet.org>
-
-	* applied patch from Laurent Almeras to add -from and -to
-	options (ability to filter on timestamps)
-	* worked on hourly statistics (no pretty output yet)
-
-2005-12-18  Guillaume Smet <guillaume-pg@smet.org>
-
-	* enhanced the syslog parser to get log line timestamps
-	* added the ability to get the timestamp of a query
-
-2005-12-16  Guillaume Smet <guillaume-pg@smet.org>
-
-	* fixed a few bugs
 	* released 0.2
 
 2005-11-28  Guillaume Smet <guillaume-pg@smet.org>
