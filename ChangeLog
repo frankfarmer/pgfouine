@@ -1,3 +1,7 @@
+2006-01-11  Guillaume Smet <guillaume-pg@smet.org>
+
+	* it is now possible to generate several reports with only one parse
+
 2005-12-25  Guillaume Smet <guillaume-pg@smet.org>
 
 	* rewrote large parts of the parser to fix various problems

@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005 Guillaume Smet
+ * Copyright (c) 2005-2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ class GenericLogReader {
 	var $firstLineTimestamp;
 	var $lastLineTimestamp;
 	
+	var $reportAggregators = array();
 	var $listeners = array();
 	
 	function GenericLogReader($fileName, $lineParserName, $accumulatorName) {
@@ -42,9 +43,19 @@ class GenericLogReader {
 		$this->lineParserName = $lineParserName;
 		$this->accumulatorName = $accumulatorName;
 	}
+	
+	function addReportAggregator(& $reportAggregator) {
+		$this->reportAggregators[] =& $reportAggregator;
+	}
+	
+	function & getReportAggregators() {
+		return $this->reportAggregators;
+	}
 
 	function parse() {
 		global $lineParsedCounter;
+		
+		$this->prepare();
 		
 		$startTimestamp = time();
 		
@@ -117,6 +128,24 @@ class GenericLogReader {
 		if(PROFILE) {
 			$GLOBALS['profiler']->end();
 			$GLOBALS['profiler']->displayProfile();
+		}
+	}
+	
+	function output() {
+		for($i = 0; $i < count($this->reportAggregators); $i++) {
+			$this->reportAggregators[$i]->output();
+		}
+	}
+	
+	function prepare() {
+		$needs = array();
+		
+		for($i = 0; $i < count($this->reportAggregators); $i++) {
+			$needs = array_merge($needs, $this->reportAggregators[$i]->getNeeds());
+		}
+		$needs = array_unique($needs);
+		foreach($needs AS $need) {
+			$this->addListener($need);
 		}
 	}
 	

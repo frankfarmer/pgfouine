@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005 Guillaume Smet
+ * Copyright (c) 2005-2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,8 @@
 
 class TextReportAggregator extends ReportAggregator {
 	
-	function TextReportAggregator(& $logReader) {
-		$this->ReportAggregator($logReader);
+	function TextReportAggregator(& $logReader, $outputFilePath = false) {
+		$this->ReportAggregator($logReader, $outputFilePath);
 	}
 	
 	function getHeader() {
@@ -34,11 +34,11 @@ class TextReportAggregator extends ReportAggregator {
 	}
 	
 	function getBody() {
-		$count = count($this->reports);
+		$count = count($this->reportBlocks);
 		$output = '';
 		for($i = 0; $i < $count; $i++) {
-			$output .= $this->reports[$i]->getTextTitle();
-			$output .= $this->reports[$i]->getText();
+			$output .= $this->reportBlocks[$i]->getTextTitle();
+			$output .= $this->reportBlocks[$i]->getText();
 			$output .= "\n";
 		}
 		return $output;

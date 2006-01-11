@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005 Guillaume Smet
+ * Copyright (c) 2005-2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
 class HtmlReportAggregator extends ReportAggregator {
 	var $geshi;
 	
-	function HtmlReportAggregator(& $logReader) {
-		$this->ReportAggregator($logReader);
+	function HtmlReportAggregator(& $logReader, $outputFilePath = false) {
+		$this->ReportAggregator($logReader, $outputFilePath);
 		
 		$this->geshi = new GeSHi('', 'sql');
 		$this->geshi->enable_classes();
@@ -71,19 +71,19 @@ class HtmlReportAggregator extends ReportAggregator {
 	}
 	
 	function getBody() {
-		$count = count($this->reports);
+		$count = count($this->reportBlocks);
 		
 		$reportsOutput = '';
 		$menu = '<div class="menu">';
 		
 		for($i = 0; $i < $count; $i++) {
-			$report =& $this->reports[$i];
+			$reportBlock =& $this->reportBlocks[$i];
 			if($i > 0) {
 				$menu .= ' | ';
 			}
-			$menu .= '<a href="#'.$report->getReportClass().'">'.$report->getTitle().'</a>';
-			$reportsOutput .= $report->getHtmlTitle();
-			$reportsOutput .= $this->getHtmlOutput($report);
+			$menu .= '<a href="#'.$reportBlock->getReportClass().'">'.$reportBlock->getTitle().'</a>';
+			$reportsOutput .= $reportBlock->getHtmlTitle();
+			$reportsOutput .= $this->getHtmlOutput($reportBlock);
 			$reportsOutput .= "\n";
 		}
 		$menu .= '</div>';
@@ -108,8 +108,8 @@ class HtmlReportAggregator extends ReportAggregator {
 		return $output;
 	}
 	
-	function getHtmlOutput(& $report) {
-		return $report->getHtml();
+	function getHtmlOutput(& $reportBlock) {
+		return $reportBlock->getHtml();
 	}
 	
 	function getFooter() {

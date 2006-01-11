@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005 Guillaume Smet
+ * Copyright (c) 2005-2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,25 +22,23 @@
  */
 
 class HtmlWithGraphsReportAggregator extends HtmlReportAggregator {
-	function getHtmlOutput(& $report) {
-		if(method_exists($report, 'getHtmlWithGraphs')) {
-			$html = $report->getHtmlWithGraphs();
+	function getHtmlOutput(& $reportBlock) {
+		if(method_exists($reportBlock, 'getHtmlWithGraphs')) {
+			$html = $reportBlock->getHtmlWithGraphs();
 		} else {
-			$html = $report->getHtml();
+			$html = $reportBlock->getHtml();
 		}
 		return $html;
 	}
 
 	function getImagePath($imageName) {
-		$outputFilePath = getConfig('output_file_path');
-		$directory = dirname($outputFilePath);
+		$directory = dirname($this->outputFilePath);
 		$imagePath = $directory.'/'.$this->getImageBaseName($imageName);
 		return $imagePath;
 	}
 
 	function getImageBaseName($imageName) {
-		$outputFilePath = getConfig('output_file_path');
-		$fileName = basename($outputFilePath);
+		$fileName = basename($this->outputFilePath);
 		if(strpos($fileName, '.') > 0) {
 			$baseName = substr($fileName, 0, strrpos($fileName, '.'));
 		} else {

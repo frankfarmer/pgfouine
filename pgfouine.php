@@ -5,7 +5,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005 Guillaume Smet
+ * Copyright (c) 2005-2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,22 +40,22 @@ function usage($error = false) {
 		stderr('Error: '.$error);
 	}
 	echo "\n";
-	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>] [-reports <report1,report2>]
-  -file <file>                  log file to analyze
-  -outputfile <file>            output file (necessary for html-with-graphs format)
-  -top <n>                      number of queries in lists. Default is 20.
-  -format <format>              output format: html, html-with-graphs or text. Default is html.
-  -logtype <logtype>            log type: only syslog is currently supported
-  -reports <report1,report2>    list of reports type separated by a comma
-                                reports can be: overall, hourly, bytype, slowest, n-mosttime,
-                                 n-mostfrequent, n-slowestaverage, n-mostfrequenterrors
-  -examples <n>                 maximum number of examples for a normalized query
-  -onlyselect                   ignore all queries but SELECT
-  -from "date"                  ignore lines logged before this date (uses strtotime)
-  -to "date"                    ignore lines logged after this date (uses strtotime)
-  -debug                        debug mode
-  -profile                      profile mode
-  -help                         this help
+	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>] [-report [outputfile=]<block1,block2>]
+  -file <file>                           log file to analyze
+  -top <n>                               number of queries in lists. Default is 20.
+  -format <format>                       output format: html, html-with-graphs or text. Default is html.
+  -logtype <logtype>                     log type: only syslog is currently supported
+  -report [outputfile=]<block1,block2>   list of report blocks separated by a comma
+                                         report blocks can be: overall, hourly, bytype, slowest, n-mosttime,
+                                          n-mostfrequent, n-slowestaverage, n-mostfrequenterrors
+                                         you can add several -report options if you want to generate several reports at once
+  -examples <n>                          maximum number of examples for a normalized query
+  -onlyselect                            ignore all queries but SELECT
+  -from "date"                           ignore lines logged before this date (uses strtotime)
+  -to "date"                             ignore lines logged after this date (uses strtotime)
+  -debug                                 debug mode
+  -profile                               profile mode
+  -help                                  this help
 ';
 	if($error) {
 		exit(1);
@@ -64,9 +64,33 @@ function usage($error = false) {
 	}
 }
 
+function checkOutputFilePath($filePath) {
+	if(!$filePath) {
+		return false;
+	}
+	
+	$tmpOutputFilePath = $filePath;
+	$tmpOutputDirectory = dirname($tmpOutputFilePath);
+	$tmpOutputFileName = basename($tmpOutputFilePath);
+
+	if(file_exists($tmpOutputFilePath) && (!is_file($tmpOutputFilePath) || !is_writable($tmpOutputFilePath))) {
+		usage($tmpOutputFilePath.' already exists and is not a file or is not writable');
+		return false;
+	} elseif(!is_dir($tmpOutputDirectory) || !is_writable($tmpOutputDirectory)) {
+		usage($tmpOutputDirectory.' is not a directory, does not exist or is not writable');
+		return false;
+	} elseif(!$tmpOutputFileName) {
+		usage('cannot find a valid basename in '.$tmpOutputFilePath);
+		return false;
+	} else {
+		$outputFilePath = realpath($tmpOutputDirectory).'/'.$tmpOutputFileName;
+		return $outputFilePath;
+	}
+}
+
 $executable = array_shift($argv);
 
-$arguments = array();
+$options = array();
 $argvCount = count($argv);
 for($i = 0; $i < $argvCount; $i++) {
 	if(strpos($argv[$i], '-') === 0) {
@@ -76,11 +100,11 @@ for($i = 0; $i < $argvCount; $i++) {
 			$value = $argv[$i+1];
 			$i++;
 		}
-		if($optionKey == 'report') {
-			if(!isset($options[$optionKey])) {
-				$options[$optionKey] = array();
+		if($optionKey == 'report' || $optionKey == 'reports') {
+			if(!isset($options['reports'])) {
+				$options['reports'] = array();
 			}
-			$options[$optionKey][] = $value;
+			$options['reports'][] = $value;
 		} else {
 			$options[$optionKey] = $value;
 		}
@@ -114,26 +138,6 @@ if(!isset($options['file'])) {
 	$filePath = realpath($options['file']);
 }
 
-
-if(isset($options['outputfile'])) {
-	$tmpOutputFilePath = $options['outputfile'];
-	$tmpOutputDirectory = dirname($tmpOutputFilePath);
-	$tmpOutputFileName = basename($tmpOutputFilePath);
-
-	if(file_exists($tmpOutputFilePath) && (!is_file($tmpOutputFilePath) || !is_writable($tmpOutputFilePath))) {
-		usage($tmpOutputFilePath.' already exists and is not a file or is not writable');
-	} elseif(!is_dir($tmpOutputDirectory) || !is_writable($tmpOutputDirectory)) {
-		usage($tmpOutputDirectory.'is not a directory, does not exist or is not writable');
-	} elseif(!$tmpOutputFileName) {
-		usage('cannot find a valid basename in '.$tmpOutputFilePath);
-	} else {
-		$outputFilePath = realpath($tmpOutputDirectory).'/'.$tmpOutputFileName;
-	}
-} else {
-	$outputFilePath = false;
-}
-setConfig('output_file_path', $outputFilePath);
-
 if(isset($options['top'])) {
 	if((int) $options['top'] > 0) {
 		$top = (int) $options['top'];
@@ -145,11 +149,60 @@ if(isset($options['top'])) {
 }
 setConfig('default_top_queries_number', $top);
 
+$outputToFiles = false;
+$supportedReportBlocks = array(
+	'overall' => 'OverallStatsReport',
+	'hourly' => 'HourlyStatsReport',
+	'bytype' => 'QueriesByTypeReport',
+	'slowest' => 'SlowestQueriesReport',
+	'n-mosttime' => 'NormalizedQueriesMostTimeReport',
+	'n-mostfrequent' => 'NormalizedQueriesMostFrequentReport',
+	'n-slowestaverage' => 'NormalizedQueriesSlowestAverageReport',
+	'n-mostfrequenterrors' => 'NormalizedErrorsMostFrequentReport',
+);
+$defaultReportBlocks = array('overall', 'bytype', 'slowest', 'n-mosttime', 'n-mostfrequent', 'n-slowestaverage');
+
+$reports = array();
+if(isset($options['reports'])) {
+	foreach($options['reports'] AS $report) {
+		if(strpos($report, '=') !== false) {
+			list($outputFilePath, $blocks) = explode('=', $report);
+			$outputToFiles = true;
+		} else {
+			$outputFilePath = false;
+			$blocks = $report;
+			$outputToFiles = false;
+		}
+		$selectedBlocks = explode(',', $blocks);
+		$notSupportedBlocks = array_diff($selectedBlocks, array_keys($supportedReportBlocks));
+		
+		if(empty($notSupportedBlocks)) {
+			$outputFilePath = checkOutputFilePath($outputFilePath);
+			$reports[] = array(
+				'blocks' => $selectedBlocks,
+				'file' => $outputFilePath
+			);
+		} else {
+			usage('report types not supported: '.implode(',', $notSupportedBlocks));
+		}
+	}
+} else {
+	$reports[] = array(
+		'blocks' => $defaultReportBlocks,
+		'file' => false
+	);
+}
+
 $supportedFormats = array('text' => 'TextReportAggregator', 'html' => 'HtmlReportAggregator', 'html-with-graphs' => 'HtmlWithGraphsReportAggregator');
 if(isset($options['format'])) {
 	if(array_key_exists($options['format'], $supportedFormats)) {
-		if($options['format'] == 'html-with-graphs' && !$outputFilePath) {
-			usage('you need to define an output file with -outputfile to use HTML with graphs format');
+		if($options['format'] == 'html-with-graphs') {
+			if(!function_exists('imagegd2')) {
+				usage('HTML with graphs format requires GD2 library and extension');
+			}
+			if(!$outputToFiles) {
+				usage('you need to define an output file to use HTML with graphs format (use -report outputfile=block1,block2,...)');
+			}
 		}
 		$aggregator = $supportedFormats[$options['format']];
 	} else {
@@ -168,31 +221,6 @@ if(isset($options['logtype'])) {
 	}
 } else {
 	$parser = $supportedLogTypes['syslog'];
-}
-
-$supportedReports = array(
-	'overall' => 'OverallStatsReport',
-	'hourly' => 'HourlyStatsReport',
-	'bytype' => 'QueriesByTypeReport',
-	'slowest' => 'SlowestQueriesReport',
-	'n-mosttime' => 'NormalizedQueriesMostTimeReport',
-	'n-mostfrequent' => 'NormalizedQueriesMostFrequentReport',
-	'n-slowestaverage' => 'NormalizedQueriesSlowestAverageReport',
-	'n-mostfrequenterrors' => 'NormalizedErrorsMostFrequentReport',
-);
-$defaultReports = array('overall', 'bytype', 'slowest', 'n-mosttime', 'n-mostfrequent', 'n-slowestaverage');
-
-if(isset($options['reports'])) {
-	$selectedReports = explode(',', $options['reports']);
-	
-	$notSupportedReports = array_diff($selectedReports, array_keys($supportedReports));
-	if(empty($notSupportedReports)) {
-		$reports = $selectedReports;
-	} else {
-		usage('report types not supported: '.implode(',', $notSupportedReports));
-	}
-} else {
-	$reports = $defaultReports;
 }
 
 if(isset($options['examples'])) {
@@ -226,28 +254,17 @@ setConfig('to_timestamp', $toTimestamp);
 
 $logReader = new GenericLogReader($filePath, $parser, 'PostgreSQLAccumulator');
 
-foreach($reports AS $file => $reportList) {
-	$reportAggregator = new $aggregator($file);
-	foreach($reportList AS $report) {
-		$reportAggregator->addReport($supportedReports[$report]);
+foreach($reports AS $report) {
+	$reportAggregator = new $aggregator($logReader, $report['file']);
+	foreach($report['blocks'] AS $block) {
+		$reportAggregator->addReportBlock($supportedReportBlocks[$block]);
 	}
-	$logReader->addAggregator($reportAggregator);
+	$logReader->addReportAggregator($reportAggregator);
 	unset($reportAggregator);
 }
 
 $logReader->parse();
 $logReader->output();
-if($outputFilePath) {
-	$outputFilePointer = @fopen($outputFilePath, 'w');
-	if($outputFilePointer) {
-		fwrite($outputFilePointer, $reportAggregator->getOutput());
-		fclose($outputFilePointer);
-	} else {
-		stderr('cannot open file '.$outputFilePath.' for writing');
-	}
-} else {
-	echo $reportAggregator->getOutput();
-}
 
 fclose($stderr);
 

@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005 Guillaume Smet
+ * Copyright (c) 2005-2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,16 +22,18 @@
  */
 
 class ReportAggregator {
-	var $reports = array();
+	var $reportBlocks = array();
 	var $logReader;
+	var $outputFilePath;
 	
-	function ReportAggregator(& $logReader) {
+	function ReportAggregator(& $logReader, $outputFilePath = false) {
 		$this->logReader =& $logReader;
+		$this->outputFilePath = $outputFilePath;
 	}
 	
-	function addReport($reportName) {
-		$report = new $reportName($this);
-		$this->reports[] =& $report;
+	function addReportBlock($reportBlockName) {
+		$reportBlock = new $reportBlockName($this);
+		$this->reportBlocks[] =& $reportBlock;
 	}
 	
 	function & getListener($listenerName) {
@@ -39,12 +41,6 @@ class ReportAggregator {
 	}
 	
 	function getOutput() {
-		$needs = $this->getNeeds();
-		foreach($needs AS $need) {
-			$this->logReader->addListener($need);
-		}
-		$this->logReader->parse();
-		
 		$output = '';
 		$output .= $this->getHeader();
 		$output .= $this->getBody();
@@ -53,11 +49,25 @@ class ReportAggregator {
 		return $output;
 	}
 	
+	function output() {
+		if($this->outputFilePath) {
+			$outputFilePointer = @fopen($this->outputFilePath, 'w');
+			if($outputFilePointer) {
+				fwrite($outputFilePointer, $this->getOutput());
+				fclose($outputFilePointer);
+			} else {
+				stderr('cannot open file '.$outputFilePath.' for writing');
+			}
+		} else {
+			echo $this->getOutput();
+		}
+	}
+	
 	function getNeeds() {
 		$needs = array();
-		$count = count($this->reports);
+		$count = count($this->reportBlocks);
 		for($i = 0; $i < $count; $i++) {
-			$needs = array_merge($needs, $this->reports[$i]->getNeeds());
+			$needs = array_merge($needs, $this->reportBlocks[$i]->getNeeds());
 		}
 		$needs = array_unique($needs);
 		return $needs;
