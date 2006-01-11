@@ -1,6 +1,16 @@
 2006-01-11  Guillaume Smet <guillaume-pg@smet.org>
 
 	* it is now possible to generate several reports with only one parse
+	* we now check that GD2 extension is available if we use the
+	HTML with graphs format
+	* merged 0.2 branch (0.2.1) into HEAD
+
+2006-01-10  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [0.2] fixed a bug on duration if log_duration was set to true
+	submitted by David Link
+	* [0.2] improved the sort in normalized queries reports
+	* [0.2] released 0.2.1
 
 2005-12-25  Guillaume Smet <guillaume-pg@smet.org>
 

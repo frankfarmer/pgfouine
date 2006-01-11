@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005 Guillaume Smet
+ * Copyright (c) 2005-2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ class NormalizedQueriesListener extends QueryListener {
 	
 	function compareMostFrequent(& $a, & $b) {
 		if($a->getTimesExecuted() == $b->getTimesExecuted()) {
-			return 0;
+			return $this->compareSlowest($a, $b);
 		} elseif($a->getTimesExecuted() < $b->getTimesExecuted()) {
 			return 1;
 		} else {
@@ -78,7 +78,7 @@ class NormalizedQueriesListener extends QueryListener {
 	
 	function compareSlowest(& $a, & $b) {
 		if($a->getAverageDuration() == $b->getAverageDuration()) {
-			return 0;
+			return $this->compareMostFrequent($a, $b);
 		} elseif($a->getAverageDuration() < $b->getAverageDuration()) {
 			return 1;
 		} else {
