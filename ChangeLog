@@ -1,3 +1,9 @@
+2006-01-24  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed a bug on duration if log_duration and log_min_duration_statement
+	are set to true in the new parser (duration counted twice)
+	* minor fix in command line help
+
 2006-01-11  Guillaume Smet <guillaume-pg@smet.org>
 
 	* it is now possible to generate several reports with only one parse

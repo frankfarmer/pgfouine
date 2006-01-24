@@ -45,6 +45,18 @@ class LogBlock {
 		return $this->lines;
 	}
 	
+	function getLineCount() {
+		return count($this->lines);
+	}
+	
+	function & getFirstLine() {
+		if(isset($this->lines[0])) {
+			return $this->lines[0];
+		} else {
+			return false;
+		}
+	}
+	
 	function addLine(& $line) {
 		$this->complete = $this->complete || $line->complete();
 		$this->lines[] =& $line;

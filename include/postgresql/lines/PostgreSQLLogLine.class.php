@@ -88,6 +88,10 @@ class PostgreSQLLogLine {
 	function complete() {
 		return false;
 	}
+	
+	function getDuration() {
+		return $this->duration;
+	}
 }
 
 ?>

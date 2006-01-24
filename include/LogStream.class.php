@@ -39,7 +39,16 @@ class LogStream {
 		
 		if(!$this->currentBlock || (($lineCommandNumber != $this->currentBlock->getCommandNumber()) && $this->currentBlock->isComplete())) {
 			if($this->currentBlock) {
-				$logObject =& $this->currentBlock->close();
+				// if we have a duration line with the same duration than the current query with duration, it's because log_duration and log_min_duration_statement
+				// are enabled at the same time so we have both a duration line and a query with duration line for the same query.
+				if(is_a($line, 'PostgreSQLQueryStartWithDurationLine')
+					&& $this->currentBlock->getLineCount() == 1 && ($firstLine =& $this->currentBlock->getFirstLine())
+					&& is_a($firstLine, 'PostgreSQLDurationLine')
+					&& $firstLine->getDuration() == $line->getDuration()) {
+					// we ignore this block (the duration from log_duration) and we only consider the following one (from log_min_duration_statement)
+				} else {
+					$logObject =& $this->currentBlock->close();
+				}
 			}
 			if($line->getLineNumber() == 1) {
 				$this->currentBlock = new LogBlock($this, $lineCommandNumber, $line);
