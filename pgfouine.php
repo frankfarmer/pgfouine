@@ -51,8 +51,8 @@ function usage($error = false) {
                                          you can add several -report options if you want to generate several reports at once
   -examples <n>                          maximum number of examples for a normalized query
   -onlyselect                            ignore all queries but SELECT
-  -from "date"                           ignore lines logged before this date (uses strtotime)
-  -to "date"                             ignore lines logged after this date (uses strtotime)
+  -from "<date>"                         ignore lines logged before this date (uses strtotime)
+  -to "<date>"                           ignore lines logged after this date (uses strtotime)
   -debug                                 debug mode
   -profile                               profile mode
   -help                                  this help
