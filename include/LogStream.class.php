@@ -23,16 +23,11 @@
 
 class LogStream {
 	var $currentBlock = false;
-	var $logObjects = array();
 	var $host = '';
 	var $port = '';
 	var $user = '';
 	var $db = '';
 	
-	function & getLogObjects() {
-		return $this->logObjects;
-	}
-
 	function append(& $line) {
 		$logObject = false;
 		$lineCommandNumber = $line->getCommandNumber();
@@ -102,6 +97,7 @@ class LogStream {
 				$logObject->accumulateTo($accumulator);
 			}
 		}
+		$this->currentBlock = false;
 	}
 }
 
