@@ -55,10 +55,9 @@ class NormalizedErrorsMostFrequentReport extends NormalizedErrorsReport {
 		$count = count($errors);
 		
 		if($count == 0) {
-			$html .= '<p>No error found</p>';
-		}
-		
-		$html = '
+			$html = '<p>No error found</p>';
+		} else {
+			$html = '
 <table class="queryList">
 	<tr>
 		<th>Rank</th>
@@ -66,29 +65,30 @@ class NormalizedErrorsMostFrequentReport extends NormalizedErrorsReport {
 		<th>Error</th>
 	</tr>';
 		
-		for($i = 0; $i < $count; $i++) {
-			$error =& $errors[$i];
-			$html .= '<tr class="'.$this->getRowStyle($i).'">
-				<td class="center top">'.($i+1).'</td>
-				<td class="relevantInformation top center">'.$this->formatInteger($error->getTimesExecuted()).'</td>
-				<td><div class=error>Error: '.$error->getError().'</div>';
-			if($error->getDetail() || $error->getHint()) {
-				$html .= '<div class="errorInformation">';
-				if($error->getDetail()) {
-					$html .= 'Detail: '.$error->getDetail();
-					$html .= '<br />';
+			for($i = 0; $i < $count; $i++) {
+				$error =& $errors[$i];
+				$html .= '<tr class="'.$this->getRowStyle($i).'">
+					<td class="center top">'.($i+1).'</td>
+					<td class="relevantInformation top center">'.$this->formatInteger($error->getTimesExecuted()).'</td>
+					<td><div class=error>Error: '.$error->getError().'</div>';
+				if($error->getDetail() || $error->getHint()) {
+					$html .= '<div class="errorInformation">';
+					if($error->getDetail()) {
+						$html .= 'Detail: '.$error->getDetail();
+						$html .= '<br />';
+					}
+					if($error->getHint()) {
+						$html .= 'Hint: '.$error->getHint();
+						$html .= '<br />';
+					}
+					$html .= '</div>';
 				}
-				if($error->getHint()) {
-					$html .= 'Hint: '.$error->getHint();
-					$html .= '<br />';
-				}
-				$html .= '</div>';
+				$html .= $this->getNormalizedErrorWithExamplesHtml($i, $error).'</td>
+				</tr>';
+				$html .= "\n";
 			}
-			$html .= $this->getNormalizedErrorWithExamplesHtml($i, $error).'</td>
-			</tr>';
-			$html .= "\n";
+			$html .= '</table>';
 		}
-		$html .= '</table>';
 		return $html;
 	}
 }
