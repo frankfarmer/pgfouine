@@ -31,7 +31,7 @@ class LogBlock {
 	var $db = '';
 	var $complete = false;
 	
-	function LogBlock($logStream, $commandNumber, & $line) {
+	function LogBlock(& $logStream, $commandNumber, & $line) {
 		$this->logStream =& $logStream;
 		$this->commandNumber = $commandNumber;
 		$this->addLine($line);
@@ -69,7 +69,7 @@ class LogBlock {
 	function close() {
 		$count = count($this->lines);
 		$logObject =& $this->lines[0]->getLogObject($this->logStream);
-				
+		
 		if($logObject) {
 			for($i = 1; $i < $count; $i++) {
 				$this->lines[$i]->appendTo($logObject);
