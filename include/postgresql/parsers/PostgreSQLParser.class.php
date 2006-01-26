@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005 Guillaume Smet
+ * Copyright (c) 2005-2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,19 +72,8 @@ class PostgreSQLParser {
 				return new PostgreSQLDetailLine($postMatch);
 			}
 		}
-
-		$continuationMatch =& $postgreSQLRegexps['ContinuationLine']->match($text);
-		if($continuationMatch) {
-			return new PostgreSQLContinuationLine($continuationMatch->getPostMatch());
-		}
-
-		if(trim($text) == '') {
-			return new PostgreSQLContinuationLine('');
-		}
-
-		// PostgreSQL cuts lines if they are too long so an unrecognized log line can be in fact
-		// a continuation line. So we add it as a continuation line and we let the ContinuationLine
-		// object decide if it is one or not based on command number.
+		
+		// probably a continuation line. We let the PostgreSQLContinuationLine decide if it is one or not
 		return new PostgreSQLContinuationLine($text);
 	}
 }
