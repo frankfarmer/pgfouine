@@ -55,7 +55,7 @@ class ErrorLogObject extends LogObject {
 	
 	function appendContext($context) {
 		if(DEBUG > 1 && empty($context)) stderr('Empty text for error context', true);
-		$this->context = $context;
+		$this->setContext($context);
 	}
 	
 	function isIgnored() {

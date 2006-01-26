@@ -44,11 +44,10 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 
 	function appendTo(& $logObject) {
 		if(is_a($logObject, 'ErrorLogObject')) {
-			// we have an error query so we put the context in a subquery
-			$lastLogObject->addContext($this->text);
+			$logObject->appendContext($this->text);
 		} else {
 			if(DEBUG && !$this->recognized) stderr('Unrecognized context or context for an error', true);
-			$logObject->addContext($this->text);
+			$logObject->appendContext($this->text);
 		}
 		return false;
 	}
