@@ -31,7 +31,7 @@ class LogStream {
 	function append(& $line) {
 		$logObject = false;
 		$lineCommandNumber = $line->getCommandNumber();
-		
+
 		if(!$this->currentBlock || (($lineCommandNumber != $this->currentBlock->getCommandNumber()) && $this->currentBlock->isComplete())) {
 			if($this->currentBlock) {
 				// if we have a duration line with the same duration than the current query with duration, it's because log_duration and log_min_duration_statement
@@ -48,15 +48,23 @@ class LogStream {
 			if($line->getLineNumber() == 1) {
 				$this->currentBlock = new LogBlock($this, $lineCommandNumber, $line);
 			} else {
-				stderr('we just close a LogBlock, line number should be 1 and is not', true);
-				stderr('line command number: '.$lineCommandNumber);
-				stderr('block command number: '.$this->currentBlock->getCommandNumber());
-				$this->currentBlock = false;
+				if(DEBUG) {
+					stderr('we just closed a LogBlock, line number should be 1 and is '.$line->getLineNumber(), true);
+					stderr('line command number: '.$lineCommandNumber);
+					if($this->currentBlock) {
+						stderr('current block command number: '.$this->currentBlock->getCommandNumber());
+					}
+					$this->currentBlock = false;
+				} else {
+					stderr('partial block - ignoring line', true);
+				}
 			}
 		} else {
-			if(is_a($line, 'PostgreSQLContinuationLine') && $line->getText()) {
-				$lastLine =& last($this->currentBlock->getLines());
-				$lastLine->appendText($line->getText());
+			if(is_a($line, 'PostgreSQLContinuationLine')) {
+				if($line->getText()) {
+					$lastLine =& last($this->currentBlock->getLines());
+					$lastLine->appendText($line->getText());
+				}	
 			} else {
 				$this->currentBlock->addLine($line);
 			}

@@ -1,3 +1,8 @@
+2006-01-26  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed a problem with CONTEXT lines introduced with the new parser refactoring
+	* fixed a bug in LogStream when we have a blank continuation line
+
 2006-01-25  Guillaume Smet <guillaume-pg@smet.org>
 	
 	* fixed a missing reference to $logStream in LogBlock
