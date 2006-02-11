@@ -25,7 +25,12 @@
 define('VERSION', '0.4');
 
 ini_set('max_execution_time', 18000);
-error_reporting(E_ALL);
+
+if(strpos(phpversion(), '4.4') === 0) {
+	error_reporting(E_ALL && !E_NOTICE);
+} else {
+	error_reporting(E_ALL);
+}
 
 require_once('include/lib/common.lib.php');
 require_once('include/base.lib.php');
