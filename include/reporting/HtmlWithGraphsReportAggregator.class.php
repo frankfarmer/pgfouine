@@ -22,6 +22,13 @@
  */
 
 class HtmlWithGraphsReportAggregator extends HtmlReportAggregator {
+	function HtmlWithGraphsReportAggregator(& $logReader, $outputFilePath = false) {
+		require_once('artichow/LinePlot.class.php');
+		require_once('artichow/BarPlot.class.php');
+		
+		$this->HtmlReportAggregator($logReader, $outputFilePath);
+	}
+	
 	function getHtmlOutput(& $reportBlock) {
 		if(method_exists($reportBlock, 'getHtmlWithGraphs')) {
 			$html = $reportBlock->getHtmlWithGraphs();

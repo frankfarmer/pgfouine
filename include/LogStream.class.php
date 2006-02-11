@@ -55,8 +55,6 @@ class LogStream {
 						stderr('current block command number: '.$this->currentBlock->getCommandNumber());
 					}
 					$this->currentBlock = false;
-				} else {
-					stderr('partial block - ignoring line', true);
 				}
 			}
 		} else {

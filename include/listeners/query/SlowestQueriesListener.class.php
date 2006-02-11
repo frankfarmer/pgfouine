@@ -33,7 +33,8 @@ class SlowestQueriesListener extends QueryListener {
 	}
 	
 	function & getSortedQueries() {
-		return $this->queryList->getSortedQueries();
+		$sortedQueries =& $this->queryList->getSortedQueries();
+		return $sortedQueries;
 	}
 }
 

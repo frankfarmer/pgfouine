@@ -126,10 +126,11 @@ class RegExp {
 	
 	function & match($text) {
 		$found = preg_match($this->pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+		$match = false;
 		if($found) {
-			return new RegExpMatch($text, $matches);
+			$match = new RegExpMatch($text, $matches);
 		}
-		return false;
+		return $match;
 	}
 	
 	function getPattern() {

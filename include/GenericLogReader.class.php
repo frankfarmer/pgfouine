@@ -160,10 +160,11 @@ class GenericLogReader {
 	
 	function & getListener($listenerName) {
 		if(isset($this->listeners[$listenerName])) {
-			return $this->listeners[$listenerName];
+			$listener =& $this->listeners[$listenerName];
 		} else {
-			return false;
+			$listener = false;
 		}
+		return $listener;
 	}
 	
 	function getFileName() {

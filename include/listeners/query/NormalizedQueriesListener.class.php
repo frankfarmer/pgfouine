@@ -41,7 +41,8 @@ class NormalizedQueriesListener extends QueryListener {
 	function & getQueriesMostTime() {
 		$queryList = $this->queryList;
 		usort($queryList, array($this, 'compareMostTime'));
-		return array_slice($queryList, 0, $this->queriesNumber);
+		$queries =& array_slice($queryList, 0, $this->queriesNumber);
+		return $queries;
 	}
 	
 	function compareMostTime(& $a, & $b) {
@@ -57,7 +58,8 @@ class NormalizedQueriesListener extends QueryListener {
 	function & getMostFrequentQueries() {
 		$queryList = $this->queryList;
 		usort($queryList, array($this, 'compareMostFrequent'));
-		return array_slice($queryList, 0, $this->queriesNumber);
+		$queries =& array_slice($queryList, 0, $this->queriesNumber);
+		return $queries;
 	}
 	
 	function compareMostFrequent(& $a, & $b) {
@@ -73,7 +75,8 @@ class NormalizedQueriesListener extends QueryListener {
 	function & getSlowestQueries() {
 		$queryList = $this->queryList;
 		usort($queryList, array($this, 'compareSlowest'));
-		return array_slice($queryList, 0, $this->queriesNumber);
+		$queries =& array_slice($queryList, 0, $this->queriesNumber);
+		return $queries;
 	}
 	
 	function compareSlowest(& $a, & $b) {

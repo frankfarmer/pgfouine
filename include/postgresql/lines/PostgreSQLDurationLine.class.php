@@ -32,11 +32,11 @@ class PostgreSQLDurationLine extends PostgreSQLLogLine {
 		if($this->lineNumber == 1) {
 			$durationLogObject = new DurationLogObject($logStream->getUser(), $logStream->getDb(), $this->duration);
 			$durationLogObject->setContextInformation($this->timestamp, $this->commandNumber);
-			return $durationLogObject;
 		} else {
 			stderr('Duration for no previous query', true);
-			return false;
+			$durationLogObject = false;
 		}
+		return $durationLogObject;
 	}
 	
 	function appendTo(& $logObject) {

@@ -34,20 +34,23 @@ class PostgreSQLParser {
 			if($keyword == 'LOG' || $keyword == 'DEBUG') {
 				$queryMatch =& $postgreSQLRegexps['QueryStartPart']->match($postMatch);
 				if($queryMatch) {
-					return new PostgreSQLQueryStartLine($queryMatch->getPostMatch());
+					$line = new PostgreSQLQueryStartLine($queryMatch->getPostMatch());
+					return $line;
 				}
 				$durationMatch =& $postgreSQLRegexps['DurationPart']->match($postMatch);
 				if($durationMatch) {
 					$additionalInformation = trim($durationMatch->getPostMatch());
 					if($additionalInformation == '') {
-						return new PostgreSQLDurationLine(trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
+						$line = new PostgreSQLDurationLine(trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
 					} else {
-						return new PostgreSQLQueryStartWithDurationLine($additionalInformation, trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
+						$line = new PostgreSQLQueryStartWithDurationLine($additionalInformation, trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
 					}
+					return $line;
 				}
 				$statusMatch =& $postgreSQLRegexps['StatusPart']->match($postMatch);
 				if($statusMatch) {
-					return new PostgreSQLStatusLine($postMatch);
+					$line = new PostgreSQLStatusLine($postMatch);
+					return $line;
 				}
 				
 				if(
@@ -59,22 +62,29 @@ class PostgreSQLParser {
 					) {
 					stderr('Unrecognized LOG or DEBUG line: '.$text, true);
 				}
-				return false;
+				$line = false;
+				return $line;
 			} elseif($keyword == 'WARNING' || $keyword == 'ERROR' || $keyword == 'FATAL' || $keyword == 'PANIC') {
-				return new PostgreSQLErrorLine($postMatch);
+				$line = new PostgreSQLErrorLine($postMatch);
+				return $line;
 			} elseif($keyword == 'CONTEXT') {
-				return new PostgreSQLContextLine($postMatch);
+				$line = new PostgreSQLContextLine($postMatch);
+				return $line;
 			} elseif($keyword == 'STATEMENT') {
-				return new PostgreSQLStatementLine($postMatch);
+				$line = new PostgreSQLStatementLine($postMatch);
+				return $line;
 			} elseif($keyword == 'HINT') {
-				return new PostgreSQLHintLine($postMatch);
+				$line = new PostgreSQLHintLine($postMatch);
+				return $line;
 			} elseif($keyword == 'DETAIL') {
-				return new PostgreSQLDetailLine($postMatch);
+				$line = new PostgreSQLDetailLine($postMatch);
+				return $line;
 			}
 		}
 		
 		// probably a continuation line. We let the PostgreSQLContinuationLine decide if it is one or not
-		return new PostgreSQLContinuationLine($text);
+		$line = new PostgreSQLContinuationLine($text);
+		return $line;
 	}
 }
 
