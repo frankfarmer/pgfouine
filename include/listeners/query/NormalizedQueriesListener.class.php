@@ -62,9 +62,13 @@ class NormalizedQueriesListener extends QueryListener {
 		return $queries;
 	}
 	
-	function compareMostFrequent(& $a, & $b) {
+	function compareMostFrequent(& $a, & $b, $force = false) {
 		if($a->getTimesExecuted() == $b->getTimesExecuted()) {
-			return $this->compareSlowest($a, $b);
+			if($force) {
+				return 0;
+			} else {
+				return $this->compareSlowest($a, $b, true);
+			}
 		} elseif($a->getTimesExecuted() < $b->getTimesExecuted()) {
 			return 1;
 		} else {
@@ -79,9 +83,13 @@ class NormalizedQueriesListener extends QueryListener {
 		return $queries;
 	}
 	
-	function compareSlowest(& $a, & $b) {
+	function compareSlowest(& $a, & $b, $force = false) {
 		if($a->getAverageDuration() == $b->getAverageDuration()) {
-			return $this->compareMostFrequent($a, $b);
+			if($force) {
+				return 0;
+			} else {
+				return $this->compareMostFrequent($a, $b, true);
+			}
 		} elseif($a->getAverageDuration() < $b->getAverageDuration()) {
 			return 1;
 		} else {
