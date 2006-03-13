@@ -1,3 +1,7 @@
+2006-03-13  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed syslog date detection (problem with php 4.3.2 on CentOS 3.5)
+
 2006-03-07  Guillaume Smet <guillaume-pg@smet.org>
 
 	* fixed an infinite loop when duration and count are exactly identical
