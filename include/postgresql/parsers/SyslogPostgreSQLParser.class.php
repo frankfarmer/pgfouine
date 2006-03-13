@@ -42,9 +42,12 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 		}
 		
 		$formattedDate = $matches[1][0];
-		$timestamp = strtotime($formattedDate.' '.date('Y'));
+		$timestamp = strtotime(date('Y').' '.$formattedDate);
 		if($timestamp > time()) {
-			$timestamp = strtotime($formattedDate.' '.(date('Y')-1));	
+			$timestamp = strtotime((date('Y')-1).' '.$formattedDate);	
+		}
+		if($timestamp < 0) {
+			$timestamp = 0;
 		}
 		
 		$connectionId = $matches[2][0];
