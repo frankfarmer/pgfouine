@@ -48,6 +48,8 @@ class PostgreSQLLogLine {
 	function parseDuration($timeString, $unit) {
 		if($unit == 'ms') {
 			$duration = (floatval($timeString) / 1000);
+		} elseif($unit == 'us') {
+			$duration = (floatval($timeString) / 1000000);
 		} else {
 			$duration = floatval($timeString);
 		}
