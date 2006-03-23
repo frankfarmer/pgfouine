@@ -99,23 +99,31 @@ $options = array();
 $argvCount = count($argv);
 for($i = 0; $i < $argvCount; $i++) {
 	if(strpos($argv[$i], '-') === 0) {
-		$optionKey = substr($argv[$i], 1);
-		$value = false;
-		if(($i+1 < $argvCount) && (strpos($argv[$i+1], '-') !== 0)) {
-			$value = $argv[$i+1];
-			$i++;
-		}
-		if($optionKey == 'report' || $optionKey == 'reports') {
-			if(!isset($options['reports'])) {
-				$options['reports'] = array();
-			}
-			$options['reports'][] = $value;
+		if($argv[$i] == '-') {
+			define('CONFIG_STDIN', true);
 		} else {
-			$options[$optionKey] = $value;
+			$optionKey = substr($argv[$i], 1);
+			$value = false;
+			if(($i+1 < $argvCount) && (strpos($argv[$i+1], '-') !== 0)) {
+				$value = $argv[$i+1];
+				$i++;
+			}
+			if($optionKey == 'report' || $optionKey == 'reports') {
+				if(!isset($options['reports'])) {
+					$options['reports'] = array();
+				}
+				$options['reports'][] = $value;
+			} else {
+				$options[$optionKey] = $value;
+			}
 		}
 	} else {
 		usage('invalid options format');
 	}
+}
+
+if(!defined('CONFIG_STDIN')) {
+	define('CONFIG_STDIN', false);
 }
 
 if(isset($options['help']) || isset($options['h']) || isset($options['-help'])) {
@@ -133,14 +141,18 @@ if(isset($options['profile'])) {
 	define('PROFILE', 0);
 }
 
-if(!isset($options['file'])) {
-	usage('the -file option is required');
-} elseif(!$options['file']) {
-	usage('you have to specify a file path');
-} elseif(!is_readable($options['file'])) {
-	usage('file '.$options['file'].' cannot be read');
+if(!CONFIG_STDIN) {
+	if(!isset($options['file'])) {
+		usage('the -file option is required');
+	} elseif(!$options['file']) {
+		usage('you have to specify a file path');
+	} elseif(!is_readable($options['file'])) {
+		usage('file '.$options['file'].' cannot be read');
+	} else {
+		$filePath = realpath($options['file']);
+	}
 } else {
-	$filePath = realpath($options['file']);
+	$filePath = 'php://stdin';
 }
 
 if(isset($options['top'])) {
