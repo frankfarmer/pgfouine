@@ -1,3 +1,19 @@
+2006-03-25  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed a bug reported by Simon Riggs on pgsql-hackers
+	http://archives.postgresql.org/pgsql-hackers/2006-03/msg00694.php
+	* added html output for hourly statistics report
+	* rewrote the configuration stuff to use constants instead of a function
+	* fixed unit tests
+	* added a dynamic CSS based TOC for users who use a real browser
+	* ignore autovacuum log lines
+
+2006-03-23  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added the ability to parse a log from stdin
+	* added the microsecond unit (us) so that we can use pgFouine to parse
+	a special apache log file
+
 2006-03-13  Guillaume Smet <guillaume-pg@smet.org>
 
 	* fixed syslog date detection (problem with php 4.3.2 on CentOS 3.5)
