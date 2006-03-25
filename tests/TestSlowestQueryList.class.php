@@ -8,13 +8,16 @@ require_once('../include/base.lib.php');
 class TestSlowestQueryList extends UnitTestCase {
 	
 	function testAddQuery() {
-		$query1 = new Query('');
+		define('TEST_USER', 'test user');
+		define('TEST_DB', 'test db');
+		
+		$query1 = new QueryLogObject(TEST_USER, TEST_DB, '');
 		$query1->setDuration(1.2);
-		$query2 = new Query('');
+		$query2 = new QueryLogObject(TEST_USER, TEST_DB, '');
 		$query2->setDuration(1.5);
-		$query3 = new Query('');
+		$query3 = new QueryLogObject(TEST_USER, TEST_DB, '');
 		$query3->setDuration(1.7);
-		$query4 = new Query('');
+		$query4 = new QueryLogObject(TEST_USER, TEST_DB, '');
 		$query4->setDuration(1.3);
 		
 		$list = new SlowestQueryList(2);
@@ -40,10 +43,6 @@ class TestSlowestQueryList extends UnitTestCase {
 		$this->assertEqual(2, count($queries));
 		$this->assertReference($queries['1.5'][0], $query2);
 		$this->assertReference($queries['1.7'][0], $query3);
-	}
-	
-	function testGetSortedQueries() {
-		
 	}
 }
 
