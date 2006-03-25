@@ -45,6 +45,10 @@ class QueryLogObject extends LogObject {
 		$this->subQueries[] =& $queryLogObject;
 	}
 	
+	function & getSubQueries() {
+		return $this->subQueries;
+	}
+	
 	function appendContext($context) {
 		if(!empty($this->subQueries)) {
 			$subQuery =& last($this->subQueries);
