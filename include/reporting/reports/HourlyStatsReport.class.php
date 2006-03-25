@@ -29,25 +29,87 @@ class HourlyStatsReport extends Report {
 	function getText() {
 		$statsListener =& $this->reportAggregator->getListener('HourlyCountersListener');
 		
-		$text = '';
-		
-		// TODO
+		$text = '<p>Report not supported by text format</p>';
 
 		return $text;
 	}
 	
 	function getHtml() {
 		$statsListener =& $this->reportAggregator->getListener('HourlyCountersListener');
-				
-		$html = '';
+		$hourlyStatistics =& $statsListener->getHourlyStatistics();
 		
-		// TODO
+		$hours = array_keys($hourlyStatistics);
+		$hourCount = count($hours);
+
+		$html = '
+<table class="queryList" width="100%">
+	<tr>
+		<th rowspan="2" style="width: 10%">Day</th>
+		<th rowspan="2" style="width: 10%">Time</th>
+		<th colspan="2" style="width: 20%">Queries</th>
+		<th colspan="2" style="width: 20%">SELECT queries</th>
+		<th colspan="4" style="width: 40%">Write queries</th>
+	</tr>
+	<tr>
+		<th style="width: 10%">Count</th>
+		<th style="width: 10%">Av. duration</th>
+		<th style="width: 10%">Count</th>
+		<th style="width: 10%">Av. duration</th>
+		<th style="width: 10%">INSERT</th>
+		<th style="width: 10%">UPDATE</th>
+		<th style="width: 10%">DELETE</th>
+		<th style="width: 10%">Av. duration</th>
+	</tr>';
 		
-		stderrArray($statsListener->getQueryPeaksStatistics());
+		for($i = 0; $i < $hourCount; $i++) {
+			$hour = $hours[$i];
+			$hourTimestamp = strtotime($hour);
+			
+			$counter =& $hourlyStatistics[$hour];
+			
+			if(date('h', $hourTimestamp) == 0 || $i == 0) {
+				$day = date('M j', $hourTimestamp);
+			} else {
+				$day = '&nbsp;';
+			}
+			
+			if($counter->getQueryCount() > 0) {
+				$queryDuration = $counter->getQueryDuration() / $counter->getQueryCount();
+			} else {
+				$queryDuration = '&nbsp;';
+			}
+
+			if($counter->getSelectCount() > 0) {
+				$selectDuration = $counter->getSelectDuration() / $counter->getSelectCount();
+			} else {
+				$selectDuration = '&nbsp;';
+			}
+			
+			$writeCount = $counter->getInsertCount() + $counter->getDeleteCount() + $counter->getUpdateCount();			
+			if($writeCount > 0) {
+				$writeDuration = ($counter->getInsertDuration() + $counter->getDeleteDuration() + $counter->getUpdateDuration()) / $writeCount;
+			} else {
+				$writeDuration = '&nbsp;';
+			}
+			
+			$html .= '
+	<tr class="'.$this->getRowStyle($i).'">
+		<td>'.$day.'</td>
+		<td>'.date('ga', $hourTimestamp).'</td>
+		<td class="right">'.$counter->getQueryCount().'</td>
+		<td class="right">'.$this->formatDuration($queryDuration).'</td>
+		<td class="right">'.$counter->getSelectCount().'</td>
+		<td class="right">'.$this->formatDuration($selectDuration).'</td>
+		<td class="right">'.$counter->getInsertCount().'</td>
+		<td class="right">'.$counter->getUpdateCount().'</td>
+		<td class="right">'.$counter->getDeleteCount().'</td>
+		<td class="right">'.$this->formatDuration($writeDuration).'</td>
+	</tr>
+			';
+		}
 		
-		$html .= '<pre>';
-		$html .= getFormattedArray($statsListener->getQueryPeaksStatistics());
-		$html .= '</pre>';
+		$html .= '
+</table>';
 		
 		return $html;
 	}
@@ -57,7 +119,7 @@ class HourlyStatsReport extends Report {
 
 		$this->generateGraphs($statsListener);
 
-		$html = '';
+		$html = $this->getHtml();
 		$html .= '<p><img src="'.$this->reportAggregator->getImageBaseName('hourly_queries_per_second').'" alt="Queries per second" /></p>';
 		$html .= '<p><img src="'.$this->reportAggregator->getImageBaseName('hourly_all_queries').'" alt="Hourly queries" /></p>';
 		$html .= '<p><img src="'.$this->reportAggregator->getImageBaseName('hourly_select_queries').'" alt="Hourly SELECT queries" /></p>';
@@ -82,7 +144,6 @@ class HourlyStatsReport extends Report {
 		$globalCountValues = array();
 		$writeDurationValues = array();
 		
-		$currentDay = 0;
 		for($i = 0; $i < $hourCount; $i++) {
 			$hour = $hours[$i];
 			$hourTimestamp = strtotime($hour);
