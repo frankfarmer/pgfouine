@@ -56,7 +56,7 @@ class ReportAggregator {
 				fwrite($outputFilePointer, $this->getOutput());
 				fclose($outputFilePointer);
 			} else {
-				stderr('cannot open file '.$outputFilePath.' for writing');
+				stderr('cannot open file '.$this->outputFilePath.' for writing');
 			}
 		} else {
 			echo $this->getOutput();
