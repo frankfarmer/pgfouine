@@ -4,7 +4,7 @@ require_once('simpletest/unit_tester.php');
 require_once('simpletest/reporter.php');
 
 require_once('../include/LogStream.class.php');
-require_once('../include/Query.class.php');
+require_once('../include/QueryLogObject.class.php');
 
 define('LOG_STREAM_HOST', 'test_host');
 define('LOG_STREAM_PORT', '30123');
@@ -25,73 +25,6 @@ class TestLogStream extends UnitTestCase {
 		$logStream->setUserDb(LOG_STREAM_USER, LOG_STREAM_DB);
 		$this->assertEqual(LOG_STREAM_USER, $logStream->getUser());
 		$this->assertEqual(LOG_STREAM_DB, $logStream->getDb());
-	}
-	
-	function testGetQueriesAndPush() {
-		$query1 = new Query('');
-		$query2 = new Query('');
-		$logStream = new LogStream();
-		
-		$this->assertEqual(0, count($logStream->getQueries()));
-		
-		$logStream->push($query1);
-		$queries =& $logStream->getQueries();
-		
-		$this->assertEqual(1, count($queries));
-		$this->assertEqual('', $queries[0]->getDb());
-		$this->assertEqual('', $queries[0]->getUser());
-		$this->assertReference($query1, $queries[0]);
-		
-		$logStream->push($query2);
-		$queries =& $logStream->getQueries();
-		
-		$this->assertEqual(2, count($queries));
-		$this->assertEqual('', $queries[0]->getDb());
-		$this->assertEqual('', $queries[0]->getUser());
-		$this->assertEqual('', $queries[1]->getDb());
-		$this->assertEqual('', $queries[1]->getUser());
-		$this->assertReference($query1, $queries[0]);
-		$this->assertReference($query2, $queries[1]);
-	}
-	
-	function testPop() {
-		$query1 = new Query('');
-		$query2 = new Query('');
-		$logStream = new LogStream();
-		
-		$logStream->push($query1);
-		$logStream->push($query2);
-		
-		$queries =& $logStream->getQueries();
-		$this->assertEqual(2, count($queries));
-		
-		$poppedQuery =& $logStream->pop();
-		$this->assertReference($query2, $poppedQuery);
-		$this->assertEqual(1, count($queries));
-		
-		$queries =& $logStream->getQueries();
-		$this->assertReference($query1, $queries[0]);
-	}
-	
-	function testLast() {
-		$query1 = new Query('');
-		$query2 = new Query('');
-		$logStream = new LogStream();
-		
-		$logStream->push($query1);
-		$logStream->push($query2);
-		
-		$queries =& $logStream->getQueries();
-		$this->assertEqual(2, count($queries));
-		
-		$lastQuery =& $logStream->last();
-		$this->assertReference($query2, $lastQuery);
-		
-		$queries =& $logStream->getQueries();
-		$this->assertEqual(2, count($queries));
-	}
-	
-	function testAppend() {
 	}
 }
 
