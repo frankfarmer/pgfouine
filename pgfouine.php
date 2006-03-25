@@ -25,6 +25,7 @@
 define('VERSION', '0.5');
 
 ini_set('max_execution_time', 18000);
+ini_set('memory_limit', '128M');
 
 if(strpos(phpversion(), '4.4') === 0) {
 	error_reporting(E_ALL && !E_NOTICE);
