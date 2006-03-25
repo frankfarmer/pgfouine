@@ -67,7 +67,7 @@ class HourlyStatsReport extends Report {
 			
 			$counter =& $hourlyStatistics[$hour];
 			
-			if(date('h', $hourTimestamp) == 0 || $i == 0) {
+			if(date('H', $hourTimestamp) == 0 || $i == 0) {
 				$day = date('M j', $hourTimestamp);
 			} else {
 				$day = '&nbsp;';
