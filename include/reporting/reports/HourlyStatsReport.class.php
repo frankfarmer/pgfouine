@@ -29,7 +29,7 @@ class HourlyStatsReport extends Report {
 	function getText() {
 		$statsListener =& $this->reportAggregator->getListener('HourlyCountersListener');
 		
-		$text = '<p>Report not supported by text format</p>';
+		$text = 'Report not supported by text format'."\n";
 
 		return $text;
 	}
