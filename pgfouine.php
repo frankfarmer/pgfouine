@@ -47,6 +47,7 @@ function usage($error = false) {
 	echo "\n";
 	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>] [-report [outputfile=]<block1,block2>]
   -file <file>                           log file to analyze
+  -                                      read the log from stdin instead of -file
   -top <n>                               number of queries in lists. Default is 20.
   -format <format>                       output format: html, html-with-graphs or text. Default is html.
   -logtype <logtype>                     log type: only syslog is currently supported
