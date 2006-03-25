@@ -29,7 +29,7 @@ class NormalizedQuery {
 	
 	function NormalizedQuery(& $query) {
 		$this->normalizedText = $query->getNormalizedText();
-		$maxExamples = getConfig('max_number_of_examples');
+		$maxExamples = CONFIG_MAX_NUMBER_OF_EXAMPLES;
 		if($maxExamples) {
 			$this->examples = new SlowestQueryList($maxExamples);
 		}

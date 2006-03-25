@@ -64,7 +64,7 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 		if($line) {
 			$line->setContextInformation($timestamp, $connectionId, $commandNumber, $lineNumber);
 		
-			if($timestamp < getConfig('from_timestamp') || $timestamp > getConfig('to_timestamp')) {
+			if(CONFIG_TIMESTAMP_FILTER && ($timestamp < CONFIG_FROM_TIMESTAMP || $timestamp > CONFIG_TO_TIMESTAMP)) {
 				$line = false;
 			}
 		}

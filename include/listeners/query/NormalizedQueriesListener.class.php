@@ -26,7 +26,7 @@ class NormalizedQueriesListener extends QueryListener {
 	var $queriesNumber = 10;
 	
 	function NormalizedQueriesListener() {
-		$this->queriesNumber = getConfig('default_top_queries_number');
+		$this->queriesNumber = CONFIG_TOP_QUERIES_NUMBER;
 	}
 	
 	function fireEvent(& $query) {

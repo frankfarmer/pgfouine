@@ -22,7 +22,7 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-define('VERSION', '0.4.99');
+define('VERSION', '0.5');
 
 ini_set('max_execution_time', 18000);
 
@@ -164,7 +164,7 @@ if(isset($options['top'])) {
 } else {
 	$top = 20;
 }
-setConfig('default_top_queries_number', $top);
+define('CONFIG_TOP_QUERIES_NUMBER', $top);
 
 $outputToFiles = false;
 $supportedReportBlocks = array(
@@ -245,29 +245,39 @@ if(isset($options['examples'])) {
 } else {
 	$maxExamples = 3;
 }
-setConfig('max_number_of_examples', $maxExamples);
+define('CONFIG_MAX_NUMBER_OF_EXAMPLES', $maxExamples);
 
 if(isset($options['onlyselect'])) {
-	setConfig('only_select', true);
+	define('CONFIG_ONLY_SELECT', true);
 } else {
-	setConfig('only_select', false);
+	define('CONFIG_ONLY_SELECT', false);
 }
 
 if(isset($options['from']) && !empty($options['from'])) {
-	setConfig('from_timestamp', strtotime($options['from']));
+	$fromTimestamp = strtotime($options['to']);
+	if($fromTimestamp <= 0) {
+		$fromTimestamp = false;
+	}
 } else {
-	setConfig('from_timestamp', MIN_TIMESTAMP);
+	$fromTimestamp = false;
 }
+define('CONFIG_FROM_TIMESTAMP', $fromTimestamp);
 
 if(isset($options['to']) && !empty($options['to'])) {
 	$toTimestamp = strtotime($options['to']);
 	if($toTimestamp <= 0) {
-		$toTimestamp = MAX_TIMESTAMP;
+		$toTimestamp = false;
 	}
 } else {
-	$toTimestamp = MAX_TIMESTAMP;
+	$toTimestamp = false;
 }
-setConfig('to_timestamp', $toTimestamp);
+define('CONFIG_TO_TIMESTAMP', $toTimestamp);
+
+if(CONFIG_FROM_TIMESTAMP || CONFIG_TO_TIMESTAMP) {
+	define('CONFIG_TIMESTAMP_FILTER', true);
+} else {
+	define('CONFIG_TIMESTAMP_FILTER', false);
+}
 
 $logReader = new GenericLogReader($filePath, $parser, 'PostgreSQLAccumulator');
 

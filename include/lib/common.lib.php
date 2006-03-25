@@ -28,21 +28,6 @@ define('EVENT_QUERY', 'query_event_type');
 define('EVENT_ERROR', 'error_event_type');
 define('EVENT_DURATION_ONLY', 'duration_only_event_type');
 
-function setConfig($key, $value) {
-	if(!isset($GLOBALS['config'])) {
-		$GLOBALS['config'] = array();
-	}
-	$GLOBALS['config'][$key] = $value;
-}
-
-function getConfig($key) {
-	if(isset($GLOBALS['config'][$key])) {
-		return $GLOBALS['config'][$key];
-	} else {
-		return false;
-	}
-}
-
 function debug($string, $displayLineNumber = false) {
 	stderr($string, $displayLineNumber);
 }

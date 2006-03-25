@@ -76,7 +76,7 @@ class QueryLogObject extends LogObject {
 	}
 	
 	function isIgnored() {
-		return ($this->ignored || (getConfig('only_select') && !$this->isSelect()));
+		return ($this->ignored || (CONFIG_ONLY_SELECT && !$this->isSelect()));
 	}
 	
 	function setDuration($duration) {
