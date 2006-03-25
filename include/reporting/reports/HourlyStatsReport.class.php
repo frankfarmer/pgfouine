@@ -122,6 +122,9 @@ class HourlyStatsReport extends Report {
 			}
 			unset($counter);
 		}
+		$queryDurationValues = $this->filterNull($queryDurationValues);
+		$selectDurationValues = $this->filterNull($selectDurationValues);
+		$writeDurationValues = $this->filterNull($writeDurationValues);
 		
 		$peaksStatistics =& $statsListener->getQueryPeaksStatistics();
 		$currentTimestamp = key($peaksStatistics) - (key($peaksStatistics) % 3600);
@@ -155,35 +158,7 @@ class HourlyStatsReport extends Report {
 			}
 			$currentTimestamp += 5 * 60;
 		}
-		/*
-		$currentTimestamp = time();
-		$currentTimestamp = $currentTimestamp - ($currentTimestamp % 3600);
-		$lastTimestamp = $currentTimestamp + 24 * 3600;
-		$firstData = false;
-		
-		while($currentTimestamp <= $lastTimestamp) {
-			if($currentTimestamp % 3600 == 0) {
-				$xAxis[] = date('ga', $currentTimestamp);
-			} else {
-				$xAxis[] = '';
-			}
-			if(true) {
-				$firstData = true;
-				$average[] = rand(1,100);
-				$min[] = rand(1,100);
-				$max[] = rand(1,100);
-			} elseif($firstData) {
-				$average[] = 0;
-				$min[] = 0;
-				$max[] = 0;
-			} else {
-				$average[] = null;
-				$min[] = null;
-				$max[] = null;
-			}
-			$currentTimestamp += 5 * 60;
-		}
-		*/
+
 		// Queries per second
 		$graph = new Graph(840, 250);
 		$graph->setAntiAliasing(true);
@@ -475,6 +450,29 @@ class HourlyStatsReport extends Report {
 			$queryNumber = ($queryNumber / 1000).'k';
 		}
 		return $queryNumber;
+	}
+	
+	function filterNull($array) {
+		for($i = 0, $max = count($array); $i < $max; $i++) {
+			$previousNotNull = false;
+			$followingNotNull = false;
+			if(is_null($array[$i])) {
+				for($j = 0; $j < $i; $j++) {
+					if(!is_null($array[$j])) {
+						$previousNotNull = true;
+					}
+				}
+				for($j = $i + 1, $max2 = count($array); $j < $max2; $j++) {
+					if(!is_null($array[$j])) {
+						$followingNotNull = true;
+					}
+				}
+				if($previousNotNull && $followingNotNull) {
+					$array[$i] = 0;
+				}
+			}
+		}
+		return $array;
 	}
 }
 
