@@ -343,7 +343,7 @@ class HourlyStatsReport extends Report {
 		}
 		
 		$plot->setYAxis(PLOT_RIGHT);
-		$plot->setYMax(max($selectDurationValues));
+		$plot->setYMax(max($queryDurationValues));
 		
 		$group->legend->add($plot, 'Average duration (s)', LEGEND_MARK);
 		$group->add($plot);
