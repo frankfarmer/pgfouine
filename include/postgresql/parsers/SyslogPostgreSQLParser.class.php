@@ -42,9 +42,10 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 		}
 		
 		$formattedDate = $matches[1][0];
-		$timestamp = strtotime(date('Y').' '.$formattedDate);
+		$timestamp = strtotime(preg_replace('/(^[a-z]{3}[ ]+[0-9]{1,2})/i', '\1 '.date('Y'), $formattedDate));
+
 		if($timestamp > time()) {
-			$timestamp = strtotime((date('Y')-1).' '.$formattedDate);	
+			$timestamp = strtotime(preg_replace('/(^[a-z]{3}[ ]+[0-9]{1,2})/i', '\1 '.(date('Y')-1), $formattedDate));
 		}
 		if($timestamp < 0) {
 			$timestamp = 0;
