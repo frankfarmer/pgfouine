@@ -1,5 +1,9 @@
 2006-03-25  Guillaume Smet <guillaume-pg@smet.org>
 
+	* released 0.5
+
+2006-03-25  Guillaume Smet <guillaume-pg@smet.org>
+
 	* fixed a bug reported by Simon Riggs on pgsql-hackers
 	http://archives.postgresql.org/pgsql-hackers/2006-03/msg00694.php
 	* added html output for hourly statistics report
