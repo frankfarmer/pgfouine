@@ -26,6 +26,7 @@ class NormalizedError {
 	var $error = '';
 	var $hint = '';
 	var $detail = '';
+	var $textIsAStatement = false;
 	var $examples = array();
 	var $count = 0;
 	
@@ -34,6 +35,7 @@ class NormalizedError {
 		$this->error = $error->getError();
 		$this->hint = $error->getHint();
 		$this->detail = $error->getDetail();
+		$this->textIsAStatement = $error->isTextAStatement();
 		
 		$this->addError($error);
 	}
@@ -77,6 +79,10 @@ class NormalizedError {
 	
 	function getHint() {
 		return $this->hint;
+	}
+	
+	function isTextAStatement() {
+		return $this->textIsAStatement;
 	}
 }
 

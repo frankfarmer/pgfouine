@@ -1,5 +1,6 @@
 2006-03-25  Guillaume Smet <guillaume-pg@smet.org>
 
+	* improved the errors report
 	* released 0.5
 
 2006-03-25  Guillaume Smet <guillaume-pg@smet.org>
@@ -11,6 +12,7 @@
 	* fixed unit tests
 	* added a dynamic CSS based TOC for users who use a real browser
 	* ignore autovacuum log lines
+	* fixed syslog date detection again
 
 2006-03-23  Guillaume Smet <guillaume-pg@smet.org>
 

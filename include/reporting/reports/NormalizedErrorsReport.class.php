@@ -29,7 +29,6 @@ class NormalizedErrorsReport extends Report {
 	
 	function getNormalizedErrorWithExamplesHtml($counter, & $normalizedError) {
 		$html = '';
-		$html .= $this->highlightSql($normalizedError->getNormalizedText());
 		
 		$examples =& $normalizedError->getFilteredExamplesArray();
 		$exampleCount = count($examples);
@@ -44,8 +43,13 @@ class NormalizedErrorsReport extends Report {
 			
 			for($i = 0; $i < $exampleCount; $i++) {
 				$example =& $examples[$i];
+				
+				$text = $example->getText();
+				if($example->isTextAStatement()) {
+					$text = $this->highlightSql($text);
+				}
 				$html .= '<div class="example'.($i%2).'">';
-				$html .= $this->highlightSql($example->getText());
+				$html .= $text;
 				$html .= '</div>';
 				unset($example);
 			}

@@ -36,8 +36,11 @@ class NormalizedErrorsMostFrequentReport extends NormalizedErrorsReport {
 		
 		for($i = 0; $i < $count; $i++) {
 			$error =& $errors[$i];
+			
 			$text .= ($i+1).') '.$this->formatInteger($error->getTimesExecuted()).' - '.$error->getNormalizedText()."\n";
-			$text .= 'Error: '.$error->getError()."\n";
+			if($error->isTextAStatement()) {
+				$text .= 'Error: '.$error->getError()."\n";
+			}
 			if($error->getDetail()) {
 				$text .= 'Detail: '.$error->getDetail()."\n";
 			}
@@ -61,12 +64,18 @@ class NormalizedErrorsMostFrequentReport extends NormalizedErrorsReport {
 <table class="queryList">
 	<tr>
 		<th>Rank</th>
-		<th>Times executed</th>
+		<th>Times reported</th>
 		<th>Error</th>
 	</tr>';
 		
 			for($i = 0; $i < $count; $i++) {
 				$error =& $errors[$i];
+				if($error->isTextAStatement()) {
+					$errorText = $error->getError();
+				} else {
+					$errorText = $error->getNormalizedText();
+				}
+				
 				$html .= '<tr class="'.$this->getRowStyle($i).'">
 					<td class="center top">'.($i+1).'</td>
 					<td class="relevantInformation top center">'.$this->formatInteger($error->getTimesExecuted()).'</td>
@@ -82,6 +91,9 @@ class NormalizedErrorsMostFrequentReport extends NormalizedErrorsReport {
 						$html .= '<br />';
 					}
 					$html .= '</div>';
+				}
+				if($error->isTextAStatement()) {
+					$html .= $this->highlightSql($error->getNormalizedText());
 				}
 				$html .= $this->getNormalizedErrorWithExamplesHtml($i, $error).'</td>
 				</tr>';

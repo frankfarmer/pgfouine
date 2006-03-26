@@ -25,6 +25,7 @@ class ErrorLogObject extends LogObject {
 	var $hint = '';
 	var $detail = '';
 	var $error = '';
+	var $textIsAStatement = false;
 	
 	function ErrorLogObject($user, $db, $text = 'No error message') {
 		$this->error = $text;
@@ -41,6 +42,7 @@ class ErrorLogObject extends LogObject {
 		$this->error = $this->text;
 		
 		$this->text = $text;
+		$this->textIsAStatement = true;
 	}
 	
 	function appendHint($hint) {
@@ -78,6 +80,10 @@ class ErrorLogObject extends LogObject {
 	
 	function getDetail() {
 		return $this->detail;
+	}
+	
+	function isTextAStatement() {
+		return $this->textIsAStatement;
 	}
 }
 

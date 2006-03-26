@@ -31,8 +31,8 @@ class LogStream {
 	function append(& $line) {
 		$logObject = false;
 		$lineCommandNumber = $line->getCommandNumber();
-
-		if(!$this->currentBlock || (($lineCommandNumber != $this->currentBlock->getCommandNumber()) && $this->currentBlock->isComplete())) {
+		
+		if(!$this->currentBlock || (($lineCommandNumber != $this->currentBlock->getCommandNumber()) && $this->currentBlock->isComplete()) || is_a($line, 'PostgreSQLErrorLine')) {
 			if($this->currentBlock) {
 				// if we have a duration line with the same duration than the current query with duration, it's because log_duration and log_min_duration_statement
 				// are enabled at the same time so we have both a duration line and a query with duration line for the same query.
@@ -41,7 +41,7 @@ class LogStream {
 					&& is_a($firstLine, 'PostgreSQLDurationLine')
 					&& $firstLine->getDuration() == $line->getDuration()) {
 					// we ignore this block (the duration from log_duration) and we only consider the following one (from log_min_duration_statement)
-				} else {
+				} elseif($this->currentBlock->isComplete()) {
 					$logObject =& $this->currentBlock->close();
 				}
 			}
