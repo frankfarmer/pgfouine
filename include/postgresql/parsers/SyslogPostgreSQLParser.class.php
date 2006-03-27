@@ -31,14 +31,16 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 	function & parse($data) {
 		$syslogContextMatch =& $this->regexpSyslogContext->match($data);
 		if($syslogContextMatch === false) {
-			return false;
+			$line = false;
+			return $line;
 		}
 		
 		$matches = $syslogContextMatch->getMatches();
 		$text = $syslogContextMatch->getPostMatch();
 		
 		if(count($matches) < 4 || !$text) {
-			return false;
+			$line = false;
+			return $line;
 		}
 		
 		$formattedDate = $matches[1][0];
