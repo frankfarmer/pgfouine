@@ -54,6 +54,7 @@ class PostgreSQLParser {
 				}
 				
 				if(
+					strpos($postMatch, 'disconnection: session time: ') !== 0 &&
 					strpos($postMatch, 'autovacuum: processing database') !== 0 &&
 					strpos($postMatch, 'recycled transaction log file') !== 0 &&
 					strpos($postMatch, 'removing transaction log file "') !== 0 &&
