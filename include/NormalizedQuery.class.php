@@ -83,7 +83,8 @@ class NormalizedQuery {
 			}
 			unset($example);
 		}
-		return array();
+		$examples = array();
+		return $examples;
 	}
 }
 
