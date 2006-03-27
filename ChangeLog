@@ -1,3 +1,8 @@
+2006-03-26  Open Wide <guillaume.smet@openwide.fr>
+
+	* removed a few notices with PHP 5.1
+	* added another line to ignore
+
 2006-03-25  Guillaume Smet <guillaume-pg@smet.org>
 
 	* improved the errors report
