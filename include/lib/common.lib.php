@@ -121,6 +121,13 @@ class RegExp {
 		return $match;
 	}
 	
+	function & matchAll($text) {
+		$matches = array();
+		$found = preg_match_all($this->pattern, $text, $matches, PREG_SET_ORDER);
+		
+		return $matches;
+	}
+	
 	function getPattern() {
 		return $this->pattern;
 	}
