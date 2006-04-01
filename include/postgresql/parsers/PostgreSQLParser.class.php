@@ -27,67 +27,59 @@ class PostgreSQLParser {
 		global $postgreSQLRegexps;
 		
 		$logLineMatch =& $postgreSQLRegexps['LogLine']->match($text);
+
 		if($logLineMatch) {
-			$keyword = $logLineMatch->getMatch(1);
+			$logLinePrefix = trim($logLineMatch->getMatch(1));
+			$keyword = $logLineMatch->getMatch(2);
 			$postMatch = $logLineMatch->getPostMatch();
 			
 			if($keyword == 'LOG' || $keyword == 'DEBUG') {
 				$queryMatch =& $postgreSQLRegexps['QueryStartPart']->match($postMatch);
 				if($queryMatch) {
 					$line = new PostgreSQLQueryStartLine($queryMatch->getPostMatch());
-					return $line;
-				}
-				$durationMatch =& $postgreSQLRegexps['DurationPart']->match($postMatch);
-				if($durationMatch) {
+				} elseif($durationMatch =& $postgreSQLRegexps['DurationPart']->match($postMatch)) {
 					$additionalInformation = trim($durationMatch->getPostMatch());
 					if($additionalInformation == '') {
 						$line = new PostgreSQLDurationLine(trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
 					} else {
 						$line = new PostgreSQLQueryStartWithDurationLine($additionalInformation, trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
 					}
-					return $line;
+				} elseif($statusMatch =& $postgreSQLRegexps['StatusPart']->match($postMatch)) {
+						$line = new PostgreSQLStatusLine($postMatch);
+				} else {
+					if(
+						strpos($postMatch, 'transaction ID wrap limit is') !== 0 &&
+						strpos($postMatch, 'archived transaction log file') !== 0 &&
+						strpos($postMatch, 'disconnection: session time: ') !== 0 &&
+						strpos($postMatch, 'autovacuum: processing database') !== 0 &&
+						strpos($postMatch, 'recycled transaction log file') !== 0 &&
+						strpos($postMatch, 'removing transaction log file "') !== 0 &&
+						strpos($postMatch, 'removing file "') !== 0 &&
+						strpos($postMatch, 'could not receive data from client') !== 0 &&
+						strpos($postMatch, 'checkpoints are occurring too frequently (') !== 0
+						) {
+						stderr('Unrecognized LOG or DEBUG line: '.$text, true);
+					}
+					$line = false;
 				}
-				$statusMatch =& $postgreSQLRegexps['StatusPart']->match($postMatch);
-				if($statusMatch) {
-					$line = new PostgreSQLStatusLine($postMatch);
-					return $line;
-				}
-				
-				if(
-					strpos($postMatch, 'transaction ID wrap limit is') !== 0 &&
-					strpos($postMatch, 'archived transaction log file') !== 0 &&
-					strpos($postMatch, 'disconnection: session time: ') !== 0 &&
-					strpos($postMatch, 'autovacuum: processing database') !== 0 &&
-					strpos($postMatch, 'recycled transaction log file') !== 0 &&
-					strpos($postMatch, 'removing transaction log file "') !== 0 &&
-					strpos($postMatch, 'removing file "') !== 0 &&
-					strpos($postMatch, 'could not receive data from client') !== 0 &&
-					strpos($postMatch, 'checkpoints are occurring too frequently (') !== 0
-					) {
-					stderr('Unrecognized LOG or DEBUG line: '.$text, true);
-				}
-				$line = false;
-				return $line;
 			} elseif($keyword == 'WARNING' || $keyword == 'ERROR' || $keyword == 'FATAL' || $keyword == 'PANIC') {
 				$line = new PostgreSQLErrorLine($postMatch);
-				return $line;
 			} elseif($keyword == 'CONTEXT') {
 				$line = new PostgreSQLContextLine($postMatch);
-				return $line;
 			} elseif($keyword == 'STATEMENT') {
 				$line = new PostgreSQLStatementLine($postMatch);
-				return $line;
 			} elseif($keyword == 'HINT') {
 				$line = new PostgreSQLHintLine($postMatch);
-				return $line;
 			} elseif($keyword == 'DETAIL') {
 				$line = new PostgreSQLDetailLine($postMatch);
-				return $line;
 			}
+			if($line) {
+				$line->setLogLinePrefix($logLinePrefix);
+			}
+		} else {
+			// probably a continuation line. We let the PostgreSQLContinuationLine decide if it is one or not
+			$line = new PostgreSQLContinuationLine($text);
 		}
-		
-		// probably a continuation line. We let the PostgreSQLContinuationLine decide if it is one or not
-		$line = new PostgreSQLContinuationLine($text);
 		return $line;
 	}
 }
