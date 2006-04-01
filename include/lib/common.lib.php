@@ -78,19 +78,22 @@ function normalizeWhitespaces($text) {
 
 function &last(& $array) {
 	if(empty($array)) {
-		return false;
+		$last = false;
+	} else {
+		end($array);
+		$last =& $array[key($array)];
 	}
-	end($array);
-	return $array[key($array)];
+	return $last;
 }
 
 function &pop(& $array) {
 	if(empty($array)) {
-		return false;
+		$last = false;
+	} else {
+		$last =& last($array);
+		array_pop($array);
 	}
-	$object =& last($array);
-	array_pop($array);
-	return $object;
+	return $last;
 }
 
 function arrayAdd($array1, $array2) {
