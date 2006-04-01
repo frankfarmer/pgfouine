@@ -1,9 +1,21 @@
-2006-03-26  Open Wide <guillaume.smet@openwide.fr>
+2006-04-01  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added filter on database and user
+
+2006-03-31  Open Wide <guillaume.smet@openwide.fr>
+
+	* added two more lines to ignore
+	* fixed error reporting for php 4.4
+	* fixed a bug when two consecutive blocks have the same command line
+	number in the same logstream (should not happen but seems to happen
+	sometimes anyway)
+
+2006-03-27  Open Wide <guillaume.smet@openwide.fr>
 
 	* removed a few notices with PHP 5.1
 	* added another line to ignore
 
-2006-03-25  Guillaume Smet <guillaume-pg@smet.org>
+2006-03-26  Guillaume Smet <guillaume-pg@smet.org>
 
 	* improved the errors report
 	* released 0.5
