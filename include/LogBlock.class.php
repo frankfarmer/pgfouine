@@ -25,11 +25,8 @@ class LogBlock {
 	var $logStream;
 	var $commandNumber;
 	var $lines = array();
-	var $host = '';
-	var $port = '';
-	var $user = '';
-	var $db = '';
 	var $complete = false;
+	var $lastLineNumber = 0;
 	
 	function LogBlock(& $logStream, $commandNumber, & $line) {
 		$this->logStream =& $logStream;
@@ -39,6 +36,10 @@ class LogBlock {
 	
 	function getCommandNumber() {
 		return $this->commandNumber;
+	}
+	
+	function getLastLineNumber() {
+		return $this->lastLineNumber;
 	}
 	
 	function & getLines() {
@@ -51,14 +52,16 @@ class LogBlock {
 	
 	function & getFirstLine() {
 		if(isset($this->lines[0])) {
-			return $this->lines[0];
+			$line =& $this->lines[0];
 		} else {
-			return false;
+			$line = false;
 		}
+		return $line;
 	}
 	
 	function addLine(& $line) {
 		$this->complete = $this->complete || $line->complete();
+		$this->lastLineNumber = $line->getLineNumber();
 		$this->lines[] =& $line;
 	}
 	
@@ -69,8 +72,8 @@ class LogBlock {
 	function close() {
 		$count = count($this->lines);
 		$logObject =& $this->lines[0]->getLogObject($this->logStream);
-		
-		if($logObject) {
+			
+		if($logObject && !$logObject->isIgnored()) {
 			for($i = 1; $i < $count; $i++) {
 				$this->lines[$i]->appendTo($logObject);
 			}
