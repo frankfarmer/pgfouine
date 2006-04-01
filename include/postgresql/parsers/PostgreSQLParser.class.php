@@ -54,6 +54,8 @@ class PostgreSQLParser {
 				}
 				
 				if(
+					strpos($postMatch, 'transaction ID wrap limit is') !== 0 &&
+					strpos($postMatch, 'archived transaction log file') !== 0 &&
 					strpos($postMatch, 'disconnection: session time: ') !== 0 &&
 					strpos($postMatch, 'autovacuum: processing database') !== 0 &&
 					strpos($postMatch, 'recycled transaction log file') !== 0 &&
