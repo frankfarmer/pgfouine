@@ -60,6 +60,8 @@ function usage($error = false) {
   -onlyselect                            ignore all queries but SELECT
   -from "<date>"                         ignore lines logged before this date (uses strtotime)
   -to "<date>"                           ignore lines logged after this date (uses strtotime)
+  -database <database>                   consider only queries on this database
+  -user <user>                           consider only queries executed by this user
   -debug                                 debug mode
   -profile                               profile mode
   -help                                  this help
@@ -253,6 +255,18 @@ if(isset($options['onlyselect'])) {
 	define('CONFIG_ONLY_SELECT', true);
 } else {
 	define('CONFIG_ONLY_SELECT', false);
+}
+
+if(isset($options['database']) && !empty($options['database'])) {
+	define('CONFIG_DATABASE', $options['database']);
+} else {
+	define('CONFIG_DATABASE', false);
+}
+
+if(isset($options['user']) && !empty($options['user'])) {
+	define('CONFIG_USER', $options['user']);
+} else {
+	define('CONFIG_USER', false);
 }
 
 if(isset($options['from']) && !empty($options['from'])) {
