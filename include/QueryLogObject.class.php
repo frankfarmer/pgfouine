@@ -22,13 +22,6 @@
  */
 
 class QueryLogObject extends LogObject {
-	var $text;
-	var $db;
-	var $user;
-	var $duration = false;
-	var $ignored;
-	var $timestamp = 0;
-	var $commandNumber = 0;
 	var $subQueries = array();
 
 	function QueryLogObject($user, $db, $text = '', $ignored = false) {
@@ -80,7 +73,7 @@ class QueryLogObject extends LogObject {
 	}
 	
 	function isIgnored() {
-		return ($this->ignored || (CONFIG_ONLY_SELECT && !$this->isSelect()));
+		return (parent::isIgnored() || (CONFIG_ONLY_SELECT && !$this->isSelect()));
 	}
 	
 	function setDuration($duration) {
