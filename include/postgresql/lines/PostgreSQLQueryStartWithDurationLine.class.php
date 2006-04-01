@@ -36,7 +36,10 @@ class PostgreSQLQueryStartWithDurationLine extends PostgreSQLQueryStartLine {
 	}
 
 	function & getLogObject(& $logStream) {
-		$query = new QueryLogObject($logStream->getUser(), $logStream->getDb(), $this->text, $this->ignore);
+		$database = $this->database ? $this->database : $logStream->getDatabase();
+		$user = $this->user ? $this->user : $logStream->getUser();
+		
+		$query = new QueryLogObject($user, $database, $this->text, $this->ignore);
 		$query->setDuration($this->duration);
 		$query->setContextInformation($this->timestamp, $this->commandNumber);
 		

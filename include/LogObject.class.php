@@ -23,19 +23,24 @@
 
 class LogObject {
 	var $text;
-	var $db;
+	var $database;
 	var $user;
 	var $timestamp;
 	var $commandNumber = 0;
-	var $duration = false;
 	var $ignored;
 	var $context;
 	var $complete = false;
 
-	function LogObject($user, $db, $text = '', $ignored = false) {
+	function LogObject($user, $database, $text = '', $ignored = false) {
 		$this->user = $user;
-		$this->db = $db;
+		$this->database = $database;
 		$this->text = $text;
+		if(
+			(CONFIG_DATABASE && $database != CONFIG_DATABASE) ||
+			(CONFIG_USER && $user != CONFIG_USER)
+		) {
+			$ignored = true;
+		}
 		$this->ignored = $ignored;
 	}
 	
@@ -90,8 +95,8 @@ class LogObject {
 		return $this->ignored;
 	}
 	
-	function getDb() {
-		return $this->db;
+	function getDatabase() {
+		return $this->database;
 	}
 	
 	function getUser() {

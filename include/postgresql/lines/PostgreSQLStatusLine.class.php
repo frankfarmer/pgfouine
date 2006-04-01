@@ -33,7 +33,7 @@ class PostgreSQLStatusLine extends PostgreSQLLogLine {
 		
 		$connectionAuthorized =& $postgreSQLRegexps['ConnectionAuthorized']->match($this->text);
 		if($connectionAuthorized) {
-			$logStream->setUserDb($connectionAuthorized->getMatch(1), $connectionAuthorized->getMatch(2));
+			$logStream->setUserDatabase($connectionAuthorized->getMatch(1), $connectionAuthorized->getMatch(2));
 		}
 		return false;
 	}

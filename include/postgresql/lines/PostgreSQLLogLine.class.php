@@ -29,6 +29,8 @@ class PostgreSQLLogLine {
 	var $text;
 	var $duration;
 	var $ignore;
+	var $database = false;
+	var $user = false;
 	
 	function PostgreSQLLogLine($text = '', $duration = false) {
 		$this->text = rtrim($text);
@@ -87,12 +89,33 @@ class PostgreSQLLogLine {
 		return $this->lineNumber;
 	}
 	
+	function getDatabase() {
+		return $this->database;
+	}
+	
+	function getUser() {
+		return $this->user;
+	}
+	
 	function complete() {
 		return false;
 	}
 	
 	function getDuration() {
 		return $this->duration;
+	}
+	
+	function setLogLinePrefix($logLinePrefix) {
+		global $postgreSQLRegexps;
+		
+		$logPrefixValues =& $postgreSQLRegexps['LogLinePrefix']->matchAll($logLinePrefix);
+		for($i = 0, $max = count($logPrefixValues); $i < $max; $i++) {
+			if($logPrefixValues[$i][1] == 'db') {
+				$this->database = $logPrefixValues[$i][2];
+			} elseif($logPrefixValues[$i][1] == 'user') {
+				$this->user = $logPrefixValues[$i][2];
+			}
+		}
 	}
 }
 
