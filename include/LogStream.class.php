@@ -26,13 +26,16 @@ class LogStream {
 	var $host = '';
 	var $port = '';
 	var $user = '';
-	var $db = '';
+	var $database = '';
 	
 	function append(& $line) {
 		$logObject = false;
 		$lineCommandNumber = $line->getCommandNumber();
 		
-		if(!$this->currentBlock || (($lineCommandNumber != $this->currentBlock->getCommandNumber()) && $this->currentBlock->isComplete()) || is_a($line, 'PostgreSQLErrorLine')) {
+		if(!$this->currentBlock ||
+			((($lineCommandNumber != $this->currentBlock->getCommandNumber()) || ($line->getLineNumber() == 1)) && $this->currentBlock->isComplete()) ||			
+			is_a($line, 'PostgreSQLErrorLine')
+		) {
 			if($this->currentBlock) {
 				// if we have a duration line with the same duration than the current query with duration, it's because log_duration and log_min_duration_statement
 				// are enabled at the same time so we have both a duration line and a query with duration line for the same query.
@@ -75,9 +78,9 @@ class LogStream {
 		$this->port = $port;
 	}
 
-	function setUserDb($user, $db) {
+	function setUserDatabase($user, $database) {
 		$this->user = $user;
-		$this->db = $db;
+		$this->database = $database;
 	}
 	
 	function getHost() {
@@ -92,8 +95,8 @@ class LogStream {
 		return $this->user;
 	}
 	
-	function getDb() {
-		return $this->db;
+	function getDatabase() {
+		return $this->database;
 	}
 	
 	function flush(& $accumulator) {
