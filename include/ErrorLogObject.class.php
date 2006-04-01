@@ -61,7 +61,8 @@ class ErrorLogObject extends LogObject {
 	}
 	
 	function isIgnored() {
-		 if($this->error == 'terminating connection due to administrator command' ||
+		 if(parent::isIgnored() || 
+		 	$this->error == 'terminating connection due to administrator command' ||
 		 	$this->error == 'the database system is shutting down'
 		 	) {
 		 	return true;
