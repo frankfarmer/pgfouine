@@ -22,9 +22,9 @@ class TestLogStream extends UnitTestCase {
 	
 	function testSetUserDb() {
 		$logStream = new LogStream();
-		$logStream->setUserDb(LOG_STREAM_USER, LOG_STREAM_DB);
+		$logStream->setUserDatabase(LOG_STREAM_USER, LOG_STREAM_DB);
 		$this->assertEqual(LOG_STREAM_USER, $logStream->getUser());
-		$this->assertEqual(LOG_STREAM_DB, $logStream->getDb());
+		$this->assertEqual(LOG_STREAM_DB, $logStream->getDatabase());
 	}
 }
 

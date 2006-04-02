@@ -6,6 +6,8 @@ require_once('simpletest/reporter.php');
 define('DEBUG', false);
 define('CONFIG_ONLY_SELECT', false);
 define('CONFIG_TIMESTAMP_FILTER', false);
+define('CONFIG_DATABASE', false);
+define('CONFIG_USER', false);
 
 $commonTests = &new GroupTest('Common tests');
 

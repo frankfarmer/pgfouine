@@ -33,7 +33,7 @@ class TestLogObject extends UnitTestCase {
 		
 		$logObject = new LogObject(TEST_USER, TEST_DB, TEST_TEXT);
 
-		$this->assertEqual(TEST_DB, $logObject->getDb());
+		$this->assertEqual(TEST_DB, $logObject->getDatabase());
 		$this->assertEqual(TEST_USER, $logObject->getUser());
 		
 		$logObject->setContextInformation(TEST_TIMESTAMP, TEST_COMMAND_NUMBER);
