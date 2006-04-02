@@ -1,3 +1,8 @@
+2006-04-02  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added a stderr parser based on Tatsuo Ishii's suggestion:
+	http://pgfoundry.org/forum/forum.php?thread_id=735&forum_id=555
+
 2006-04-01  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added filter on database and user
