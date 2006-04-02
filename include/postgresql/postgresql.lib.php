@@ -41,7 +41,7 @@ require_once('lines/PostgreSQLStatusLine.class.php');
 
 // parsers
 require_once('parsers/PostgreSQLParser.class.php');
-//require_once('parsers/LogPostgreSQLParser.class.php');
+require_once('parsers/StderrPostgreSQLParser.class.php');
 require_once('parsers/SyslogPostgreSQLParser.class.php');
 
 ?>

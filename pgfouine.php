@@ -51,7 +51,8 @@ function usage($error = false) {
   -                                      read the log from stdin instead of -file
   -top <n>                               number of queries in lists. Default is 20.
   -format <format>                       output format: html, html-with-graphs or text. Default is html.
-  -logtype <logtype>                     log type: only syslog is currently supported
+  -logtype <logtype>                     log type: syslog or stderr. Default is stderr.
+                                          for stderr, you have to use the following log_line_prefix: \'%t [%p]: [%l-1] \'
   -report [outputfile=]<block1,block2>   list of report blocks separated by a comma
                                          report blocks can be: overall, hourly, bytype, slowest, n-mosttime,
                                           n-mostfrequent, n-slowestaverage, n-mostfrequenterrors
@@ -233,7 +234,7 @@ if(isset($options['format'])) {
 	$aggregator = $supportedFormats['html'];
 }
 
-$supportedLogTypes = array('syslog' => 'SyslogPostgreSQLParser');
+$supportedLogTypes = array('syslog' => 'SyslogPostgreSQLParser', 'stderr' => 'StderrPostgreSQLParser');
 if(isset($options['logtype'])) {
 	if(array_key_exists($options['logtype'], $supportedLogTypes)) {
 		$parser = $supportedLogTypes[$options['logtype']];
