@@ -22,7 +22,7 @@
  */
 
 class SyslogPostgreSQLParser extends PostgreSQLParser {
-	var $regexpPostgresPid;
+	var $regexpSyslogContext;
 	
 	function SyslogPostgreSQLParser($syslogString = 'postgres') {
 		$this->regexpSyslogContext = new RegExp('/^([A-Z][a-z]{2} [ 0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}) .*? '.$syslogString.'\[(\d{1,5})\]: \[(\d{1,20})(?:\-(\d{1,5}))?\] /');
@@ -66,10 +66,6 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 		
 		if($line) {
 			$line->setContextInformation($timestamp, $connectionId, $commandNumber, $lineNumber);
-		
-			if(CONFIG_TIMESTAMP_FILTER && ($timestamp < CONFIG_FROM_TIMESTAMP || $timestamp > CONFIG_TO_TIMESTAMP)) {
-				$line = false;
-			}
 		}
 		return $line;
 	}
