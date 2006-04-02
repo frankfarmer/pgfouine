@@ -35,12 +35,6 @@ class LogObject {
 		$this->user = $user;
 		$this->database = $database;
 		$this->text = $text;
-		if(
-			(CONFIG_DATABASE && $database != CONFIG_DATABASE) ||
-			(CONFIG_USER && $user != CONFIG_USER)
-		) {
-			$ignored = true;
-		}
 		$this->ignored = $ignored;
 	}
 	
@@ -92,6 +86,13 @@ class LogObject {
 	}
 
 	function isIgnored() {
+		if(
+			(CONFIG_DATABASE && $this->database != CONFIG_DATABASE) ||
+			(CONFIG_USER && $this->user != CONFIG_USER) ||
+			(CONFIG_TIMESTAMP_FILTER && ($this->timestamp < CONFIG_FROM_TIMESTAMP || $this->timestamp > CONFIG_TO_TIMESTAMP))
+		) {
+			$this->ignored = true;
+		}
 		return $this->ignored;
 	}
 	
