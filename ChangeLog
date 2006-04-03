@@ -1,3 +1,7 @@
+2006-04-03  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added a tooltip with detailed information on queries and errors
+
 2006-04-02  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added a stderr parser based on Tatsuo Ishii's suggestion:

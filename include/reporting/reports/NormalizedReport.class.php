@@ -44,7 +44,9 @@ class NormalizedReport extends Report {
 			
 			for($i = 0; $i < $exampleCount; $i++) {
 				$example =& $examples[$i];
-				$html .= '<div class="example'.($i%2).'">';
+				$title = $example->getDetailedInformation();
+				
+				$html .= '<div class="example'.($i%2).'" title="'.$title.'">';
 				$html .= $this->highlightSql($example->getText(), $this->formatDuration($example->getDuration()).'s | ');
 				$html .= '</div>';
 				unset($example);

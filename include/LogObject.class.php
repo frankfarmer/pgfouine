@@ -111,6 +111,14 @@ class LogObject {
 	function getContext() {
 		return $this->context;
 	}
+	
+	function getDetailedInformation() {
+		$detailedInformation = formatTimestamp($this->getTimestamp());
+		if($this->getUser() && $this->getDatabase()) {
+			$detailedInformation .= ' - '.$this->getUser().'@'.$this->getDatabase();
+		}
+		return $detailedInformation;
+	}
 }
 
 ?>

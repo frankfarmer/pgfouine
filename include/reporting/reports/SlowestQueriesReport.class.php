@@ -53,12 +53,16 @@ class SlowestQueriesReport extends Report {
 		$count = count($queries);
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
+			$title = $query->getDetailedInformation();
+			
 			$html .= '<tr class="'.$this->getRowStyle($i).'">
 				<td class="center top">'.($i+1).'</td>
 				<td class="relevantInformation top center">'.$this->formatDuration($query->getDuration()).'</td>
-				<td>'.$this->highlightSql($query->getText()).'</td>
+				<td title="'.$query->getDetailedInformation().'">'.$this->highlightSql($query->getText()).'</td>
 			</tr>';
 			$html .= "\n";
+			
+			unset($query);
 		}
 		$html .= '</table>';
 		return $html;

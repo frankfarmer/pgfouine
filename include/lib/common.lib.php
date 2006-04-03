@@ -70,6 +70,10 @@ function getMemoryUsage() {
 	return $output;
 }
 
+function formatTimestamp($timestamp) {
+	return date('Y-m-d H:i:s', $timestamp);
+}
+
 function normalizeWhitespaces($text) {
 	$text = trim($text);
 	$text = preg_replace('/\s+/', ' ', $text);
