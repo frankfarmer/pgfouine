@@ -63,8 +63,16 @@ class OverallStatsReport extends Report {
 		if($normalizedListener) {
 			$html .= '<li>Number of unique normalized queries: '.$this->formatInteger($normalizedListener->getUniqueQueryCount()).'</li>';
 		}
-		$html .= '<li>Number of queries: '.$this->formatInteger($statsListener->getQueryCount()).' (identified: '.$this->formatInteger($statsListener->getIdentifiedQueryCount()).')</li>';
-		$html .= '<li>Total query duration: '.$this->formatLongDuration($statsListener->getQueryDuration()).' (identified: '.$this->formatLongDuration($statsListener->getIdentifiedQueryDuration()).')</li>';
+		$html .= '<li>Number of queries: '.$this->formatInteger($statsListener->getQueryCount());
+		if($statsListener->getQueryCount() != $statsListener->getIdentifiedQueryCount()) {
+			$html .= ' (identified: '.$this->formatInteger($statsListener->getIdentifiedQueryCount()).')';
+		}
+		$html .= '</li>';
+		$html .= '<li>Total query duration: '.$this->formatLongDuration($statsListener->getQueryDuration());
+		if($statsListener->getQueryDuration() != $statsListener->getIdentifiedQueryDuration()) {
+			$html .= ' (identified: '.$this->formatLongDuration($statsListener->getIdentifiedQueryDuration()).')';
+		}
+		$html .= '</li>';
 		$html .= '<li>First query: '.$this->formatTimestamp($statsListener->getFirstQueryTimestamp()).'</li>';
 		$html .= '<li>Last query: '.$this->formatTimestamp($statsListener->getLastQueryTimestamp()).'</li>';
 		$html .= '<li>Query peak: '.$this->formatInteger($statsListener->getQueryPeakQueryCount()).' queries/s at '.$this->formatTimestamp($statsListener->getQueryPeakTimestamp()).'</li>';
