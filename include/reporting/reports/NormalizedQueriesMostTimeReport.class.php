@@ -61,7 +61,7 @@ class NormalizedQueriesMostTimeReport extends NormalizedReport {
 			$html .= '<tr class="'.$this->getRowStyle($i).'">
 				<td class="center top">'.($i+1).'</td>
 				<td class="relevantInformation top center">'.$this->formatLongDuration($query->getTotalDuration()).'</td>
-				<td class="top center">'.$this->formatInteger($query->getTimesExecuted()).'</td>
+				<td class="top center"><div class="tooltipLink"><span class="information">'.$this->formatInteger($query->getTimesExecuted()).'</span>'.$this->getHourlyStatisticsTooltip($query).'</div></td>
 				<td class="top center">'.$this->formatDuration($query->getAverageDuration()).'</td>
 				<td>'.$this->getNormalizedQueryWithExamplesHtml($i, $query).'</td>
 			</tr>';

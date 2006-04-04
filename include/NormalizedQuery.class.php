@@ -26,6 +26,7 @@ class NormalizedQuery {
 	var $duration = 0;
 	var $count = 0;
 	var $examples = false;
+	var $hourlyStatistics = array();
 	
 	function NormalizedQuery(& $query) {
 		$this->normalizedText = $query->getNormalizedText();
@@ -40,6 +41,15 @@ class NormalizedQuery {
 	function addQuery(& $query) {
 		$this->count ++;
 		$this->duration += $query->getDuration();
+		
+		$formattedTimestamp = date('Y-m-d H:00:00', $query->getTimestamp());
+		if(!isset($this->hourlyStatistics[$formattedTimestamp])) {
+			$this->hourlyStatistics[$formattedTimestamp]['count'] = 0;
+			$this->hourlyStatistics[$formattedTimestamp]['duration'] = 0;
+		}
+		$this->hourlyStatistics[$formattedTimestamp]['count']++;
+		$this->hourlyStatistics[$formattedTimestamp]['duration']+= $query->getDuration();
+		
 		if($this->examples) {
 			if($this->count == 1) {
 				$this->examples->addQuery($query);
@@ -85,6 +95,11 @@ class NormalizedQuery {
 		}
 		$examples = array();
 		return $examples;
+	}
+	
+	function & getHourlyStatistics() {
+		ksort($this->hourlyStatistics);
+		return $this->hourlyStatistics;
 	}
 }
 

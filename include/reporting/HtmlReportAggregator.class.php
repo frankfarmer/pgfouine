@@ -162,6 +162,15 @@ class HtmlReportAggregator extends ReportAggregator {
 			table.queryList div.examples { background-color:#EBF0FC; border:1px solid #FFFFFF; -moz-border-radius:10px; padding:6px; margin:5px; }
 			table.queryList div.examples div.example0 { padding:2px; }
 			table.queryList div.examples div.example1 { background-color:#FFFFFF; padding:2px; border:1px solid #EBF0FC; -moz-border-radius:5px; }
+			div.tooltipLink { position:relative; cursor:pointer; }
+			div.tooltipLink span.information { border-bottom:1px dotted gray; z-index:10; }
+			div.tooltipLink div.tooltip { display:none; background-color:#EBF0FC; border:1px solid #FFFFFF; -moz-border-radius:10px; padding:6px; width:250px; }
+			div.tooltipLink div.tooltip table { background-color:white; width:250px; }
+			div.tooltipLink div.tooltip table tr.row0 td { background-color: #FFFFFF; border: 1px solid #EEEEEE; }
+			div.tooltipLink div.tooltip table tr.row1 td { background-color: #EEEEEE; border: 1px solid #EEEEEE; }
+			div.tooltipLink div.tooltip th { font-size:10px; }
+			div.tooltipLink div.tooltip td { font-size:9px; font-weight:normal; padding:1px; }
+			div.tooltipLink:hover div.tooltip { display:block; z-index:20; position:absolute; top:1.5em; left:2em; }
 			table.queryList div.error { color: #D53131; font-weight:bold; }
 			table.queryList div.errorInformation { color: #8D8D8D; font-style:italic; }
 			table.queryList input { border:1px solid black; background-color:#FFFFFF; padding:1px; font-size:11px; }

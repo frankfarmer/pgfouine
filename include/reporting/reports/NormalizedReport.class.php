@@ -56,6 +56,37 @@ class NormalizedReport extends Report {
 		
 		return $html;
 	}
+	
+	function getHourlyStatisticsTooltip(& $normalizedQuery) {
+		$html .= '<div class="tooltip">';
+		$hourlyStatistics = $normalizedQuery->getHourlyStatistics();
+		$html .= '<table>
+	<tr>
+		<th>Day</th>
+		<th>Time</th>
+		<th>Count</th>
+		<th>Av.&nbsp;Duration</th>
+	</tr>';
+		$i = 0;
+		foreach($hourlyStatistics AS $hour => $hourlyCounter) {
+			$hourTimestamp = strtotime($hour);
+			if(date('H', $hourTimestamp) == 0 || $i == 0) {
+				$day = date('M j', $hourTimestamp);
+			} else {
+				$day = '&nbsp;';
+			}
+			$html .= '<tr class="row'.($i % 2).'">
+		<td>'.$day.'</td>
+		<td>'.date('ga', $hourTimestamp).'</td>
+		<td>'.$this->formatInteger($hourlyCounter['count']).'</td>
+		<td>'.$this->formatDuration(($hourlyCounter['duration']/$hourlyCounter['count'])).'</td>
+	</tr>';
+			$i++;
+		}
+		$html .= '</table>';
+		$html .= '</div>';
+		return $html;
+	}
 } 
 
 ?>
