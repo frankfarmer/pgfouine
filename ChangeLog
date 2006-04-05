@@ -1,3 +1,8 @@
+2006-04-05  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added the framework for unit testing on real log files
+	* first test case
+
 2006-04-04  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added a tooltip with hourly statistics on normalized queries

@@ -101,6 +101,10 @@ class PostgreSQLLogLine {
 		return false;
 	}
 	
+	function isIgnored() {
+		return $this->ignore;
+	}
+	
 	function getDuration() {
 		return $this->duration;
 	}

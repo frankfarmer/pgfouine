@@ -29,7 +29,6 @@ class LogObject {
 	var $commandNumber = 0;
 	var $ignored;
 	var $context;
-	var $complete = false;
 
 	function LogObject($user, $database, $text = '', $ignored = false) {
 		$this->user = $user;
