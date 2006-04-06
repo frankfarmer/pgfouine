@@ -49,8 +49,8 @@ class NormalizedQueriesMostFrequentReport extends NormalizedReport {
 	<tr>
 		<th>Rank</th>
 		<th>Times executed</th>
-		<th>Total time</th>
-		<th>Average time&nbsp;(s)</th>
+		<th>Total duration</th>
+		<th>Av. duration&nbsp;(s)</th>
 		<th>Query</th>
 	</tr>';
 		$queries =& $listener->getMostFrequentQueries();

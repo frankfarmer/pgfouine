@@ -46,7 +46,7 @@ class SlowestQueriesReport extends Report {
 <table class="queryList">
 	<tr>
 		<th>Rank</th>
-		<th>Time&nbsp;(s)</th>
+		<th>Duration&nbsp;(s)</th>
 		<th>Query</th>
 	</tr>';
 		$queries =& $listener->getSortedQueries();

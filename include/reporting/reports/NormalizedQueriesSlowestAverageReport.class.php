@@ -48,9 +48,9 @@ class NormalizedQueriesSlowestAverageReport extends NormalizedReport {
 <table class="queryList">
 	<tr>
 		<th>Rank</th>
-		<th>Average time&nbsp;(s)</th>
+		<th>Av. duration&nbsp;(s)</th>
 		<th>Times executed</th>
-		<th>Total time</th>
+		<th>Total duration</th>
 		<th>Query</th>
 	</tr>';
 		$queries =& $listener->getSlowestQueries();
