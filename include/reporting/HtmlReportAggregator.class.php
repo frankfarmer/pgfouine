@@ -45,7 +45,7 @@ class HtmlReportAggregator extends ReportAggregator {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-		<title>pgFouine: PostgreSQL log analysis report</title>
+		<title>'.htmlspecialchars(CONFIG_REPORT_TITLE).'</title>
 		<style type="text/css">
 			'.$this->getStyles().'
 		</style>
@@ -65,7 +65,7 @@ class HtmlReportAggregator extends ReportAggregator {
 	</head>
 	<body>
 		<div id="content">
-			<h1 id="top">pgFouine: PostgreSQL log analysis report</h1>
+			<h1 id="top">'.htmlspecialchars(CONFIG_REPORT_TITLE).'</h1>
 		';
 		return $header;
 	}

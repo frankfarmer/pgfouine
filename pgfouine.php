@@ -63,6 +63,7 @@ function usage($error = false) {
   -to "<date>"                           ignore lines logged after this date (uses strtotime)
   -database <database>                   consider only queries on this database
   -user <user>                           consider only queries executed by this user
+  -title <title>                         define the title of the reports
   -debug                                 debug mode
   -profile                               profile mode
   -help                                  this help
@@ -158,6 +159,12 @@ if(!CONFIG_STDIN) {
 	}
 } else {
 	$filePath = 'php://stdin';
+}
+
+if(isset($options['title'])) {
+	define('CONFIG_REPORT_TITLE', $options['title']);
+} else {
+	define('CONFIG_REPORT_TITLE', 'pgFouine: PostgreSQL log analysis report');
 }
 
 if(isset($options['top'])) {
