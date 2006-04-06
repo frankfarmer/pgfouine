@@ -1,3 +1,8 @@
+2006-04-06  Guillaume Smet <guillaume-pg@smet.org>
+
+	* only generate graphs if we have enough data to do it
+	* added -title option to define the title of the report
+
 2006-04-05  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added the framework for unit testing on real log files
