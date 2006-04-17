@@ -59,6 +59,35 @@ class NormalizedErrorsReport extends Report {
 		
 		return $html;
 	}
+	
+	function getHourlyStatisticsTooltip(& $normalizedError) {
+		$html .= '<div class="tooltip">';
+		$hourlyStatistics = $normalizedError->getHourlyStatistics();
+		$html .= '<table>
+	<tr>
+		<th>Day</th>
+		<th>Time</th>
+		<th>Count</th>
+	</tr>';
+		$i = 0;
+		foreach($hourlyStatistics AS $hour => $hourlyCounter) {
+			$hourTimestamp = strtotime($hour);
+			if(date('H', $hourTimestamp) == 0 || $i == 0) {
+				$day = date('M j', $hourTimestamp);
+			} else {
+				$day = '&nbsp;';
+			}
+			$html .= '<tr class="row'.($i % 2).'">
+		<td>'.$day.'</td>
+		<td>'.date('ga', $hourTimestamp).'</td>
+		<td>'.$this->formatInteger($hourlyCounter['count']).'</td>
+	</tr>';
+			$i++;
+		}
+		$html .= '</table>';
+		$html .= '</div>';
+		return $html;
+	}
 } 
 
 ?>

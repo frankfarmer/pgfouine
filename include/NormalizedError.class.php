@@ -29,6 +29,7 @@ class NormalizedError {
 	var $textIsAStatement = false;
 	var $examples = array();
 	var $count = 0;
+	var $hourlyStatistics = array();
 	
 	function NormalizedError(& $error) {
 		$this->normalizedText = $error->getNormalizedText();
@@ -42,9 +43,14 @@ class NormalizedError {
 	
 	function addError(& $error) {
 		$this->count ++;
-		if(count($this->examples) < 3) {
+		if(count($this->examples) < CONFIG_MAX_NUMBER_OF_EXAMPLES) {
 			$this->examples[] =& $error;
 		}
+		$formattedTimestamp = date('Y-m-d H:00:00', $error->getTimestamp());
+		if(!isset($this->hourlyStatistics[$formattedTimestamp])) {
+			$this->hourlyStatistics[$formattedTimestamp]['count'] = 0;
+		}
+		$this->hourlyStatistics[$formattedTimestamp]['count']++;
 	}
 	
 	function getNormalizedText() {
@@ -83,6 +89,11 @@ class NormalizedError {
 	
 	function isTextAStatement() {
 		return $this->textIsAStatement;
+	}
+	
+	function & getHourlyStatistics() {
+		ksort($this->hourlyStatistics);
+		return $this->hourlyStatistics;
 	}
 }
 

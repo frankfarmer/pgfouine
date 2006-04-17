@@ -1,3 +1,7 @@
+2006-04-17  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added tooltip with hourly statistics on errors too
+
 2006-04-06  Guillaume Smet <guillaume-pg@smet.org>
 
 	* only generate graphs if we have enough data to do it

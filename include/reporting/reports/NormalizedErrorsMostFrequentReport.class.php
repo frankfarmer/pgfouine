@@ -78,7 +78,7 @@ class NormalizedErrorsMostFrequentReport extends NormalizedErrorsReport {
 				
 				$html .= '<tr class="'.$this->getRowStyle($i).'">
 					<td class="center top">'.($i+1).'</td>
-					<td class="relevantInformation top center">'.$this->formatInteger($error->getTimesExecuted()).'</td>
+					<td class="relevantInformation top center"><div class="tooltipLink"><span class="information">'.$this->formatInteger($error->getTimesExecuted()).'</span>'.$this->getHourlyStatisticsTooltip($error).'</div></td>
 					<td><div class=error>Error: '.$error->getError().'</div>';
 				if($error->getDetail() || $error->getHint()) {
 					$html .= '<div class="errorInformation">';
