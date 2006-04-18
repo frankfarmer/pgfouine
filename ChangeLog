@@ -1,3 +1,8 @@
+2006-04-18  Guillaume Smet <guillaume-pg@smet.org>
+
+	* query count peaks don't depend anymore on the order of the log file
+	(useful when you concatenate 2 log files from 2 different servers)
+
 2006-04-17  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added tooltip with hourly statistics on errors too

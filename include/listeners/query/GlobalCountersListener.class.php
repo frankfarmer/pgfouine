@@ -26,11 +26,7 @@ class GlobalCountersListener extends QueryListener {
 	var $firstQueryTimestamp = MAX_TIMESTAMP;
 	var $lastQueryTimestamp = MIN_TIMESTAMP;
 	
-	var $currentTimestamp = 0;
-	var $currentTimestampQueryCount = 0;
-	
-	var $queryPeakTimestamp = 0;
-	var $queryPeakQueryCount = 0;
+	var $queryPeakByTimestamp = array();
 	
 	function GlobalCountersListener() {
 		$this->counter = new QueryCounter();
@@ -57,16 +53,10 @@ class GlobalCountersListener extends QueryListener {
 			}
 		}
 		
-		if($objectTimestamp == $this->currentTimestamp) {
-			$this->currentTimestampQueryCount++;
-		} else {
-			if($this->currentTimestampQueryCount > $this->queryPeakQueryCount) {
-				$this->queryPeakQueryCount = $this->currentTimestampQueryCount;
-				$this->queryPeakTimestamp = $this->currentTimestamp;
-			}
-			$this->currentTimestampQueryCount = 0;
-			$this->currentTimestamp = $objectTimestamp;
+		if(!isset($this->queryPeakByTimestamp[$objectTimestamp])) {
+			$this->queryPeakByTimestamp[$objectTimestamp] = 0;
 		}
+		$this->queryPeakByTimestamp[$objectTimestamp] ++;
 	}
 	
 	function getSubscriptions() {
@@ -113,12 +103,12 @@ class GlobalCountersListener extends QueryListener {
 		return $this->lastQueryTimestamp;
 	}
 	
-	function getQueryPeakTimestamp() {
-		return $this->queryPeakTimestamp;
+	function getQueryPeakTimestamps() {
+		return array_keys($this->queryPeakByTimestamp, max($this->queryPeakByTimestamp));
 	}
 	
 	function getQueryPeakQueryCount() {
-		return $this->queryPeakQueryCount;
+		return max($this->queryPeakByTimestamp);
 	}
 }
 
