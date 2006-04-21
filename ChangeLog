@@ -1,3 +1,9 @@
+2006-04-21  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed a stupid notice in tooltips thanks to Larry Rosenman
+	* added an option to set syslog ident (postgres by default) following
+	Larry Rosenman's suggestion
+
 2006-04-18  Guillaume Smet <guillaume-pg@smet.org>
 
 	* query count peaks don't depend anymore on the order of the log file

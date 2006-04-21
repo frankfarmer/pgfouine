@@ -64,6 +64,7 @@ function usage($error = false) {
   -database <database>                   consider only queries on this database
   -user <user>                           consider only queries executed by this user
   -title <title>                         define the title of the reports
+  -syslogident                           PostgreSQL syslog identity. Default is postgres.
   -debug                                 debug mode
   -profile                               profile mode
   -help                                  this help
@@ -301,6 +302,12 @@ if(CONFIG_FROM_TIMESTAMP || CONFIG_TO_TIMESTAMP) {
 	define('CONFIG_TIMESTAMP_FILTER', true);
 } else {
 	define('CONFIG_TIMESTAMP_FILTER', false);
+}
+
+if(isset($options['syslogident'])) {
+	define('CONFIG_SYSLOG_IDENTITY', $options['syslogident']);
+} else {
+	define('CONFIG_SYSLOG_IDENTITY', 'postgres');
 }
 
 $logReader = new GenericLogReader($filePath, $parser, 'PostgreSQLAccumulator');
