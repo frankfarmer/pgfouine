@@ -61,6 +61,7 @@ class NormalizedErrorsReport extends Report {
 	}
 	
 	function getHourlyStatisticsTooltip(& $normalizedError) {
+		$html = '';
 		$html .= '<div class="tooltip">';
 		$hourlyStatistics = $normalizedError->getHourlyStatistics();
 		$html .= '<table>
