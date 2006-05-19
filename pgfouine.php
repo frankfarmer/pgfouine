@@ -230,6 +230,9 @@ if(isset($options['format'])) {
 			if(!function_exists('imagegd2')) {
 				usage('HTML with graphs format requires GD2 library and extension');
 			}
+			if(!function_exists('imagettfbbox')) {
+				usage('HTML with graphs format requires Freetype support');
+			}
 			if(!$outputToFiles) {
 				usage('you need to define an output file to use HTML with graphs format (use -report outputfile=block1,block2,...)');
 			}
