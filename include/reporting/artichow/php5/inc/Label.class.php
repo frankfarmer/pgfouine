@@ -76,6 +76,13 @@ class awLabel implements awPositionable {
 	private $function;
 
 	/**
+	 * Callback function to format output
+	 *
+	 * @var string
+	 */
+	private $formatFunction;
+
+	/**
 	 * Padding
 	 *
 	 * @var int
@@ -237,6 +244,15 @@ class awLabel implements awPositionable {
 	 */
 	public function getCallbackFunction() {
 		return $this->function;
+	}
+	
+	/**
+	 * Set a callback function to format the labels
+	 *
+	 * @param string $function
+	 */
+	public function setCallbackFormatFunction($function) {
+		$this->formatFunction =& $function;
 	}
 	
 	/**
@@ -429,6 +445,9 @@ class awLabel implements awPositionable {
 			if(is_string($this->function)) {
 				$value = call_user_func($this->function, $value);
 			}
+			if(!is_null($this->formatFunction)) {
+				$value = call_user_func($this->formatFunction, $value);
+			}
 		
 			$text = new awText($value);
 			$text->setFont($this->font);
@@ -444,7 +463,7 @@ class awLabel implements awPositionable {
 			$text->border = $this->border;
 			
 			if($this->padding !== NULL) {
-				call_user_func_array(array($text, 'setPadding'), $this->padding);
+				call_user_func_array(array(&$text, 'setPadding'), $this->padding);
 			}
 			
 			return $text;
