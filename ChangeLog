@@ -2,6 +2,7 @@
 
 	* added a test to check the freetype support
 	* reported changes made on PHP4 version of Artichow to the PHP5 version
+	* added -memorylimit option
 
 2006-04-21  Guillaume Smet <guillaume-pg@smet.org>
 

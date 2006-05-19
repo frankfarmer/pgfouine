@@ -25,7 +25,6 @@
 define('VERSION', '0.5.99');
 
 ini_set('max_execution_time', 18000);
-ini_set('memory_limit', '128M');
 
 if(strpos(phpversion(), '4.4') === 0) {
 	error_reporting(E_ALL - E_NOTICE);
@@ -65,6 +64,7 @@ function usage($error = false) {
   -user <user>                           consider only queries executed by this user
   -title <title>                         define the title of the reports
   -syslogident                           PostgreSQL syslog identity. Default is postgres.
+  -memorylimit <n>                       PHP memory limit. Default is 128.
   -debug                                 debug mode
   -profile                               profile mode
   -help                                  this help
@@ -128,6 +128,14 @@ for($i = 0; $i < $argvCount; $i++) {
 		usage('invalid options format');
 	}
 }
+
+$memoryLimit = (int) $options['memorylimit'];
+if(isset($options['memorylimit']) && ((int) $options['memorylimit']) > 0) {
+	$memoryLimit = (int) $options['memorylimit'];
+} else {
+	$memoryLimit = 128;
+}
+ini_set('memory_limit', $memoryLimit.'M');
 
 if(!defined('CONFIG_STDIN')) {
 	define('CONFIG_STDIN', false);
