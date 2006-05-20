@@ -64,7 +64,7 @@ function usage($error = false) {
   -user <user>                           consider only queries executed by this user
   -title <title>                         define the title of the reports
   -syslogident                           PostgreSQL syslog identity. Default is postgres.
-  -memorylimit <n>                       PHP memory limit. Default is 128.
+  -memorylimit <n>                       PHP memory limit in MB. Default is 128.
   -debug                                 debug mode
   -profile                               profile mode
   -help                                  this help
