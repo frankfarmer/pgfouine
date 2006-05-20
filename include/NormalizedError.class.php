@@ -66,17 +66,19 @@ class NormalizedError {
 	}
 	
 	function & getFilteredExamplesArray() {
-		$returnExamples = false;
-		
+		$examples = array();
 		$exampleCount = count($this->examples);
+		
 		for($i = 0; $i < $exampleCount; $i++) {
 			$example =& $this->examples[$i];
 			if($example->getText() != $this->getNormalizedText()) {
-				return $this->examples;
+				$examples =& $this->examples;
+				break;
 			}
 			unset($example);
 		}
-		return array();
+		
+		return $examples;
 	}
 	
 	function getDetail() {
