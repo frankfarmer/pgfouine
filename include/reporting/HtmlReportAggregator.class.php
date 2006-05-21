@@ -174,7 +174,7 @@ class HtmlReportAggregator extends ReportAggregator {
 			table.queryList div.error { color: #D53131; font-weight:bold; }
 			table.queryList div.errorInformation { color: #8D8D8D; font-style:italic; }
 			table.queryList input { border:1px solid black; background-color:#FFFFFF; padding:1px; font-size:11px; }
-			div.footer { font-size:12px; margin-top:30px; margin-bottom:50px; background-color:rgb(180, 80, 80); padding:5px; text-align:right; color:white; }
+			div.footer { font-size:12px; margin-top:30px; margin-bottom:400px; background-color:rgb(180, 80, 80); padding:5px; text-align:right; color:white; }
 			div.footer a, div.footer a:hover { color:white; text-decoration:underline; }
 
 			div#littleToc { display:none; }
