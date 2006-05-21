@@ -129,7 +129,6 @@ for($i = 0; $i < $argvCount; $i++) {
 	}
 }
 
-$memoryLimit = (int) $options['memorylimit'];
 if(isset($options['memorylimit']) && ((int) $options['memorylimit']) > 0) {
 	$memoryLimit = (int) $options['memorylimit'];
 } else {
