@@ -50,7 +50,7 @@ function usage($error = false) {
   -                                      read the log from stdin instead of -file
   -top <n>                               number of queries in lists. Default is 20.
   -format <format>                       output format: html, html-with-graphs or text. Default is html.
-  -logtype <logtype>                     log type: syslog or stderr. Default is stderr.
+  -logtype <logtype>                     log type: syslog or stderr. Default is syslog.
                                           for stderr, you have to use the following log_line_prefix: \'%t [%p]: [%l-1] \'
   -report [outputfile=]<block1,block2>   list of report blocks separated by a comma
                                          report blocks can be: overall, hourly, bytype, slowest, n-mosttime,
