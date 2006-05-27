@@ -1,3 +1,7 @@
+2006-05-27  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed a bug when there is no query in the log file
+
 2006-05-21  Guillaume Smet <guillaume-pg@smet.org>
 
 	* released 0.6

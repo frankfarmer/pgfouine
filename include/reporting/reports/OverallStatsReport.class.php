@@ -76,8 +76,10 @@ class OverallStatsReport extends Report {
 		$html .= '<li>First query: '.$this->formatTimestamp($statsListener->getFirstQueryTimestamp()).'</li>';
 		$html .= '<li>Last query: '.$this->formatTimestamp($statsListener->getLastQueryTimestamp()).'</li>';
 		$peakTimestamps = $statsListener->getQueryPeakTimestamps();
-		array_walk($peakTimestamps, array(&$this, 'walkFormatTimestamp'));
-		$html .= '<li>Query peak: '.$this->formatInteger($statsListener->getQueryPeakQueryCount()).' queries/s at '.implode(', ', $peakTimestamps).'</li>';
+		if($peakTimestamps) {
+			array_walk($peakTimestamps, array(&$this, 'walkFormatTimestamp'));
+			$html .= '<li>Query peak: '.$this->formatInteger($statsListener->getQueryPeakQueryCount()).' queries/s at '.implode(', ', $peakTimestamps).'</li>';
+		}
 		if($errorCountersListener) {
 			$html .= '<li>Number of errors: '.$this->formatInteger($errorCountersListener->getErrorCount()).'</li>';
 			if($normalizedErrorsListener) {

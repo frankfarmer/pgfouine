@@ -104,11 +104,19 @@ class GlobalCountersListener extends QueryListener {
 	}
 	
 	function getQueryPeakTimestamps() {
-		return array_keys($this->queryPeakByTimestamp, max($this->queryPeakByTimestamp));
+		$peakTimestamps = false;
+		if(!empty($this->queryPeakByTimestamp)) {
+			$peakTimestamps = array_keys($this->queryPeakByTimestamp, max($this->queryPeakByTimestamp));
+		}
+		return $peakTimestamps;
 	}
 	
 	function getQueryPeakQueryCount() {
-		return max($this->queryPeakByTimestamp);
+		$peakQueryCount = false;
+		if(!empty($this->queryPeakByTimestamp)) {
+			$peakQueryCount = max($this->queryPeakByTimestamp);
+		}
+		return $peakQueryCount;
 	}
 }
 
