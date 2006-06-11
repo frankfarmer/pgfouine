@@ -28,13 +28,15 @@ class NormalizedReport extends Report {
 	}
 	
 	function getNormalizedQueryWithExamplesHtml($counter, & $normalizedQuery) {
-		$html = '';
-		$html .= $this->highlightSql($normalizedQuery->getNormalizedText());
-		
 		$examples =& $normalizedQuery->getFilteredExamplesArray();
 		$exampleCount = count($examples);
-		
-		if($exampleCount) {		
+
+		$html = '';
+		if($normalizedQuery->getTimesExecuted() == 1 || !$exampleCount) {
+			$html .= $this->formatRealQuery($normalizedQuery->getQuery());
+		} else {
+			$html .= $this->highlightSql($normalizedQuery->getNormalizedText());
+			
 			$buttonId = 'button_'.$this->getReportClass().'_'.$counter;
 			$divId = 'examples_'.$this->getReportClass().'_'.$counter;
 			
@@ -47,13 +49,13 @@ class NormalizedReport extends Report {
 				$title = $example->getDetailedInformation();
 				
 				$html .= '<div class="example'.($i%2).'" title="'.$title.'">';
-				$html .= $this->highlightSql($example->getText(), $this->formatDuration($example->getDuration()).'s | ');
+				$html .= $this->formatRealQuery($example, $this->formatDuration($example->getDuration()).'s | ');
 				$html .= '</div>';
 				unset($example);
 			}
 			$html .= '</div>';
 		}
-		
+			
 		return $html;
 	}
 	

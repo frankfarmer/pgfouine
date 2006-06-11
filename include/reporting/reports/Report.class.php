@@ -83,6 +83,10 @@ class Report {
 	function highlightSql($sql, $prepend = '', $append = '') {
 		return $this->reportAggregator->highlightSql($sql, $prepend, $append);
 	}
+	
+	function formatRealQuery(& $query, $prepend = '', $append = '') {
+		return $this->reportAggregator->formatRealQuery($query, $prepend, $append);
+	}	
 } 
 
 ?>

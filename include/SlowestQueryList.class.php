@@ -80,6 +80,11 @@ class SlowestQueryList {
 		}
 		return $queryList;
 	}
+	
+	function & getLastQuery() {
+		$queryList =& last($this->queries);
+		return last($queryList);
+	}
 }
 
 ?>

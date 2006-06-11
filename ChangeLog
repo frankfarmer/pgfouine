@@ -2,6 +2,8 @@
 
 	* fixed a problem with NOTICE/STATEMENT couple on DDL
 	* improved the -report option analysis
+	* NOTICEs for a query are now displayed
+	* improved normalized queries formatting
 
 2006-05-27  Guillaume Smet <guillaume-pg@smet.org>
 

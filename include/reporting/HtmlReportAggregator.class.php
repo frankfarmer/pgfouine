@@ -171,6 +171,7 @@ class HtmlReportAggregator extends ReportAggregator {
 			div.tooltipLink div.tooltip th { font-size:10px; }
 			div.tooltipLink div.tooltip td { font-size:9px; font-weight:normal; padding:1px; }
 			div.tooltipLink:hover div.tooltip { display:block; z-index:20; position:absolute; top:1.5em; left:2em; }
+			table.queryList div.queryNotice { color: #8D8D8D; font-style:italic; }
 			table.queryList div.error { color: #D53131; font-weight:bold; }
 			table.queryList div.errorInformation { color: #8D8D8D; font-style:italic; }
 			table.queryList input { border:1px solid black; background-color:#FFFFFF; padding:1px; font-size:11px; }
@@ -194,6 +195,15 @@ class HtmlReportAggregator extends ReportAggregator {
 		';
 		$styles .= $this->geshi->get_stylesheet();
 		return $styles;
+	}
+	
+	function formatRealQuery(& $query, $prepend = '', $append = '') {
+		$html = $this->highlightSql($query->getText(), $prepend, $append);
+		$notices = $query->getNotices();
+		foreach($notices AS $notice) {
+			$html .= '<div class="queryNotice">Notice: '.$notice.'</div>';
+		}
+		return $html;
 	}
 }
 

@@ -139,6 +139,10 @@ class ReportAggregator {
 		
 		return $formattedDuration;
 	}
+	
+	function formatRealQuery($query, $prepend = '', $append = '') {
+		return $prepend.$query->getText().$append;
+	}
 }
 
 ?>

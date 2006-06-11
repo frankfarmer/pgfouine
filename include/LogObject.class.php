@@ -64,6 +64,10 @@ class LogObject {
 		$this->notices[] = $notice;
 	}
 	
+	function getNotices() {
+		return $this->notices;
+	}
+	
 	function setContext($context) {
 		$this->context = normalizeWhitespaces($context);
 	}

@@ -61,6 +61,10 @@ class NormalizedQuery {
 		}
 	}
 	
+	function & getQuery() {
+		return $this->examples->getLastQuery();
+	}
+	
 	function getNormalizedText() {
 		return $this->normalizedText;
 	}
