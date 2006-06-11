@@ -29,6 +29,7 @@ class LogObject {
 	var $commandNumber = 0;
 	var $ignored;
 	var $context;
+	var $notices = array();
 
 	function LogObject($user, $database, $text = '', $ignored = false) {
 		$this->user = $user;
@@ -57,6 +58,10 @@ class LogObject {
 	function append($text) {
 		if(DEBUG > 1 && !$text) stderr('Empty text for append', true);
 		$this->text .= ' '.$text;
+	}
+	
+	function addNotice($notice) {
+		$this->notices[] = $notice;
 	}
 	
 	function setContext($context) {

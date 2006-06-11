@@ -72,6 +72,8 @@ class PostgreSQLParser {
 				$line = new PostgreSQLHintLine($postMatch);
 			} elseif($keyword == 'DETAIL') {
 				$line = new PostgreSQLDetailLine($postMatch);
+			} elseif($keyword == 'NOTICE') {
+				$line = new PostgreSQLNoticeLine($postMatch);
 			}
 			if($line) {
 				$line->setLogLinePrefix($logLinePrefix);

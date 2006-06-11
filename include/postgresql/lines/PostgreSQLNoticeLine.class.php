@@ -21,13 +21,11 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class PostgreSQLStatementLine extends PostgreSQLQueryStartLine {
+class PostgreSQLNoticeLine extends PostgreSQLLogLine {
 	var $ignore = false;
 
 	function appendTo(& $logObject) {
-		if(is_a($logObject, 'ErrorLogObject')) {
-			$logObject->appendStatement($this->text);
-		}
+		$logObject->addNotice($this->text);
 	}
 }
 

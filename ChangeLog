@@ -1,3 +1,7 @@
+2006-06-11  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed a problem with NOTICE/STATEMENT couple on DDL
+
 2006-05-27  Guillaume Smet <guillaume-pg@smet.org>
 
 	* fixed a bug when there is no query in the log file
