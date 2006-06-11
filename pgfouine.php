@@ -43,8 +43,8 @@ $stderr = fopen('php://stderr', 'w');
 function usage($error = false) {
 	if($error) {
 		stderr('Error: '.$error);
+		echo "\n";
 	}
-	echo "\n";
 	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>] [-report [outputfile=]<block1,block2>]
   -file <file>                           log file to analyze
   -                                      read the log from stdin instead of -file
@@ -189,8 +189,8 @@ define('CONFIG_TOP_QUERIES_NUMBER', $top);
 $outputToFiles = false;
 $supportedReportBlocks = array(
 	'overall' => 'OverallStatsReport',
-	'hourly' => 'HourlyStatsReport',
 	'bytype' => 'QueriesByTypeReport',
+	'hourly' => 'HourlyStatsReport',
 	'slowest' => 'SlowestQueriesReport',
 	'n-mosttime' => 'NormalizedQueriesMostTimeReport',
 	'n-mostfrequent' => 'NormalizedQueriesMostFrequentReport',
@@ -205,13 +205,25 @@ if(isset($options['reports'])) {
 		if(strpos($report, '=') !== false) {
 			list($outputFilePath, $blocks) = explode('=', $report);
 			$outputToFiles = true;
+		} elseif(strpos($report, '.') !== false) {
+			$outputFilePath = $report;
+			$blocks = 'default';
+			$outputToFiles = true;
 		} else {
 			$outputFilePath = false;
 			$blocks = $report;
 			$outputToFiles = false;
 		}
-		$selectedBlocks = explode(',', $blocks);
-		$notSupportedBlocks = array_diff($selectedBlocks, array_keys($supportedReportBlocks));
+		if($blocks == 'default') {
+			$selectedBlocks = $defaultReportBlocks;
+			$notSupportedBlocks = array();
+		} elseif($blocks == 'all') {
+			$selectedBlocks = array_keys($supportedReportBlocks);
+			$notSupportedBlocks = array();
+		} else {
+			$selectedBlocks = explode(',', $blocks);
+			$notSupportedBlocks = array_diff($selectedBlocks, array_keys($supportedReportBlocks));
+		}
 		
 		if(empty($notSupportedBlocks)) {
 			$outputFilePath = checkOutputFilePath($outputFilePath);
