@@ -100,7 +100,15 @@ function checkOutputFilePath($filePath) {
 	}
 }
 
-$executable = array_shift($argv);
+if(isset($_SERVER['argv']) && (!isset($argv) || empty($argv))) {
+	$argv = $_SERVER['argv'];
+}
+if(is_array($argv)) {
+	$executable = array_shift($argv);
+} else {
+	$argv = array();
+	$executable = 'unknown';
+}
 
 $options = array();
 $argvCount = count($argv);

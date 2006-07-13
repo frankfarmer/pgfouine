@@ -1,3 +1,7 @@
+2006-06-13  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed a problem with older versions of PHP
+
 2006-06-11  Guillaume Smet <guillaume-pg@smet.org>
 
 	* fixed a problem with NOTICE/STATEMENT couple on DDL
