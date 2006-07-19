@@ -47,6 +47,8 @@ class PostgreSQLParser {
 				} elseif($statusMatch =& $postgreSQLRegexps['StatusPart']->match($postMatch)) {
 						$line = new PostgreSQLStatusLine($postMatch);
 				} else {
+					// we ignore a lot of common log lines as they are not interesting
+					// but we still raise an error if we don't recognize a log line
 					if(
 						strpos($postMatch, 'transaction ID wrap limit is') !== 0 &&
 						strpos($postMatch, 'archived transaction log file') !== 0 &&
