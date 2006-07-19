@@ -21,6 +21,13 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+/**
+ * the accumulator is the central point of the analyzer
+ * 
+ * - we append the lines to the right log streams via the accumulator
+ * - when a log object is identified, the accumulator fires the event
+ * to all the listeners
+ */
 class Accumulator {
 	var $listeners = array();
 	
@@ -41,14 +48,25 @@ class Accumulator {
 		}
 	}
 	
+	/**
+	 * close the accumulator by:
+	 * - flushing the log streams
+	 * - closing all the existing listeners
+	 */
 	function close() {
 		$this->flushLogStreams();
 		$this->closeListeners();
 	}
 	
+	/**
+	 * flush the log streams
+	 */
 	function flushLogStreams() {
 	}
 	
+	/**
+	 * closes all the listeners
+	 */
 	function closeListeners() {
 		$eventTypes = array_keys($this->listeners);
 		foreach($eventTypes AS $eventType) {
