@@ -24,7 +24,7 @@
 $postgreSQLRegexps = array();
 
 // PostgreSQLParser
-$postgreSQLRegexps['LogLine'] = new RegExp("/^(.*?)(LOG|DEBUG|CONTEXT|WARNING|ERROR|FATAL|PANIC|HINT|DETAIL|NOTICE|STATEMENT):[\s]+/");
+$postgreSQLRegexps['LogLine'] = new RegExp("/^(.*?)(LOG|DEBUG|CONTEXT|WARNING|ERROR|FATAL|PANIC|HINT|DETAIL|NOTICE|STATEMENT|INFO):[\s]+/");
 $postgreSQLRegexps['LogLinePrefix'] = new RegExp('/([a-z]*)=([^ ,]*)/');
 $postgreSQLRegexps['ContinuationLine'] = new RegExp("/^(\^I|\s)/");
 $postgreSQLRegexps['QueryStartPart'] = new RegExp("/^(query|statement):[\s]+/");

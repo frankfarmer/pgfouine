@@ -36,6 +36,7 @@ require_once('include/lib/common.lib.php');
 require_once('include/base.lib.php');
 require_once('include/listeners/listeners.lib.php');
 require_once('include/postgresql/postgresql.lib.php');
+require_once('include/postgresql/vacuum/vacuum.lib.php');
 require_once('include/reporting/reports.lib.php');
 
 $stderr = fopen('php://stderr', 'w');
