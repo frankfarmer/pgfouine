@@ -24,19 +24,30 @@
 
 require_once('PostgreSQLVacuumAccumulator.class.php');
 
+// regexps
+include_once('PostgreSQLVacuumRegexps.lib.php');
+
+// parser
 require_once('parsers/PostgreSQLVacuumParser.class.php');
 
+// lines
 require_once('lines/PostgreSQLVacuumLogLine.class.php');
 require_once('lines/PostgreSQLAnalyzingTableLine.class.php');
 require_once('lines/PostgreSQLVacuumContinuationLine.class.php');
 require_once('lines/PostgreSQLVacuumCpuDetailLine.class.php');
+require_once('lines/PostgreSQLVacuumDetailLine.class.php');
 require_once('lines/PostgreSQLVacuumIndexInformationLine.class.php');
 require_once('lines/PostgreSQLVacuumingTableLine.class.php');
 require_once('lines/PostgreSQLVacuumOperationInformationLine.class.php');
 require_once('lines/PostgreSQLVacuumRemovableInformationLine.class.php');
 
+// log objects
 require_once('objects/VacuumLogObject.class.php');
 require_once('objects/AnalyzeTableLogObject.class.php');
 require_once('objects/VacuumTableLogObject.class.php');
+
+// listeners
+require_once('listeners/VacuumedTablesListener.class.php');
+require_once('reporting/reports/VacuumedTablesReport.class.php');
 
 ?>

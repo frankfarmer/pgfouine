@@ -1,4 +1,12 @@
-2006-06-13  Guillaume Smet <guillaume-pg@smet.org>
+2006-07-19  Guillaume Smet <guillaume-pg@smet.org>
+
+	* more work on vacuum verbose output analysis
+
+2006-07-19  Open Wide <guillaume.smet@openwide.fr>
+
+	* began the work on vacuum verbose output analysis
+
+2006-07-13 Guillaume Smet <guillaume-pg@smet.org>
 
 	* fixed a problem with older versions of PHP
 

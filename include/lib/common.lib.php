@@ -27,6 +27,8 @@ define('MAX_TIMESTAMP', 9999999999);
 define('EVENT_QUERY', 'query_event_type');
 define('EVENT_ERROR', 'error_event_type');
 define('EVENT_DURATION_ONLY', 'duration_only_event_type');
+define('EVENT_VACUUM_TABLE', 'vacuum_table');
+define('EVENT_ANALYZE_TABLE', 'analyze_table');
 
 function debug($string, $displayLineNumber = false) {
 	stderr($string, $displayLineNumber);
@@ -161,6 +163,10 @@ class RegExpMatch {
 	function getPostMatch() {
 		$postMatch = substr($this->text, $this->matches[0][1] + strlen($this->matches[0][0]));
 		return $postMatch;
+	}
+	
+	function getMatchCount() {
+		return count($this->matches);
 	}
 }
 

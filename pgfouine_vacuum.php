@@ -36,8 +36,8 @@ require_once('include/lib/common.lib.php');
 require_once('include/base.lib.php');
 require_once('include/listeners/listeners.lib.php');
 require_once('include/postgresql/postgresql.lib.php');
-require_once('include/postgresql/vacuum/vacuum.lib.php');
 require_once('include/reporting/reports.lib.php');
+require_once('include/postgresql/vacuum/vacuum.lib.php');
 
 $stderr = fopen('php://stderr', 'w');
 
@@ -152,6 +152,11 @@ if(isset($options['profile'])) {
 	define('PROFILE', 0);
 }
 
+define('CONFIG_ONLY_SELECT', false);
+define('CONFIG_TIMESTAMP_FILTER', false);
+define('CONFIG_DATABASE', false);
+define('CONFIG_USER', false);
+
 if(!CONFIG_STDIN) {
 	if(!isset($options['file'])) {
 		usage('the -file option is required');
@@ -174,11 +179,9 @@ if(isset($options['title'])) {
 
 $outputToFiles = false;
 $supportedReportBlocks = array(
-	'overall' => 'OverallStatsReport',
-	'bypages' => 'TablesSortedByPagesReport',
-	'byrows' => 'TablesSortedByRowsReport',
+	'vacuumedtables' => 'VacuumedTablesReport',
 );
-$defaultReportBlocks = array('overall', 'bypages', 'byrows');
+$defaultReportBlocks = array('vacuumedtables');
 
 $reports = array();
 if(isset($options['reports'])) {
@@ -223,6 +226,7 @@ if(isset($options['reports'])) {
 	);
 }
 
+$supportedFormats = array('text' => 'TextReportAggregator', 'html' => 'HtmlReportAggregator');
 if(isset($options['format'])) {
 	if(array_key_exists($options['format'], $supportedFormats)) {
 		$aggregator = $supportedFormats[$options['format']];
@@ -233,7 +237,7 @@ if(isset($options['format'])) {
 	$aggregator = $supportedFormats['html'];
 }
 
-$parser = 'VacuumLogParser';
+$parser = 'PostgreSQLVacuumParser';
 
 $logReader = new GenericLogReader($filePath, $parser, 'PostgreSQLVacuumAccumulator');
 

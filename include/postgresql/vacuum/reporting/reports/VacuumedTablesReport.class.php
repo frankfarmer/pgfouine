@@ -22,27 +22,19 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class PostgreSQLVacuumLogLine {
-	var $text;
-
-	function PostgreSQLVacuumLogLine($text = '') {
-		$this->text = trim($text);
-	}
-		
-	function getLogObject(& $logStream) {
-		return false;
+class VacuumedTablesReport extends Report {
+	function VacuumedTablesReport(& $reportAggregator) {
+		$this->Report($reportAggregator, 'Vacuumed tables', array('VacuumedTablesListener'));
 	}
 	
-	function appendTo(& $logObject) {
-		return false;
-	}
-		
-	function complete() {
-		return false;
+	function getText() {
+		// TODO
+		return '';
 	}
 	
-	function getTimestamp() {
-		return false;
+	function getHtml() {
+		// TODO
+		return '';
 	}
 }
 

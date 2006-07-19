@@ -4,7 +4,8 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005-2006 Guillaume Smet
+ * Copyright (c) 2006 Open Wide
+ * Copyright (c) 2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +30,7 @@ class PostgreSQLVacuumParser extends PostgreSQLParser {
 	}
 	
 	function & parse($text) {
-		global $postgreSQLRegexps;
+		global $postgreSQLRegexps, $postgreSQLVacuumRegexps;
 
 		$line = false;
 		
@@ -41,15 +42,51 @@ class PostgreSQLVacuumParser extends PostgreSQLParser {
 			$postMatch = $logLineMatch->getPostMatch();
 			
 			if($keyword == 'INFO') {
+				$actionOnTableMatch =& $postgreSQLVacuumRegexps['VacuumingOrAnalyzingTable']->match($postMatch);
+				$removableInformationMatch =& $postgreSQLVacuumRegexps['RemovableInformation']->match($postMatch);
+				$operationInformationMatch =& $postgreSQLVacuumRegexps['OperationInformation']->match($postMatch);
+				
+				if($actionOnTableMatch) {
+					$matchCount = $actionOnTableMatch->getMatchCount();
+					
+					if($actionOnTableMatch->getMatch(1) == 'vacuuming') {
+						$lineType = 'PostgreSQLVacuumingTableLine';
+					} else {
+						$lineType = 'PostgreSQLAnalyzingTableLine';
+					}
+					
+					if($matchCount == 3) {
+						$schema = 'public';
+						$table = $actionOnTableMatch->getMatch(2);
+					} else {
+						$schema = $actionOnTableMatch->getMatch(2);
+						$table = $actionOnTableMatch->getMatch(3);
+					}
+					
+					$line = new $lineType($schema, $table);
+				} elseif($removableInformationMatch) {
+					$numberOfRemovableRows = $removableInformationMatch->getMatch(1);
+					$numberOfNonRemovableRows = $removableInformationMatch->getMatch(2);
+					$numberOfPages = $removableInformationMatch->getMatch(3);
+					
+					$line = new PostgreSQLVacuumRemovableInformationLine($numberOfRemovableRows, $numberOfNonRemovableRows, $numberOfPages);
+				} elseif($operationInformationMatch) {
+					$numberOfRowVersionsMoved = $operationInformationMatch->getMatch(1);
+					$numberOfPagesRemoved = $operationInformationMatch->getMatch(2) - $operationInformationMatch->getMatch(3);
+					
+					$line = new PostgreSQLVacuumOperationInformationLine($numberOfRowVersionsMoved, $numberOfPagesRemoved);
+				}
 			} elseif($keyword == 'DETAIL') {
-			}
-			if($line) {
-				$line->setLogLinePrefix($logLinePrefix);
+				$vacuumDetailMatch =& $postgreSQLVacuumRegexps['VacuumDetail']->match($postMatch);
+				if($vacuumDetailMatch) {
+					$line = new PostgreSQLVacuumDetailLine($postMatch);
+				}				
 			}
 		} else {
 			// probably a continuation line. We let the PostgreSQLVacuumContinuationLine decide if it is one or not
 			$line = new PostgreSQLVacuumContinuationLine($text);
 		}
+		stderrArray($line);
 		return $line;
 	}
 }

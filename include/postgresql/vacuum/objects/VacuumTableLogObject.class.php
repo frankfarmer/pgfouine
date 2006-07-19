@@ -25,8 +25,8 @@
 class VacuumTableLogObject extends LogObject {
 	var $numberOfRemovableRows;
 	var $numberOfNonRemovableRows;
-	
 	var $numberOfPages;
+	
 	var $nonRemovableDeadRows;
 	var $nonRemovableRowMinSize;
 	var $nonRemovableRowMaxSize;
@@ -57,6 +57,10 @@ class VacuumTableLogObject extends LogObject {
 	
 	function setNumberOfNonRemovableRows($numberOfNonRemovableRows) {
 		$this->numberOfNonRemovableRows = $numberOfNonRemovableRows;
+	}
+	
+	function setNumberOfPages($numberOfPages) {
+		$this->numberOfPages = $numberOfPages;
 	}
 	
 	function setNumberOfRowVersionsMoved($numberOfRowVersionsMoved) {

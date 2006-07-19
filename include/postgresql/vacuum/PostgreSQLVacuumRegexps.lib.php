@@ -22,28 +22,14 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class PostgreSQLVacuumLogLine {
-	var $text;
+$postgreSQLVacuumRegexps = array();
 
-	function PostgreSQLVacuumLogLine($text = '') {
-		$this->text = trim($text);
-	}
-		
-	function getLogObject(& $logStream) {
-		return false;
-	}
-	
-	function appendTo(& $logObject) {
-		return false;
-	}
-		
-	function complete() {
-		return false;
-	}
-	
-	function getTimestamp() {
-		return false;
-	}
-}
+// PostgreSQLVacuumParser
+$postgreSQLVacuumRegexps['VacuumingOrAnalyzingTable'] = new RegExp('/(vacuuming|analyzing) "(?:([^".]*)\.)?([^".]*)"/');
+$postgreSQLVacuumRegexps['RemovableInformation'] = new RegExp('/: found ([0-9]+) removable, ([0-9]+) nonremovable row versions in ([0-9]+) pages/');
+$postgreSQLVacuumRegexps['OperationInformation'] = new RegExp('/: moved ([0-9]+) row versions, truncated ([0-9]+) to ([0-9]+) pages/');
+$postgreSQLVacuumRegexps['VacuumDetail'] = new RegExp('/([0-9]+) dead row versions cannot be removed yet./');
+
+$GLOBALS['postgreSQLVacuumRegexps'] =& $postgreSQLVacuumRegexps;
 
 ?>
