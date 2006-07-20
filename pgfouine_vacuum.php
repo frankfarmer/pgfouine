@@ -179,9 +179,11 @@ if(isset($options['title'])) {
 
 $outputToFiles = false;
 $supportedReportBlocks = array(
+	'overall' => 'VacuumOverallReport',
 	'vacuumedtables' => 'VacuumedTablesReport',
+	'fsm' => 'FSMInformationReport'
 );
-$defaultReportBlocks = array('vacuumedtables');
+$defaultReportBlocks = array('overall', 'fsm', 'vacuumedtables');
 
 $reports = array();
 if(isset($options['reports'])) {

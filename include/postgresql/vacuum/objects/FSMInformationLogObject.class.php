@@ -22,58 +22,28 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class VacuumLogObject {
-	var $database = '';
-	var $schema = '';
-	var $table = '';
-	var $ignored = false;
+class FSMLogObject extends VacuumLogObject {
+	var $currentNumberOfPages;
+	var $currentNumberOfRelations;
 	
-
-	function VacuumLogObject($schema, $table, $ignored = false) {
-		$this->schema = $schema;
-		$this->table = $table;
-		$this->ignored = $ignored;
+	var $pageSlotsInUse;
+	var $pageSlotsNeeded;
+	
+	var $maxNumberOfPages;
+	var $maxNumberOfRelations;
+	var $size;
+	
+	function FSMLogObject($currentNumberOfPages, $currentNumberOfRelations) {
+		$this->LogObject();
+		
+		$this->currentNumberOfPages = $currentNumberOfPages;
+		$this->currentNumberOfRelations = $currentNumberOfRelations;
 	}
 	
 	function getEventType() {
-		return false;
-	}
-
-	function accumulateTo(& $accumulator) {
-		if(!$this->isIgnored()) {
-			$accumulator->fireEvent($this);
-		}
-	}
-
-	function isIgnored() {
-		return $this->ignored;
+		return EVENT_FSM_INFORMATION;
 	}
 	
-	/**
-	 * defines the database being vacuumed
-	 * 
-	 * @param string $database database
-	 */
-	function setDatabase($database) {
-		$this->database = $database;
-	}
-
-	/**
-	 * returns the database used
-	 * 
-	 * @return string database
-	 */
-	function getDatabase() {
-		return $this->database;
-	}
-	
-	function getSchema() {
-		return $this->schema;
-	}
-	
-	function getTable() {
-		return $this->table;
-	}
 }
 
 ?>

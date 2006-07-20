@@ -23,6 +23,18 @@
  */
 
 class PostgreSQLVacuumAccumulator extends Accumulator {
+	var $stream;
+	
+	function PostgreSQLVacuumAccumulator() {
+		$this->stream = new VacuumLogStream();
+	}
+
+	function append(& $line) {
+		$logObject =& $this->stream->append($line);
+		if($logObject) {
+			$logObject->accumulateTo($this);
+		}
+	}
 }
 
 ?>

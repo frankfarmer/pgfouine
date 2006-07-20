@@ -29,6 +29,7 @@ define('EVENT_ERROR', 'error_event_type');
 define('EVENT_DURATION_ONLY', 'duration_only_event_type');
 define('EVENT_VACUUM_TABLE', 'vacuum_table');
 define('EVENT_ANALYZE_TABLE', 'analyze_table');
+define('EVENT_FSM_INFORMATION', 'fsm_information');
 
 function debug($string, $displayLineNumber = false) {
 	stderr($string, $displayLineNumber);

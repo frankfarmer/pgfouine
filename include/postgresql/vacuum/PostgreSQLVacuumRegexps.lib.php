@@ -25,10 +25,15 @@
 $postgreSQLVacuumRegexps = array();
 
 // PostgreSQLVacuumParser
+$postgreSQLVacuumRegexps['VacuumingDatabase'] = new RegExp('/vacuuming database "([^".]*)"/');
 $postgreSQLVacuumRegexps['VacuumingOrAnalyzingTable'] = new RegExp('/(vacuuming|analyzing) "(?:([^".]*)\.)?([^".]*)"/');
 $postgreSQLVacuumRegexps['RemovableInformation'] = new RegExp('/: found ([0-9]+) removable, ([0-9]+) nonremovable row versions in ([0-9]+) pages/');
 $postgreSQLVacuumRegexps['OperationInformation'] = new RegExp('/: moved ([0-9]+) row versions, truncated ([0-9]+) to ([0-9]+) pages/');
 $postgreSQLVacuumRegexps['VacuumDetail'] = new RegExp('/([0-9]+) dead row versions cannot be removed yet./');
+
+$postgreSQLVacuumRegexps['FSMInformation'] = new RegExp('/free space map contains ([0-9]+) pages in ([0-9]+) relations/');
+$postgreSQLVacuumRegexps['FSMInformationDetail'] = new RegExp('/A total of ([0-9]+) page slots are in use (including overhead)./');
+$postgreSQLVacuumRegexps['VacuumEnd'] = new RegExp('/^VACUUM$/');
 
 $GLOBALS['postgreSQLVacuumRegexps'] =& $postgreSQLVacuumRegexps;
 

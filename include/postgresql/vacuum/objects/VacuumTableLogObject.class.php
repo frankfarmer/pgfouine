@@ -22,7 +22,7 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class VacuumTableLogObject extends LogObject {
+class VacuumTableLogObject extends VacuumLogObject {
 	var $numberOfRemovableRows;
 	var $numberOfNonRemovableRows;
 	var $numberOfPages;
@@ -43,8 +43,8 @@ class VacuumTableLogObject extends LogObject {
 	var $cpuUsageTime;
 	var $duration;
 	
-	function VacuumTableLogObject($database, $schema, $table, $ignored = false) {
-		$this->VacuumLogObject($database, $schema, $table, $ignored);
+	function VacuumTableLogObject($schema, $table, $ignored = false) {
+		$this->VacuumLogObject($schema, $table, $ignored);
 	}
 	
 	function getEventType() {

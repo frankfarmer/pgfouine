@@ -28,6 +28,10 @@ class PostgreSQLVacuumLogLine {
 	function PostgreSQLVacuumLogLine($text = '') {
 		$this->text = trim($text);
 	}
+	
+	function appendText($text) {
+		$this->text .= $text;
+	}
 		
 	function getLogObject(& $logStream) {
 		return false;
@@ -43,6 +47,14 @@ class PostgreSQLVacuumLogLine {
 	
 	function getTimestamp() {
 		return false;
+	}
+	
+	function getText() {
+		return $this->text;
+	}
+	
+	function getLineNumber() {
+		return 1;
 	}
 }
 

@@ -24,8 +24,8 @@
 
 class AnalyzeTableLogObject extends VacuumLogObject {
 	
-	function AnalyzeTableLogObject($database, $schema, $table, $ignored = false) {
-		$this->VacuumLogObject($database, $schema, $table, $ignored);
+	function AnalyzeTableLogObject($schema, $table, $ignored = false) {
+		$this->VacuumLogObject($schema, $table, $ignored);
 	}
 	
 	function getEventType() {

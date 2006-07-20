@@ -24,17 +24,18 @@
 
 class VacuumedTablesListener {
 
-    function VacuumedTablesListener() {
-    }
-    
-    function fireEvent(& $vacuumedTable) {
+	function VacuumedTablesListener() {
+	}
+	
+	function fireEvent(& $vacuumedTable) {
+		//stderrArray($vacuumedTable);
 	}
 	
 	function close() {
 	}
 	
 	function getSubscriptions() {
-		return array(EVENT_VACUUM_TABLE);
+		return array(EVENT_VACUUM_TABLE, EVENT_ANALYZE_TABLE);
 	}
 }
 

@@ -45,6 +45,7 @@ class PostgreSQLVacuumParser extends PostgreSQLParser {
 				$actionOnTableMatch =& $postgreSQLVacuumRegexps['VacuumingOrAnalyzingTable']->match($postMatch);
 				$removableInformationMatch =& $postgreSQLVacuumRegexps['RemovableInformation']->match($postMatch);
 				$operationInformationMatch =& $postgreSQLVacuumRegexps['OperationInformation']->match($postMatch);
+				$fsmInformationMatch =& $postgreSQLVacuumRegexps['FSMInformation']->match($postMatch);
 				
 				if($actionOnTableMatch) {
 					$matchCount = $actionOnTableMatch->getMatchCount();
@@ -75,18 +76,36 @@ class PostgreSQLVacuumParser extends PostgreSQLParser {
 					$numberOfPagesRemoved = $operationInformationMatch->getMatch(2) - $operationInformationMatch->getMatch(3);
 					
 					$line = new PostgreSQLVacuumOperationInformationLine($numberOfRowVersionsMoved, $numberOfPagesRemoved);
+				} elseif($fsmInformationMatch) {
+					$currentNumberOfPages = $fsmInformationMatch->getMatch(1);
+					$currentNumberOfRelations = $fsmInformationMatch->getMatch(2);
+					
+					$line = new PostgreSQLFSMInformationLine($currentNumberOfPages, $currentNumberOfRelations);
 				}
 			} elseif($keyword == 'DETAIL') {
 				$vacuumDetailMatch =& $postgreSQLVacuumRegexps['VacuumDetail']->match($postMatch);
+				$fsmInformationDetailMatch =& $postgreSQLVacuumRegexps['FSMInformationDetail']->match($postMatch);
+				
+				
 				if($vacuumDetailMatch) {
 					$line = new PostgreSQLVacuumDetailLine($postMatch);
-				}				
+				} elseif($fsmInformationDetailMatch) {
+					$line = new PostgreSQLFSMInformationDetailLine($postMatch);
+				}		
 			}
 		} else {
-			// probably a continuation line. We let the PostgreSQLVacuumContinuationLine decide if it is one or not
-			$line = new PostgreSQLVacuumContinuationLine($text);
+			$vacuumingDatabaseMatch =& $postgreSQLVacuumRegexps['VacuumingDatabase']->match($text);
+			$vacuumEndMatch =& $postgreSQLVacuumRegexps['VacuumEnd']->match($text);
+			
+			if($vacuumingDatabaseMatch) {
+				$line = new PostgreSQLVacuumingDatabaseLine($vacuumingDatabaseMatch->getMatch(1));
+			} elseif($vacuumEndMatch) {
+				$line = new PostgreSQLVacuumEndLine();
+			} else {
+				// probably a continuation line
+				$line = new PostgreSQLVacuumContinuationLine($text);
+			}
 		}
-		stderrArray($line);
 		return $line;
 	}
 }

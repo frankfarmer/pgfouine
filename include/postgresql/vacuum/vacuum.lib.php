@@ -23,6 +23,7 @@
  */
 
 require_once('PostgreSQLVacuumAccumulator.class.php');
+require_once('VacuumLogStream.class.php');
 
 // regexps
 include_once('PostgreSQLVacuumRegexps.lib.php');
@@ -33,9 +34,13 @@ require_once('parsers/PostgreSQLVacuumParser.class.php');
 // lines
 require_once('lines/PostgreSQLVacuumLogLine.class.php');
 require_once('lines/PostgreSQLAnalyzingTableLine.class.php');
+require_once('lines/PostgreSQLFSMInformationDetailLine.class.php');
+require_once('lines/PostgreSQLFSMInformationLine.class.php');
 require_once('lines/PostgreSQLVacuumContinuationLine.class.php');
 require_once('lines/PostgreSQLVacuumCpuDetailLine.class.php');
+require_once('lines/PostgreSQLVacuumingDatabaseLine.class.php');
 require_once('lines/PostgreSQLVacuumDetailLine.class.php');
+require_once('lines/PostgreSQLVacuumEndLine.class.php');
 require_once('lines/PostgreSQLVacuumIndexInformationLine.class.php');
 require_once('lines/PostgreSQLVacuumingTableLine.class.php');
 require_once('lines/PostgreSQLVacuumOperationInformationLine.class.php');
@@ -45,9 +50,15 @@ require_once('lines/PostgreSQLVacuumRemovableInformationLine.class.php');
 require_once('objects/VacuumLogObject.class.php');
 require_once('objects/AnalyzeTableLogObject.class.php');
 require_once('objects/VacuumTableLogObject.class.php');
+require_once('objects/FSMInformationLogObject.class.php');
 
 // listeners
 require_once('listeners/VacuumedTablesListener.class.php');
+require_once('listeners/FSMInformationListener.class.php');
+
+// reports
 require_once('reporting/reports/VacuumedTablesReport.class.php');
+require_once('reporting/reports/FSMInformationReport.class.php');
+require_once('reporting/reports/VacuumOverallReport.class.php');
 
 ?>
