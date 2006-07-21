@@ -25,6 +25,8 @@
 class VacuumedTablesReport extends Report {
 	function VacuumedTablesReport(& $reportAggregator) {
 		$this->Report($reportAggregator, 'Vacuumed tables', array('VacuumedTablesListener'));
+		
+		$reportAggregator->addScript('sorttable.js');
 	}
 	
 	function getText() {
@@ -33,8 +35,42 @@ class VacuumedTablesReport extends Report {
 	}
 	
 	function getHtml() {
-		// TODO
-		return '';
+		$listener =& $this->reportAggregator->getListener('VacuumedTablesListener');
+		
+		$vacuumedTables =& $listener->getVacuumedTables();
+		$vacuumedTablesCount = count($vacuumedTables);
+		
+		$html = '';
+		
+		$html .= '
+<p>Click on a column header to sort the rows. Note that it can be quite long to sort all the rows if you vacuumed a lot of tables.</p>
+<table class="queryList sortable" id="sortableVacuumResults">
+	<tr>
+		<th>#</th>
+		<th>Table</th>
+		<th>Pages</th>
+		<th>Pages truncated</th>
+		<th style="width:50px;">%</th>
+		<th>Row versions</th>
+		<th>Removable row versions</th>
+		<th style="width:50px;">%</th>
+	</tr>';
+
+		for($i = 0; $i < $vacuumedTablesCount; $i++) {
+			$vacuumedTable =& $vacuumedTables[$i];
+			$html .= '<tr class="'.$this->getRowStyle($i).'">
+				<td>'.($i + 1).'</td>
+				<td>'.$vacuumedTable->getTablePath().'</td>
+				<td class="right">'.$vacuumedTable->getNumberOfPages().'</td>
+				<td class="right">'.$vacuumedTable->getNumberOfPagesRemoved().'</td>
+				<td class="right">'.$this->getPercentage($vacuumedTable->getNumberOfPagesRemoved(), $vacuumedTable->getNumberOfPages()).'</td>
+				<td class="right">'.$vacuumedTable->getTotalNumberOfRows().'</td>
+				<td class="right">'.$vacuumedTable->getNumberOfRemovableRows().'</td>
+				<td class="right">'.$this->getPercentage($vacuumedTable->getNumberOfRemovableRows(), $vacuumedTable->getTotalNumberOfRows()).'</td>
+			</tr>';
+		}
+		$html .= '</table>';
+		return $html;
 	}
 }
 

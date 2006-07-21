@@ -55,6 +55,7 @@ require_once('objects/FSMInformationLogObject.class.php');
 // listeners
 require_once('listeners/VacuumedTablesListener.class.php');
 require_once('listeners/FSMInformationListener.class.php');
+require_once('listeners/VacuumOverallListener.class.php');
 
 // reports
 require_once('reporting/reports/VacuumedTablesReport.class.php');

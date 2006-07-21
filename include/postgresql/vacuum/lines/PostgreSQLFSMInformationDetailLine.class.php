@@ -26,16 +26,24 @@ class PostgreSQLFSMInformationDetailLine extends PostgreSQLVacuumLogLine {
 
 	function PostgreSQLFSMInformationDetailLine($text) {
 		$this->PostgreSQLVacuumLogLine($text);
-	}	
-	
-	function parseDetailText() {
-		// TODO
 	}
 	
 	function appendTo(& $logObject) {
-		$this->parseDetailText();
+		global $postgreSQLVacuumRegexps;
 		
-		// TODO
+		$detailMatch =& $postgreSQLVacuumRegexps['FSMDetailLine']->match($this->text);
+		
+		if($detailMatch) {
+			$pageSlotsInUse = $detailMatch->getMatch(1);
+			$pageSlotsRequired = $detailMatch->getMatch(2);
+			$maxNumberOfPageSlots = $detailMatch->getMatch(3);
+			$maxNumberOfRelations = $detailMatch->getMatch(4);
+			$size = $detailMatch->getMatch(5);
+		
+			$logObject->setDetailedInformation($pageSlotsInUse,
+				$pageSlotsRequired,
+				$maxNumberOfPageSlots, $maxNumberOfRelations, $size);
+		}
 	}
 }
 

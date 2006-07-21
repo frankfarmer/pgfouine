@@ -98,7 +98,12 @@ class ReportAggregator {
 	}
 	
 	function getPercentage($number, $total) {
-		return $this->pad(number_format($number*100/$total, 1), 5);
+		if($total > 0) {
+			$percentage = $number*100/$total;
+		} else {
+			$percentage = 0;
+		}
+		return $this->pad(number_format($percentage, 1), 5);
 	}
 	
 	function formatInteger($integer) {

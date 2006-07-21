@@ -29,6 +29,10 @@ class PostgreSQLVacuumContinuationLine extends PostgreSQLVacuumLogLine {
 		
 		$this->PostgreSQLVacuumLogLine($text);
 	}
+	
+	function getText() {
+		return ' '.parent::getText();
+	}
 }
 
 ?>

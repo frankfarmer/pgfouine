@@ -24,7 +24,7 @@
 
 class VacuumOverallReport extends Report {
 	function VacuumOverallReport(& $reportAggregator) {
-		$this->Report($reportAggregator, 'Vacuum overall statistics', array('VacuumedTablesListener'));
+		$this->Report($reportAggregator, 'Vacuum overall statistics', array('VacuumOverallListener'));
 	}
 	
 	function getText() {
@@ -33,8 +33,32 @@ class VacuumOverallReport extends Report {
 	}
 	
 	function getHtml() {
-		// TODO
-		return '';
+		$listener =& $this->reportAggregator->getListener('VacuumOverallListener');
+		
+		$statisticsPerDatabase = $listener->getStatisticsPerDatabase();
+		$statistics = $listener->getStatistics();
+		
+		$html = '';
+		
+		$html .= '
+<table class="queryList">
+	<tr>
+		<th>&nbsp;</th>
+		<th>Tables</th>
+	</tr>';
+
+		foreach($statisticsPerDatabase AS $database => $databaseStatistics) {		
+			$html .= '<tr class="'.$this->getRowStyle(0).'">
+				<th class="left">'.$database.'</th>
+				<td class="right">'.$this->formatInteger($databaseStatistics['numberOfTables']).'</td>
+			</tr>';
+		}
+		$html .= '<tr class="'.$this->getRowStyle(1).'">
+				<th class="left">Overall</th>
+				<td class="right">'.$this->formatInteger($statistics['numberOfTables']).'</td>
+			</tr>';
+		$html .= '</table>';
+		return $html;
 	}
 }
 

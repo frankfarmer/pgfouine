@@ -22,25 +22,36 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class VacuumedTablesListener {
-	var $vacuumedTables = array();
+class VacuumOverallListener {
+	var $statistics = array();
+	var $statisticsPerDatabase = array();
 
-	function VacuumedTablesListener() {
+	function VacuumOverallListener() {
+		$this->statistics['numberOfTables'] = 0;
 	}
 	
 	function fireEvent(& $vacuumedTable) {
-		$this->vacuumedTables[] =& $vacuumedTable;
+		$this->statistics['numberOfTables'] ++;
+		
+		if(!isset($this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfTables'])) {
+			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfTables'] = 0;
+		}
+		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfTables'] ++;
 	}
 	
 	function close() {
 	}
 	
 	function getSubscriptions() {
-		return array(EVENT_VACUUM_TABLE/*, EVENT_ANALYZE_TABLE*/);
+		return array(EVENT_VACUUM_TABLE);
 	}
 	
-	function & getVacuumedTables() {
-		return $this->vacuumedTables;
+	function getStatisticsPerDatabase() {
+		return $this->statisticsPerDatabase;
+	}
+	
+	function getStatistics() {
+		return $this->statistics;
 	}
 }
 

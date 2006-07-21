@@ -86,7 +86,6 @@ class PostgreSQLVacuumParser extends PostgreSQLParser {
 				$vacuumDetailMatch =& $postgreSQLVacuumRegexps['VacuumDetail']->match($postMatch);
 				$fsmInformationDetailMatch =& $postgreSQLVacuumRegexps['FSMInformationDetail']->match($postMatch);
 				
-				
 				if($vacuumDetailMatch) {
 					$line = new PostgreSQLVacuumDetailLine($postMatch);
 				} elseif($fsmInformationDetailMatch) {

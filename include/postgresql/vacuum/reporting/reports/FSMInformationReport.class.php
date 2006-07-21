@@ -33,8 +33,60 @@ class FSMInformationReport extends Report {
 	}
 	
 	function getHtml() {
-		// TODO
-		return '';
+		$listener =& $this->reportAggregator->getListener('FSMInformationListener');
+		
+		$fsmInformation =& $listener->getFSMInformation();
+		
+		$html = '';
+		
+		$html .= '<ul>';
+		$html .= '<li>FSM size: '.$fsmInformation->getSize().' KB</li>';
+		$html .= '</ul>';
+		$html .= '<br />';
+		
+		$html .= '
+<table class="queryList" style="width:40%">
+	<tr>
+		<th>&nbsp;</th>
+		<th>Current value</th>
+		<th>Limit</th>
+		<th>Percentage</th>
+	</tr>';
+		
+		$pageSlotsUsedPercentage = $this->getPercentage($fsmInformation->getPageSlotsRequired(), $fsmInformation->getMaxNumberOfPageSlots());
+		$style = 'normal';
+		if($pageSlotsUsedPercentage > 85) {
+			$style = 'warning';
+		}
+		if($pageSlotsUsedPercentage > 99) {
+			$style = 'error';
+		}
+		
+		$html .= '<tr class="'.$this->getRowStyle(0).'">
+			<th class="left">Page slots</th>
+			<td class="right">'.$this->formatInteger($fsmInformation->getPageSlotsRequired()).'</td>
+			<td class="right">'.$this->formatInteger($fsmInformation->getMaxNumberOfPageSlots()).'</td>
+			<td class="right '.$style.'">'.$pageSlotsUsedPercentage.' %</td>
+		</tr>';
+		
+		$relationSlotsUsedPercentage = $this->getPercentage($fsmInformation->getCurrentNumberOfRelations(), $fsmInformation->getMaxNumberOfRelations());
+		$style = 'normal';
+		if($relationSlotsUsedPercentage > 85) {
+			$style = 'warning';
+		}
+		if($relationSlotsUsedPercentage > 99) {
+			$style = 'error';
+		}
+		
+		$html .= '<tr class="'.$this->getRowStyle(0).'">
+			<th class="left">Relations</th>
+			<td class="right">'.$this->formatInteger($fsmInformation->getCurrentNumberOfRelations()).'</td>
+			<td class="right">'.$this->formatInteger($fsmInformation->getMaxNumberOfRelations()).'</td>
+			<td class="right '.$style.'">'.$relationSlotsUsedPercentage.' %</td>
+		</tr>';
+		$html .= "\n";
+		$html .= '</table>';
+		return $html;
 	}
 }
 

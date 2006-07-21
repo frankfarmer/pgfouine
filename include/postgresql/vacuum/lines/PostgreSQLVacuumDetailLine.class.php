@@ -26,16 +26,33 @@ class PostgreSQLVacuumDetailLine extends PostgreSQLVacuumLogLine {
 
 	function PostgreSQLVacuumDetailLine($text) {
 		$this->PostgreSQLVacuumLogLine($text);
-	}	
-	
-	function parseDetailText() {
-		// TODO
 	}
 	
 	function appendTo(& $logObject) {
-		$this->parseDetailText();
+		global $postgreSQLVacuumRegexps;
 		
-		// TODO
+		// TODO : CPU usage
+		
+		$detailMatch =& $postgreSQLVacuumRegexps['VacuumDetailLine']->match($this->text);
+		
+		if($detailMatch) {
+			$nonRemovableDeadRows = $detailMatch->getMatch(1);
+			$nonRemovableRowMinSize = $detailMatch->getMatch(2);
+			$nonRemovableRowMaxSize = $detailMatch->getMatch(3);
+			$unusedItemPointers = $detailMatch->getMatch(4);
+			$totalFreeSpace = $detailMatch->getMatch(5);
+			$numberOfPagesToEmpty = $detailMatch->getMatch(6);
+			$numberOfPagesToEmptyAtTheEndOfTheTable = $detailMatch->getMatch(7);
+			$numberOfPagesWithFreeSpace = $detailMatch->getMatch(8);
+			$freeSpace = $detailMatch->getMatch(9);
+			
+			$logObject->setDetailedInformation($nonRemovableDeadRows,
+				$nonRemovableRowMinSize, $nonRemovableRowMaxSize,
+				$unusedItemPointers,
+				$totalFreeSpace,
+				$numberOfPagesToEmpty, $numberOfPagesToEmptyAtTheEndOfTheTable,
+				$numberOfPagesWithFreeSpace, $freeSpace);
+		}
 	}
 }
 

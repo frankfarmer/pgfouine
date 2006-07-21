@@ -32,8 +32,12 @@ $postgreSQLVacuumRegexps['OperationInformation'] = new RegExp('/: moved ([0-9]+)
 $postgreSQLVacuumRegexps['VacuumDetail'] = new RegExp('/([0-9]+) dead row versions cannot be removed yet./');
 
 $postgreSQLVacuumRegexps['FSMInformation'] = new RegExp('/free space map contains ([0-9]+) pages in ([0-9]+) relations/');
-$postgreSQLVacuumRegexps['FSMInformationDetail'] = new RegExp('/A total of ([0-9]+) page slots are in use (including overhead)./');
+$postgreSQLVacuumRegexps['FSMInformationDetail'] = new RegExp('/A total of ([0-9]+) page slots are in use \(including overhead\)\./');
 $postgreSQLVacuumRegexps['VacuumEnd'] = new RegExp('/^VACUUM$/');
+
+// PostgreSQLVacuumDetailLine
+$postgreSQLVacuumRegexps['VacuumDetailLine'] = new RegExp('/([0-9]+) dead row versions cannot be removed yet\. Nonremovable row versions range from ([0-9]+) to ([0-9]+) bytes long\. There were ([0-9]+) unused item pointers\. Total free space \(including removable row versions\) is ([0-9]+) bytes\. ([0-9]+) pages are or will become empty, including ([0-9]+) at the end of the table\. ([0-9]+) pages containing ([0-9]+) free bytes are potential move destinations\./');
+$postgreSQLVacuumRegexps['FSMDetailLine'] = new RegExp('/A total of ([0-9]+) page slots are in use \(including overhead\). ([0-9]+) page slots are required to track all free space. Current limits are:  ([0-9]+) page slots, ([0-9]+) relations, using ([0-9]+) KB./');
 
 $GLOBALS['postgreSQLVacuumRegexps'] =& $postgreSQLVacuumRegexps;
 

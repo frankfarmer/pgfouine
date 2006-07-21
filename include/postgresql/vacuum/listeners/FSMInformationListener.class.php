@@ -23,12 +23,15 @@
  */
 
 class FSMInformationListener {
+	var $fsmInformation;
 
 	function FSMInformationListener() {
 	}
 	
 	function fireEvent(& $fsmInformation) {
-		//stderrArray($fsmInformation);
+		// only the last information are interesting		
+		unset($this->fsmInformation);
+		$this->fsmInformation =& $fsmInformation;
 	}
 	
 	function close() {
@@ -36,6 +39,10 @@ class FSMInformationListener {
 	
 	function getSubscriptions() {
 		return array(EVENT_FSM_INFORMATION);
+	}
+
+	function getFSMInformation() {
+		return $this->fsmInformation;
 	}
 }
 

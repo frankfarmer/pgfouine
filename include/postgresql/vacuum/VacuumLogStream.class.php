@@ -41,8 +41,8 @@ class VacuumLogStream {
 		$logObject = false;
 		
 		if(is_a($line, 'PostgreSQLVacuumingTableLine')
-			|| is_a($line, 'PostgreSQLAnalyzingTableLine'
-			|| is_a($line, 'PostgreSQLFSMInformationLine'))
+			|| is_a($line, 'PostgreSQLAnalyzingTableLine')
+			|| is_a($line, 'PostgreSQLFSMInformationLine')
 		) {
 			if($this->currentBlock) {
 				$logObject =& $this->currentBlock->close();

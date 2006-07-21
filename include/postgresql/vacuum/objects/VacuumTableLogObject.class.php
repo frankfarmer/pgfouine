@@ -23,25 +23,25 @@
  */
 
 class VacuumTableLogObject extends VacuumLogObject {
-	var $numberOfRemovableRows;
-	var $numberOfNonRemovableRows;
-	var $numberOfPages;
+	var $numberOfRemovableRows = 0;
+	var $numberOfNonRemovableRows = 0;
+	var $numberOfPages = 0;
 	
-	var $nonRemovableDeadRows;
-	var $nonRemovableRowMinSize;
-	var $nonRemovableRowMaxSize;
-	var $unusedItemPointers;
-	var $totalFreeSpace;
-	var $numberOfPagesToEmpty;
-	var $numberOfPagesToEmptyAtTheEndOfTheTable;
-	var $numberOfPagesWithFreeSpace;
-	var $freeSpace;
+	var $nonRemovableDeadRows = 0;
+	var $nonRemovableRowMinSize = 0;
+	var $nonRemovableRowMaxSize = 0;
+	var $unusedItemPointers = 0;
+	var $totalFreeSpace = 0;
+	var $numberOfPagesToEmpty = 0;
+	var $numberOfPagesToEmptyAtTheEndOfTheTable = 0;
+	var $numberOfPagesWithFreeSpace = 0;
+	var $freeSpace = 0;
 	
-	var $numberOfRowVersionsMoved;
-	var $numberOfPagesRemoved;
+	var $numberOfRowVersionsMoved = 0;
+	var $numberOfPagesRemoved = 0;
 	
-	var $cpuUsageTime;
-	var $duration;
+	var $cpuUsageTime = 0;
+	var $duration = 0;
 	
 	function VacuumTableLogObject($schema, $table, $ignored = false) {
 		$this->VacuumLogObject($schema, $table, $ignored);
@@ -79,6 +79,43 @@ class VacuumTableLogObject extends VacuumLogObject {
 		$this->duration = $duration;
 	}
 	
+	function setDetailedInformation($nonRemovableDeadRows,
+		$nonRemovableRowMinSize, $nonRemovableRowMaxSize,
+		$unusedItemPointers,
+		$totalFreeSpace,
+		$numberOfPagesToEmpty, $numberOfPagesToEmptyAtTheEndOfTheTable,
+		$numberOfPagesWithFreeSpace, $freeSpace) {
+		
+		$this->nonRemovableDeadRows = $nonRemovableDeadRows;
+		$this->nonRemovableRowMinSize = $nonRemovableRowMinSize;
+		$this->nonRemovableRowMaxSize = $nonRemovableRowMaxSize;
+		$this->unusedItemPointers = $unusedItemPointers;
+		$this->totalFreeSpace = $totalFreeSpace;
+		$this->numberOfPagesToEmpty = $numberOfPagesToEmpty;
+		$this->numberOfPagesToEmptyAtTheEndOfTheTable = $numberOfPagesToEmptyAtTheEndOfTheTable;
+		$this->numberOfPagesWithFreeSpace = $numberOfPagesWithFreeSpace;
+		$this->freeSpace = $freeSpace;
+	}
+	
+	function getTablePath() {
+		return $this->database.' - '.$this->schema.'.'.$this->table;
+	}
+	
+	function getNumberOfPages() {
+		return $this->numberOfPages;
+	}
+	
+	function getNumberOfPagesRemoved() {
+		return $this->numberOfPagesRemoved;
+	}
+	
+	function getTotalNumberOfRows() {
+		return $this->numberOfRemovableRows + $this->numberOfNonRemovableRows;
+	}
+	
+	function getNumberOfRemovableRows() {
+		return $this->numberOfRemovableRows;
+	}
 }
 
 ?>

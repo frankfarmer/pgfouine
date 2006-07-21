@@ -22,21 +22,20 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class FSMLogObject extends VacuumLogObject {
-	var $currentNumberOfPages;
-	var $currentNumberOfRelations;
+class FSMInformationLogObject extends VacuumLogObject {
+	var $currentNumberOfPageSlots = 0;
+	var $currentNumberOfRelations = 0;
 	
-	var $pageSlotsInUse;
-	var $pageSlotsNeeded;
+	var $pageSlotsInUse = 0;
 	
-	var $maxNumberOfPages;
-	var $maxNumberOfRelations;
-	var $size;
+	var $pageSlotsRequired = 0;
 	
-	function FSMLogObject($currentNumberOfPages, $currentNumberOfRelations) {
-		$this->LogObject();
-		
-		$this->currentNumberOfPages = $currentNumberOfPages;
+	var $maxNumberOfPageSlots = 0;
+	var $maxNumberOfRelations = 0;
+	var $size = 0;
+	
+	function FSMInformationLogObject($currentNumberOfPageSlots, $currentNumberOfRelations) {
+		$this->currentNumberOfPageSlots = $currentNumberOfPageSlots;
 		$this->currentNumberOfRelations = $currentNumberOfRelations;
 	}
 	
@@ -44,6 +43,44 @@ class FSMLogObject extends VacuumLogObject {
 		return EVENT_FSM_INFORMATION;
 	}
 	
+	function setDetailedInformation($pageSlotsInUse,
+		$pageSlotsRequired,
+		$maxNumberOfPageSlots, $maxNumberOfRelations, $size
+	) {
+		$this->pageSlotsInUse = $pageSlotsInUse;
+		$this->pageSlotsRequired = $pageSlotsRequired;
+		$this->maxNumberOfPageSlots = $maxNumberOfPageSlots;
+		$this->maxNumberOfRelations = $maxNumberOfRelations;
+		$this->size = $size;
+	}
+	
+	function getcurrentNumberOfPageSlots() {
+		return $this->currentNumberOfPageSlots;
+	}
+	
+	function getCurrentNumberOfRelations() {
+		return $this->currentNumberOfRelations;
+	}
+	
+	function getPageSlotsInUse() {
+		return $this->pageSlotsInUse;
+	}
+	
+	function getPageSlotsRequired() {
+		return $this->pageSlotsRequired;
+	}
+	
+	function getMaxNumberOfPageSlots() {
+		return $this->maxNumberOfPageSlots;
+	}
+	
+	function getMaxNumberOfRelations() {
+		return $this->maxNumberOfRelations;
+	}
+	
+	function getSize() {
+		return $this->size;
+	}
 }
 
 ?>
