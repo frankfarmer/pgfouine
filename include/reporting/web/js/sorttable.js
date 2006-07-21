@@ -69,7 +69,7 @@ function ts_resortTable(lnk,clid) {
     sortfn = ts_sort_caseinsensitive;
     if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d\d\d$/)) sortfn = ts_sort_date;
     if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d$/)) sortfn = ts_sort_date;
-    if (itm.match(/^[£$]/)) sortfn = ts_sort_currency;
+    if (itm.match(/^[?$]/)) sortfn = ts_sort_currency;
     if (itm.match(/^[\d\.]+$/)) sortfn = ts_sort_numeric;
     SORT_COLUMN_INDEX = column;
     var firstRow = new Array();
@@ -79,13 +79,13 @@ function ts_resortTable(lnk,clid) {
 
     newRows.sort(sortfn);
 
-    if (span.getAttribute("sortdir") == 'down') {
+    if (span.getAttribute("sortdir") == 'up') {
+        ARROW = '&nbsp;&nbsp;&darr;';
+        span.setAttribute('sortdir','down');
+    } else {
         ARROW = '&nbsp;&nbsp;&uarr;';
         newRows.reverse();
         span.setAttribute('sortdir','up');
-    } else {
-        ARROW = '&nbsp;&nbsp;&darr;';
-        span.setAttribute('sortdir','down');
     }
     
     // We appendChild rows that already exist to the tbody, so it moves them rather than creating new ones
@@ -93,6 +93,11 @@ function ts_resortTable(lnk,clid) {
     for (i=0;i<newRows.length;i++) { if (!newRows[i].className || (newRows[i].className && (newRows[i].className.indexOf('sortbottom') == -1))) table.tBodies[0].appendChild(newRows[i]);}
     // do sortbottom rows only
     for (i=0;i<newRows.length;i++) { if (newRows[i].className && (newRows[i].className.indexOf('sortbottom') != -1)) table.tBodies[0].appendChild(newRows[i]);}
+    
+    for (i=0;i<table.tBodies[0].rows.length;i++) {
+        table.tBodies[0].rows[i].className = table.tBodies[0].rows[i].className.replace('row0', 'row'+((i + 1) % 2));
+        table.tBodies[0].rows[i].className = table.tBodies[0].rows[i].className.replace('row1', 'row'+((i + 1) % 2));
+    }
     
     // Delete any other arrows there may be showing
     var allspans = document.getElementsByTagName("span");
