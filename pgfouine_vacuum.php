@@ -183,7 +183,7 @@ $supportedReportBlocks = array(
 	'vacuumedtables' => 'VacuumedTablesReport',
 	'fsm' => 'FSMInformationReport'
 );
-$defaultReportBlocks = array('overall', 'fsm', 'vacuumedtables');
+$defaultReportBlocks = array('fsm', 'overall', 'vacuumedtables');
 
 $reports = array();
 if(isset($options['reports'])) {
