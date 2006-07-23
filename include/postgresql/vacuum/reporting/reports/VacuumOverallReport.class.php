@@ -44,18 +44,36 @@ class VacuumOverallReport extends Report {
 <table class="queryList">
 	<tr>
 		<th>&nbsp;</th>
-		<th>Tables</th>
+		<th style="padding-left:15px; padding-right:15px;">Tables</th>
+		<th style="padding-left:15px; padding-right:15px;">Pages</th>
+		<th style="padding-left:15px; padding-right:15px;">Pages truncated</th>
+		<th style="width:50px;">%</th>
+		<th style="padding-left:15px; padding-right:15px;">Row versions</th>
+		<th style="padding-left:15px; padding-right:15px;">Removable row versions</th>
+		<th style="width:50px;">%</th>
 	</tr>';
 
 		foreach($statisticsPerDatabase AS $database => $databaseStatistics) {		
 			$html .= '<tr class="'.$this->getRowStyle(0).'">
-				<th class="left">'.$database.'</th>
+				<th class="left" style="padding-right:15px;">'.$database.'</th>
 				<td class="right">'.$this->formatInteger($databaseStatistics['numberOfTables']).'</td>
+				<td class="right">'.$this->formatInteger($databaseStatistics['numberOfPages']).'</td>
+				<td class="right">'.$this->formatInteger($databaseStatistics['numberOfPagesRemoved']).'</td>
+				<td class="right">'.$this->getPercentage($databaseStatistics['numberOfPagesRemoved'], $databaseStatistics['numberOfPages']).'</td>
+				<td class="right">'.$this->formatInteger($databaseStatistics['numberOfRowVersions']).'</td>
+				<td class="right">'.$this->formatInteger($databaseStatistics['numberOfRemovableRowVersions']).'</td>
+				<td class="right">'.$this->getPercentage($databaseStatistics['numberOfRemovableRowVersions'], $databaseStatistics['numberOfRowVersions']).'</td>
 			</tr>';
 		}
 		$html .= '<tr class="'.$this->getRowStyle(1).'">
-				<th class="left">Overall</th>
+				<th class="left" style="padding-right:15px;">Overall</th>
 				<td class="right">'.$this->formatInteger($statistics['numberOfTables']).'</td>
+				<td class="right">'.$this->formatInteger($statistics['numberOfPages']).'</td>
+				<td class="right">'.$this->formatInteger($statistics['numberOfPagesRemoved']).'</td>
+				<td class="right">'.$this->getPercentage($statistics['numberOfPagesRemoved'], $statistics['numberOfPages']).'</td>
+				<td class="right">'.$this->formatInteger($statistics['numberOfRowVersions']).'</td>
+				<td class="right">'.$this->formatInteger($statistics['numberOfRemovableRowVersions']).'</td>
+				<td class="right">'.$this->getPercentage($statistics['numberOfRemovableRowVersions'], $statistics['numberOfRowVersions']).'</td>
 			</tr>';
 		$html .= '</table>';
 		return $html;

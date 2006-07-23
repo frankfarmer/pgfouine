@@ -1,6 +1,7 @@
 2006-07-23  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added the collect of index cleanup information
+	* added more information in vacuum overall statistics
 
 2006-07-19  Guillaume Smet <guillaume-pg@smet.org>
 

@@ -28,15 +28,31 @@ class VacuumOverallListener {
 
 	function VacuumOverallListener() {
 		$this->statistics['numberOfTables'] = 0;
+		$this->statistics['numberOfPages'] = 0;
+		$this->statistics['numberOfPagesRemoved'] = 0;
+		$this->statistics['numberOfRowVersions'] = 0;
+		$this->statistics['numberOfRemovableRowVersions'] = 0;
 	}
 	
 	function fireEvent(& $vacuumedTable) {
 		$this->statistics['numberOfTables'] ++;
+		$this->statistics['numberOfPages'] += $vacuumedTable->getNumberOfPages();
+		$this->statistics['numberOfPagesRemoved'] += $vacuumedTable->getNumberOfPagesRemoved();
+		$this->statistics['numberOfRowVersions'] += $vacuumedTable->getTotalNumberOfRows();
+		$this->statistics['numberOfRemovableRowVersions'] += $vacuumedTable->getNumberOfRemovableRows();
 		
 		if(!isset($this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfTables'])) {
 			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfTables'] = 0;
+			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfPages'] = 0;
+			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfPagesRemoved'] = 0;
+			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfRowVersions'] = 0;
+			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfRemovableRowVersions'] = 0;
 		}
 		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfTables'] ++;
+		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfPages'] += $vacuumedTable->getNumberOfPages();
+		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfPagesRemoved'] += $vacuumedTable->getNumberOfPagesRemoved();
+		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfRowVersions'] += $vacuumedTable->getTotalNumberOfRows();
+		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfRemovableRowVersions'] += $vacuumedTable->getNumberOfRemovableRows();
 	}
 	
 	function close() {
