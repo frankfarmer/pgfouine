@@ -41,7 +41,8 @@ require_once('lines/PostgreSQLVacuumCpuDetailLine.class.php');
 require_once('lines/PostgreSQLVacuumingDatabaseLine.class.php');
 require_once('lines/PostgreSQLVacuumDetailLine.class.php');
 require_once('lines/PostgreSQLVacuumEndLine.class.php');
-require_once('lines/PostgreSQLVacuumIndexInformationLine.class.php');
+require_once('lines/PostgreSQLIndexCleanupInformationLine.class.php');
+require_once('lines/PostgreSQLIndexCleanupDetailLine.class.php');
 require_once('lines/PostgreSQLVacuumingTableLine.class.php');
 require_once('lines/PostgreSQLVacuumOperationInformationLine.class.php');
 require_once('lines/PostgreSQLVacuumRemovableInformationLine.class.php');
@@ -51,6 +52,7 @@ require_once('objects/VacuumLogObject.class.php');
 require_once('objects/AnalyzeTableLogObject.class.php');
 require_once('objects/VacuumTableLogObject.class.php');
 require_once('objects/FSMInformationLogObject.class.php');
+require_once('objects/VacuumIndexInformation.class.php');
 
 // listeners
 require_once('listeners/VacuumedTablesListener.class.php');

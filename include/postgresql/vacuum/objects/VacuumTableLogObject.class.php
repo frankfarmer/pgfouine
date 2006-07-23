@@ -43,6 +43,8 @@ class VacuumTableLogObject extends VacuumLogObject {
 	var $cpuUsageTime = 0;
 	var $duration = 0;
 	
+	var $indexesInformation = array();
+	
 	function VacuumTableLogObject($schema, $table, $ignored = false) {
 		$this->VacuumLogObject($schema, $table, $ignored);
 	}
@@ -115,6 +117,18 @@ class VacuumTableLogObject extends VacuumLogObject {
 	
 	function getNumberOfRemovableRows() {
 		return $this->numberOfRemovableRows;
+	}
+	
+	function addIndexInformation(& $indexInformation) {
+		$this->indexesInformation[] =& $indexInformation;
+	}
+	
+	function & getLastIndexInformation() {
+		return last($this->indexesInformation);
+	}
+	
+	function & getIndexesInformation() {
+		return $this->indexesInformation;
 	}
 }
 

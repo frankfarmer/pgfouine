@@ -4,7 +4,6 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2006 Open Wide
  * Copyright (c) 2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
@@ -22,23 +21,24 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class PostgreSQLVacuumIndexInformationLine extends PostgreSQLVacuumLogLine {
+class VacuumIndexInformation {
 	var $indexName;
-	var $numberOfRowVersions;
-	var $numberOfPages;
+	var $numberOfRowVersions = 0;
+	var $numberOfPages = 0;
+	var $numberOfRemovedRowVersions = 0;
+	var $numberOfDeletedPages = 0;
+	var $numberOfReusablePages = 0;
 
-	function PostgreSQLVacuumCpuDetailLine($indexName, $numberOfRowVersions, $numberOfPages) {
-		$this->PostgreSQLVacuumLogLine('');
-		
+	function VacuumIndexInformation($indexName, $numberOfRowVersions, $numberOfPages) {
 		$this->indexName = $indexName;
 		$this->numberOfRowVersions = $numberOfRowVersions;
 		$this->numberOfPages = $numberOfPages;
 	}
 	
-	function appendTo(& $logObject) {
-		// TODO
-		$indexInformation = new PostgreSQLVacuumIndexInformation($this->indexName, $this->numberOfRowVersions, $this->numberOfPages);
-		$logObject->addIndexInformation($indexInformation);
+	function setDetailedInformation($numberOfRemovedRowVersions, $numberOfDeletedPages, $numberOfReusablePages) {
+		$this->numberOfRemovedRowVersions = $numberOfRemovedRowVersions;
+		$this->numberOfDeletedPages = $numberOfDeletedPages;
+		$this->numberOfReusablePages = $numberOfReusablePages;
 	}
 }
 

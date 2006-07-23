@@ -46,6 +46,7 @@ class PostgreSQLVacuumParser extends PostgreSQLParser {
 				$removableInformationMatch =& $postgreSQLVacuumRegexps['RemovableInformation']->match($postMatch);
 				$operationInformationMatch =& $postgreSQLVacuumRegexps['OperationInformation']->match($postMatch);
 				$fsmInformationMatch =& $postgreSQLVacuumRegexps['FSMInformation']->match($postMatch);
+				$indexInformationMatch =& $postgreSQLVacuumRegexps['IndexCleanupInformation']->match($postMatch);
 				
 				if($actionOnTableMatch) {
 					$matchCount = $actionOnTableMatch->getMatchCount();
@@ -81,16 +82,26 @@ class PostgreSQLVacuumParser extends PostgreSQLParser {
 					$currentNumberOfRelations = $fsmInformationMatch->getMatch(2);
 					
 					$line = new PostgreSQLFSMInformationLine($currentNumberOfPages, $currentNumberOfRelations);
+				} elseif($indexInformationMatch) {
+					$indexName = $indexInformationMatch->getMatch(1);
+					$numberOfRowVersions = $indexInformationMatch->getMatch(2);
+					$numberOfPages = $indexInformationMatch->getMatch(3);
+					
+					$line = new PostgreSQLIndexCleanupInformationLine($indexName, $numberOfRowVersions, $numberOfPages);
 				}
 			} elseif($keyword == 'DETAIL') {
 				$vacuumDetailMatch =& $postgreSQLVacuumRegexps['VacuumDetail']->match($postMatch);
 				$fsmInformationDetailMatch =& $postgreSQLVacuumRegexps['FSMInformationDetail']->match($postMatch);
+				$indexDetail1Match =& $postgreSQLVacuumRegexps['IndexCleanupDetail1']->match($postMatch);
+				$indexDetail2Match =& $postgreSQLVacuumRegexps['IndexCleanupDetail2']->match($postMatch);
 				
 				if($vacuumDetailMatch) {
 					$line = new PostgreSQLVacuumDetailLine($postMatch);
 				} elseif($fsmInformationDetailMatch) {
 					$line = new PostgreSQLFSMInformationDetailLine($postMatch);
-				}		
+				} elseif($indexDetail1Match || $indexDetail2Match) {
+					$line = new PostgreSQLIndexCleanupDetailLine($postMatch);
+				}
 			}
 		} else {
 			$vacuumingDatabaseMatch =& $postgreSQLVacuumRegexps['VacuumingDatabase']->match($text);
