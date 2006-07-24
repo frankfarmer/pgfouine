@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005-2006 Guillaume Smet
+ * Copyright (c) 2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,20 +21,20 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class SlowestQueriesReport extends Report {
-	function SlowestQueriesReport(& $reportAggregator) {
-		$this->Report($reportAggregator, 'Slowest queries', array('SlowestQueriesListener'));
+class QueriesHistoryReport extends Report {
+	function QueriesHistoryReport(& $reportAggregator) {
+		$this->Report($reportAggregator, 'Queries history', array('QueriesHistoryListener'));
 	}
 	
 	function getText() {
-		$listener =& $this->reportAggregator->getListener('SlowestQueriesListener');
+		$listener =& $this->reportAggregator->getListener('QueriesHistoryListener');
 		$text = '';
 		
-		$queries =& $listener->getSortedQueries();
+		$queries =& $listener->getQueriesHistory();
 		$count = count($queries);
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
-			$text .= ($i+1).') '.$this->formatDuration($query->getDuration()).' - '.$this->formatRealQuery($query)."\n";
+			$text .= ($i+1).') '.$this->formatTimestamp($query->getTimestamp()).' - '.$this->formatRealQuery($query)."\n";
 			$text .= "--\n";
 			
 			unset($query);
@@ -43,15 +43,15 @@ class SlowestQueriesReport extends Report {
 	}
 	
 	function getHtml() {
-		$listener =& $this->reportAggregator->getListener('SlowestQueriesListener');
+		$listener =& $this->reportAggregator->getListener('QueriesHistoryListener');
 		$html = '
 <table class="queryList">
 	<tr>
 		<th>Rank</th>
-		<th>Duration&nbsp;(s)</th>
+		<th>Time</th>
 		<th>Query</th>
 	</tr>';
-		$queries =& $listener->getSortedQueries();
+		$queries =& $listener->getQueriesHistory();
 		$count = count($queries);
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
@@ -59,7 +59,7 @@ class SlowestQueriesReport extends Report {
 			
 			$html .= '<tr class="'.$this->getRowStyle($i).'">
 				<td class="center top">'.($i+1).'</td>
-				<td class="relevantInformation top center">'.$this->formatDuration($query->getDuration()).'</td>
+				<td class="top center">'.$this->formatTimestamp($query->getTimestamp()).'</td>
 				<td title="'.$query->getDetailedInformation().'">'.$this->formatRealQuery($query).'</td>
 			</tr>';
 			$html .= "\n";

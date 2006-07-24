@@ -203,6 +203,7 @@ $supportedReportBlocks = array(
 	'n-mosttime' => 'NormalizedQueriesMostTimeReport',
 	'n-mostfrequent' => 'NormalizedQueriesMostFrequentReport',
 	'n-slowestaverage' => 'NormalizedQueriesSlowestAverageReport',
+	'history' => 'QueriesHistoryReport',
 	'n-mostfrequenterrors' => 'NormalizedErrorsMostFrequentReport',
 );
 $defaultReportBlocks = array('overall', 'bytype', 'slowest', 'n-mosttime', 'n-mostfrequent', 'n-slowestaverage');

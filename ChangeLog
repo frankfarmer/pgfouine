@@ -1,3 +1,7 @@
+2006-07-24  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added a queries history report
+
 2006-07-23  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added the collect of index cleanup information

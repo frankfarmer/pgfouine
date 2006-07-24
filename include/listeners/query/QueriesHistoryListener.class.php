@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005-2006 Guillaume Smet
+ * Copyright (c) 2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,17 +21,27 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-require_once('query/QueryListener.class.php');
-require_once('query/PrintQueryListener.class.php');
-require_once('query/GlobalCountersListener.class.php');
-require_once('query/HourlyCountersListener.class.php');
-require_once('query/SlowestQueriesListener.class.php');
-require_once('query/NormalizedQueriesListener.class.php');
-require_once('query/QueriesHistoryListener.class.php');
-
-require_once('error/ErrorListener.class.php');
-require_once('error/PrintErrorListener.class.php');
-require_once('error/GlobalErrorCountersListener.class.php');
-require_once('error/NormalizedErrorsListener.class.php');
+class QueriesHistoryListener extends QueryListener {
+	var $queries = array();
+	
+	function fireEvent(& $logObject) {
+		$this->queries[] =& $logObject;
+	}
+	
+	function & getQueriesHistory() {
+		usort($this->queries, array($this, 'compareTimestamp'));
+		return $this->queries;
+	}
+	
+	function compareTimestamp(& $a, & $b) {
+		if($a->getTimestamp() == $b->getTimestamp()) {
+			return 0;
+		} elseif($a->getTimestamp() < $b->getTimestamp()) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
+}
 
 ?>
