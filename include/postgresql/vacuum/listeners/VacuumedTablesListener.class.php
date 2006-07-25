@@ -24,11 +24,14 @@
 
 class VacuumedTablesListener {
 	var $vacuumedTables = array();
+	var $counter = 1;
 
 	function VacuumedTablesListener() {
 	}
 	
 	function fireEvent(& $vacuumedTable) {
+		//stderrArray($vacuumedTable);
+		$vacuumedTable->setNumber($this->counter++);
 		$this->vacuumedTables[] =& $vacuumedTable;
 	}
 	
@@ -41,6 +44,36 @@ class VacuumedTablesListener {
 	
 	function & getVacuumedTables() {
 		return $this->vacuumedTables;
+	}
+	
+	function & getVacuumedTablesSortedByPercentageOfPagesRemoved() {
+		$vacuumedTables = $this->vacuumedTables;
+		usort($vacuumedTables, array($this, 'comparePercentageOfPagesRemoved'));
+		return $vacuumedTables;
+	}
+	
+	
+	function comparePercentageOfPagesRemoved(& $a, & $b) {
+		$aPercentage = getExactPercentage($a->getNumberOfPagesRemoved(), $a->getNumberOfPages());
+		$bPercentage = getExactPercentage($b->getNumberOfPagesRemoved(), $b->getNumberOfPages());
+	
+		if($aPercentage == $bPercentage) {
+			return $this->compareNumberOfPagesTruncated($a, $b);
+		} elseif($aPercentage < $bPercentage) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+	
+	function compareNumberOfPagesTruncated(& $a, & $b) {
+		if($a->getNumberOfPagesRemoved() == $b->getNumberOfPagesRemoved()) {
+			return 0;
+		} elseif($a->getNumberOfPagesRemoved() < $b->getNumberOfPagesRemoved()) {
+			return 1;
+		} else {
+			return -1;
+		}
 	}
 }
 

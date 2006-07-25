@@ -37,7 +37,7 @@ class VacuumedTablesReport extends Report {
 	function getHtml() {
 		$listener =& $this->reportAggregator->getListener('VacuumedTablesListener');
 		
-		$vacuumedTables =& $listener->getVacuumedTables();
+		$vacuumedTables =& $listener->getVacuumedTablesSortedByPercentageOfPagesRemoved();
 		$vacuumedTablesCount = count($vacuumedTables);
 		
 		$html = '';
@@ -59,7 +59,7 @@ class VacuumedTablesReport extends Report {
 		for($i = 0; $i < $vacuumedTablesCount; $i++) {
 			$vacuumedTable =& $vacuumedTables[$i];
 			$html .= '<tr class="'.$this->getRowStyle($i).'">
-				<td>'.($i + 1).'</td>
+				<td>'.$vacuumedTable->getNumber().'</td>
 				<td>'.$vacuumedTable->getTablePath().'</td>
 				<td class="right">'.$vacuumedTable->getNumberOfPages().'</td>
 				<td class="right">'.$vacuumedTable->getNumberOfPagesRemoved().'</td>

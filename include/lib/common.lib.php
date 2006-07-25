@@ -77,6 +77,15 @@ function formatTimestamp($timestamp) {
 	return date('Y-m-d H:i:s', $timestamp);
 }
 
+function getExactPercentage($number, $total) {
+	if($total > 0) {
+		$percentage = $number*100/$total;
+	} else {
+		$percentage = 0;
+	}
+	return $percentage;
+}
+
 function normalizeWhitespaces($text) {
 	$text = trim($text);
 	$text = preg_replace('/\s+/', ' ', $text);
