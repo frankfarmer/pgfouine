@@ -40,7 +40,7 @@ class FSMInformationReport extends Report {
 		$html = '';
 		
 		$html .= '<ul>';
-		$html .= '<li>FSM size: '.$fsmInformation->getSize().' KB</li>';
+		$html .= '<li>FSM size: '.$this->formatInteger($fsmInformation->getSize()).' kB</li>';
 		$html .= '</ul>';
 		$html .= '<br />';
 		
