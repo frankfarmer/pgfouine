@@ -1,3 +1,9 @@
+2006-07-25  Guillaume Smet <guillaume-pg@smet.org>
+
+	* changed the default order for vacuumed tables report
+	* added the ability to filter vacuum log analysis on
+	database and schema
+
 2006-07-24  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added a queries history report

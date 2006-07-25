@@ -163,6 +163,8 @@ if(isset($options['profile'])) {
 	define('PROFILE', 0);
 }
 
+define('CONFIG_FILTER', false);
+
 if(!CONFIG_STDIN) {
 	if(!isset($options['file'])) {
 		usage('the -file option is required');

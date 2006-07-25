@@ -113,6 +113,9 @@ class HtmlReportAggregator extends ReportAggregator {
 		if($hostname = getenv('HOSTNAME'))	{
 			$output .= '<li>Executed on '.$hostname.'</li>';
 		}
+		if(CONFIG_FILTER) {
+			$output .= '<li><strong>Filtered on '.CONFIG_FILTER.'</strong></li>';
+		}
 		$output .= '</ul></div>';
 		
 		$output .= '<div class="reports">';

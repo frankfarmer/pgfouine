@@ -24,14 +24,24 @@
 
 class AnalyzeTableLogObject extends VacuumLogObject {
 	
-	function AnalyzeTableLogObject($schema, $table, $ignored = false) {
-		$this->VacuumLogObject($schema, $table, $ignored);
+	function AnalyzeTableLogObject($database, $schema, $table, $ignored = false) {
+		$this->VacuumLogObject($database, $schema, $table, $ignored);
 	}
 	
 	function getEventType() {
 		return EVENT_ANALYZE_TABLE;
 	}
 	
+	function isIgnored() {
+		$path = $this->database.'.'.$this->schema.'.'.$this->table;
+		
+		if(strpos($path, CONFIG_FILTER) === 0) {
+			$filtered = false;
+		} else {
+			$filtered = true;
+		}
+		return ($this->ignored || $filtered);
+	}
 }
 
 ?>

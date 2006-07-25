@@ -65,16 +65,18 @@ class VacuumOverallReport extends Report {
 				<td class="right">'.$this->getPercentage($databaseStatistics['numberOfRemovableRowVersions'], $databaseStatistics['numberOfRowVersions']).'</td>
 			</tr>';
 		}
-		$html .= '<tr class="'.$this->getRowStyle(1).'">
-				<th class="left" style="padding-right:15px;">Overall</th>
-				<td class="right">'.$this->formatInteger($statistics['numberOfTables']).'</td>
-				<td class="right">'.$this->formatInteger($statistics['numberOfPages']).'</td>
-				<td class="right">'.$this->formatInteger($statistics['numberOfPagesRemoved']).'</td>
-				<td class="right">'.$this->getPercentage($statistics['numberOfPagesRemoved'], $statistics['numberOfPages']).'</td>
-				<td class="right">'.$this->formatInteger($statistics['numberOfRowVersions']).'</td>
-				<td class="right">'.$this->formatInteger($statistics['numberOfRemovableRowVersions']).'</td>
-				<td class="right">'.$this->getPercentage($statistics['numberOfRemovableRowVersions'], $statistics['numberOfRowVersions']).'</td>
-			</tr>';
+		if(count($statisticsPerDatabase) > 1) {
+			$html .= '<tr class="'.$this->getRowStyle(1).'">
+					<th class="left" style="padding-right:15px;">Overall</th>
+					<td class="right">'.$this->formatInteger($statistics['numberOfTables']).'</td>
+					<td class="right">'.$this->formatInteger($statistics['numberOfPages']).'</td>
+					<td class="right">'.$this->formatInteger($statistics['numberOfPagesRemoved']).'</td>
+					<td class="right">'.$this->getPercentage($statistics['numberOfPagesRemoved'], $statistics['numberOfPages']).'</td>
+					<td class="right">'.$this->formatInteger($statistics['numberOfRowVersions']).'</td>
+					<td class="right">'.$this->formatInteger($statistics['numberOfRemovableRowVersions']).'</td>
+					<td class="right">'.$this->getPercentage($statistics['numberOfRemovableRowVersions'], $statistics['numberOfRowVersions']).'</td>
+				</tr>';
+		}
 		$html .= '</table>';
 		return $html;
 	}

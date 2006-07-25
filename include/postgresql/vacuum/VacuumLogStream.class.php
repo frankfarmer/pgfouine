@@ -39,7 +39,6 @@ class VacuumLogStream {
 	 */
 	function append(& $line) {
 		$logObject = false;
-		
 		if(is_a($line, 'PostgreSQLVacuumingTableLine')
 			|| is_a($line, 'PostgreSQLAnalyzingTableLine')
 			|| is_a($line, 'PostgreSQLFSMInformationLine')
@@ -64,9 +63,6 @@ class VacuumLogStream {
 			} else {
 				$this->currentBlock->addLine($line);
 			}
-		}
-		if($logObject) {
-			$logObject->setDatabase($this->database);
 		}
 		return $logObject;
 	}

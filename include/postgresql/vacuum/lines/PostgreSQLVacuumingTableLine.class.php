@@ -32,7 +32,7 @@ class PostgreSQLVacuumingTableLine extends PostgreSQLVacuumLogLine {
 	}
 		
 	function & getLogObject(& $logStream) {
-		$vacuumInformation = new VacuumTableLogObject($this->schema, $this->table);
+		$vacuumInformation = new VacuumTableLogObject($logStream->getDatabase(), $this->schema, $this->table);
 		
 		return $vacuumInformation;
 	}

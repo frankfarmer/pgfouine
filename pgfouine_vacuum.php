@@ -46,12 +46,14 @@ function usage($error = false) {
 		stderr('Error: '.$error);
 		echo "\n";
 	}
-	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-format <format>] [-report [outputfile=]<block1,block2>]
+	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-format <format>] [-report [outputfile=]<block1,block2>] [-filter <filter>]
   -file <file>                           log file to analyze
   -                                      read the log from stdin instead of -file
   -format <format>                       output format: html, or text. Default is html.
   -report [outputfile=]<block1,block2>   list of report blocks separated by a comma
                                          you can add several -report options if you want to generate several reports at once
+  -filter <filter>                       filter of the form: database or database.schema
+                                         filter is applied on output only
   -title <title>                         define the title of the reports
   -memorylimit <n>                       PHP memory limit in MB. Default is 128.
   -debug                                 debug mode
@@ -169,6 +171,12 @@ if(!CONFIG_STDIN) {
 	}
 } else {
 	$filePath = 'php://stdin';
+}
+
+if(isset($options['filter']) && !empty($options['filter'])) {
+	define('CONFIG_FILTER', $options['filter']);
+} else {
+	define('CONFIG_FILTER', false);
 }
 
 if(isset($options['title'])) {

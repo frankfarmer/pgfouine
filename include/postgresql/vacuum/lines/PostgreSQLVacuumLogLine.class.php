@@ -56,6 +56,10 @@ class PostgreSQLVacuumLogLine {
 	function getLineNumber() {
 		return 1;
 	}
+	
+	function initializeLogObject(& $logStream, & $logObject) {
+		$logObject->setDatabase($logStream->getDatabase());
+	}
 }
 
 ?>

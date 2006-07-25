@@ -45,8 +45,10 @@ class VacuumTableLogObject extends VacuumLogObject {
 	
 	var $indexesInformation = array();
 	
-	function VacuumTableLogObject($schema, $table, $ignored = false) {
-		$this->VacuumLogObject($schema, $table, $ignored);
+	var $number;
+	
+	function VacuumTableLogObject($database, $schema, $table, $ignored = false) {
+		$this->VacuumLogObject($database, $schema, $table, $ignored);
 	}
 	
 	function getEventType() {
@@ -129,6 +131,25 @@ class VacuumTableLogObject extends VacuumLogObject {
 	
 	function & getIndexesInformation() {
 		return $this->indexesInformation;
+	}
+	
+	function setNumber($number) {
+		$this->number = $number;
+	}
+	
+	function getNumber() {
+		return $this->number;
+	}
+	
+	function isIgnored() {
+		$path = $this->database.'.'.$this->schema.'.'.$this->table;
+		
+		if(strpos($path, CONFIG_FILTER) === 0) {
+			$filtered = false;
+		} else {
+			$filtered = true;
+		}
+		return ($this->ignored || $filtered);
 	}
 }
 

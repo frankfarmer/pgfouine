@@ -27,9 +27,9 @@ class VacuumLogObject {
 	var $schema = '';
 	var $table = '';
 	var $ignored = false;
-	
 
-	function VacuumLogObject($schema, $table, $ignored = false) {
+	function VacuumLogObject($database, $schema, $table, $ignored = false) {
+		$this->database = $database;
 		$this->schema = $schema;
 		$this->table = $table;
 		$this->ignored = $ignored;
@@ -47,15 +47,6 @@ class VacuumLogObject {
 
 	function isIgnored() {
 		return $this->ignored;
-	}
-	
-	/**
-	 * defines the database being vacuumed
-	 * 
-	 * @param string $database database
-	 */
-	function setDatabase($database) {
-		$this->database = $database;
 	}
 
 	/**

@@ -32,7 +32,7 @@ class PostgreSQLAnalyzingTableLine extends PostgreSQLVacuumLogLine {
 	}
 		
 	function & getLogObject(& $logStream) {
-		$analyzeInformation = new AnalyzeTableLogObject($this->schema, $this->table);
+		$analyzeInformation = new AnalyzeTableLogObject($logStream->getDatabase(), $this->schema, $this->table);
 		
 		return $analyzeInformation;
 	}
