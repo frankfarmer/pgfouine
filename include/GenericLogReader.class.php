@@ -81,6 +81,7 @@ class GenericLogReader {
 		}
 		
 		$lineParsedCounter = 0;
+		$lineDetected = false;
 		
 		if(DEBUG) debug(getMemoryUsage());
 		if(PROFILE) {
@@ -103,6 +104,8 @@ class GenericLogReader {
 				}
 				$this->lastLineTimestamp = $line->getTimestamp();
 				$accumulator->append($line);
+				
+				$lineDetected = true;
 			}
 			if($lineParsedCounter % 100000 == 0) {
 				stderr('parsed '.$lineParsedCounter.' lines');
@@ -124,6 +127,15 @@ class GenericLogReader {
 		$this->lineParsedCounter = $lineParsedCounter;
 		
 		DEBUG && debug("\nParsed ".$lineParsedCounter.' lines in '.$this->timeToParse.' s');
+		
+		if(!$lineDetected) {
+			stderr('pgFouine did not find any valid PostgreSQL log lines in your log file:');
+			stderr('* check that PostgreSQL uses an english locale for logging (lc_messages in your postgresql.conf),');
+			stderr('* check that you use the -logtype option (syslog, stderr) according to your log file,');
+			stderr('* if you use syslog and log_line_prefix, check that your log_line_prefix has a trailing space,');
+			stderr('* if you use stderr, check that your log_line_prefix is of the form \'%t [%p]: [%l-1] \'.');
+			stderr('If you think your log file and your options are correct, please contact the author (gsmet on #postgresql@freenode or guillaume-pg at smet dot org).');
+		}
 		
 		if(PROFILE) {
 			$GLOBALS['profiler']->end();
