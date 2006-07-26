@@ -129,7 +129,7 @@ class GenericLogReader {
 		DEBUG && debug("\nParsed ".$lineParsedCounter.' lines in '.$this->timeToParse.' s');
 		
 		if(!$lineDetected) {
-			stderr('pgFouine did not find any valid PostgreSQL log lines in your log file:');
+			stderr('pgFouine did not find any valid PostgreSQL log line in your log file:');
 			stderr('* check that PostgreSQL uses an english locale for logging (lc_messages in your postgresql.conf),');
 			stderr('* check that you use the -logtype option (syslog, stderr) according to your log file,');
 			stderr('* if you use syslog and log_line_prefix, check that your log_line_prefix has a trailing space,');
