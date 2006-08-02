@@ -63,5 +63,6 @@ require_once('listeners/VacuumOverallListener.class.php');
 require_once('reporting/reports/VacuumedTablesReport.class.php');
 require_once('reporting/reports/FSMInformationReport.class.php');
 require_once('reporting/reports/VacuumOverallReport.class.php');
+require_once('reporting/reports/VacuumedTablesDetailsReport.class.php');
 
 ?>

@@ -27,10 +27,10 @@ class VacuumTableLogObject extends VacuumLogObject {
 	var $numberOfNonRemovableRows = 0;
 	var $numberOfPages = 0;
 	
-	var $nonRemovableDeadRows = 0;
+	var $numberOfNonRemovableDeadRows = 0;
 	var $nonRemovableRowMinSize = 0;
 	var $nonRemovableRowMaxSize = 0;
-	var $unusedItemPointers = 0;
+	var $numberOfUnusedItemPointers = 0;
 	var $totalFreeSpace = 0;
 	var $numberOfPagesToEmpty = 0;
 	var $numberOfPagesToEmptyAtTheEndOfTheTable = 0;
@@ -40,7 +40,7 @@ class VacuumTableLogObject extends VacuumLogObject {
 	var $numberOfRowVersionsMoved = 0;
 	var $numberOfPagesRemoved = 0;
 	
-	var $cpuUsageTime = 0;
+	var $cpuUsage = 0;
 	var $duration = 0;
 	
 	var $indexesInformation = array();
@@ -88,17 +88,20 @@ class VacuumTableLogObject extends VacuumLogObject {
 		$unusedItemPointers,
 		$totalFreeSpace,
 		$numberOfPagesToEmpty, $numberOfPagesToEmptyAtTheEndOfTheTable,
-		$numberOfPagesWithFreeSpace, $freeSpace) {
+		$numberOfPagesWithFreeSpace, $freeSpace,
+		$cpuUsage, $duration) {
 		
-		$this->nonRemovableDeadRows = $nonRemovableDeadRows;
+		$this->numberOfNonRemovableDeadRows = $nonRemovableDeadRows;
 		$this->nonRemovableRowMinSize = $nonRemovableRowMinSize;
 		$this->nonRemovableRowMaxSize = $nonRemovableRowMaxSize;
-		$this->unusedItemPointers = $unusedItemPointers;
+		$this->numberOfUnusedItemPointers = $unusedItemPointers;
 		$this->totalFreeSpace = $totalFreeSpace;
 		$this->numberOfPagesToEmpty = $numberOfPagesToEmpty;
 		$this->numberOfPagesToEmptyAtTheEndOfTheTable = $numberOfPagesToEmptyAtTheEndOfTheTable;
 		$this->numberOfPagesWithFreeSpace = $numberOfPagesWithFreeSpace;
 		$this->freeSpace = $freeSpace;
+		$this->cpuUsage = $cpuUsage;
+		$this->duration = $duration;
 	}
 	
 	function getTablePath() {
@@ -119,6 +122,30 @@ class VacuumTableLogObject extends VacuumLogObject {
 	
 	function getNumberOfRemovableRows() {
 		return $this->numberOfRemovableRows;
+	}
+	
+	function getNumberOfNonRemovableDeadRows() {
+		return $this->numberOfNonRemovableDeadRows;
+	}
+	
+	function getNonRemovableRowMinSize() {
+		return $this->nonRemovableRowMinSize;
+	}
+	
+	function getNonRemovableRowMaxSize() {
+		return $this->nonRemovableRowMaxSize;
+	}
+	
+	function getNumberOfUnusedItemPointers() {
+		return $this->numberOfUnusedItemPointers;
+	}
+	
+	function getCpuUsage() {
+		return $this->cpuUsage;
+	}
+	
+	function getDuration() {
+		return $this->duration;
 	}
 	
 	function addIndexInformation(& $indexInformation) {

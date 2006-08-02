@@ -114,8 +114,8 @@ class ReportAggregator {
 		return formatTimestamp($timestamp);
 	}
 	
-	function formatDuration($duration, $decimals = 2) {
-		return number_format($duration, $decimals);
+	function formatDuration($duration, $decimals = 2, $decimalPoint = '.', $thousandSeparator = ',') {
+		return number_format($duration, $decimals, $decimalPoint, $thousandSeparator);
 	}
 	
 	function formatLongDuration($duration, $decimals = 1) {

@@ -1,3 +1,8 @@
+2006-08-02  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [vacuum] added the duration information
+	* [vacuum] added a detailed report
+
 2006-08-02  Open Wide <guillaume.smet@openwide.fr>
 
 	* [vacuum] fixed a bug in database/schema filter

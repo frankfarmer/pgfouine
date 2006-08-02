@@ -43,7 +43,7 @@ class VacuumedTablesReport extends Report {
 		$html = '';
 		
 		$html .= '
-<p>Click on a column header to sort the rows. Note that it can be quite long to sort all the rows if you vacuumed a lot of tables.</p>
+<p class="tip">Click on a column header to sort the rows. Note that it can be quite long to sort all the rows if you vacuumed a lot of tables.</p>
 <table class="queryList sortable" id="sortableVacuumResults">
 	<tr>
 		<th>#</th>
@@ -54,6 +54,8 @@ class VacuumedTablesReport extends Report {
 		<th>Row versions</th>
 		<th>Removable row versions</th>
 		<th style="width:50px;">%</th>
+		<th>Duration</th>
+		<th>Details</th>
 	</tr>';
 
 		for($i = 0; $i < $vacuumedTablesCount; $i++) {
@@ -67,6 +69,8 @@ class VacuumedTablesReport extends Report {
 				<td class="right">'.$vacuumedTable->getTotalNumberOfRows().'</td>
 				<td class="right">'.$vacuumedTable->getNumberOfRemovableRows().'</td>
 				<td class="right">'.$this->getPercentage($vacuumedTable->getNumberOfRemovableRows(), $vacuumedTable->getTotalNumberOfRows()).'</td>
+				<td class="right" alt="'.$this->formatLongDuration($vacuumedTable->getDuration()).'" title="'.$this->formatLongDuration($vacuumedTable->getDuration()).'">'.$this->formatDuration($vacuumedTable->getDuration(), 2, '.', '').'</td>
+				<td class="center"><a href="#vacuum-table-details-'.$vacuumedTable->getNumber().'">Details</a></td>
 			</tr>';
 		}
 		$html .= '</table>';

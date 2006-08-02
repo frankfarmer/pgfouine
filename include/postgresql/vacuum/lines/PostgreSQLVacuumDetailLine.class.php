@@ -31,27 +31,51 @@ class PostgreSQLVacuumDetailLine extends PostgreSQLVacuumLogLine {
 	function appendTo(& $logObject) {
 		global $postgreSQLVacuumRegexps;
 		
-		// TODO : CPU usage
+		$detailVacuumFullMatch =& $postgreSQLVacuumRegexps['VacuumFullDetailLine']->match($this->text);
+		$detailVacuumMatch =& $postgreSQLVacuumRegexps['VacuumDetailLine']->match($this->text);
 		
-		$detailMatch =& $postgreSQLVacuumRegexps['VacuumDetailLine']->match($this->text);
-		
-		if($detailMatch) {
-			$nonRemovableDeadRows = $detailMatch->getMatch(1);
-			$nonRemovableRowMinSize = $detailMatch->getMatch(2);
-			$nonRemovableRowMaxSize = $detailMatch->getMatch(3);
-			$unusedItemPointers = $detailMatch->getMatch(4);
-			$totalFreeSpace = $detailMatch->getMatch(5);
-			$numberOfPagesToEmpty = $detailMatch->getMatch(6);
-			$numberOfPagesToEmptyAtTheEndOfTheTable = $detailMatch->getMatch(7);
-			$numberOfPagesWithFreeSpace = $detailMatch->getMatch(8);
-			$freeSpace = $detailMatch->getMatch(9);
+		if($detailVacuumFullMatch) {
+			$nonRemovableDeadRows = $detailVacuumFullMatch->getMatch(1);
+			$nonRemovableRowMinSize = $detailVacuumFullMatch->getMatch(2);
+			$nonRemovableRowMaxSize = $detailVacuumFullMatch->getMatch(3);
+			$unusedItemPointers = $detailVacuumFullMatch->getMatch(4);
+			$totalFreeSpace = $detailVacuumFullMatch->getMatch(5);
+			$numberOfPagesToEmpty = $detailVacuumFullMatch->getMatch(6);
+			$numberOfPagesToEmptyAtTheEndOfTheTable = $detailVacuumFullMatch->getMatch(7);
+			$numberOfPagesWithFreeSpace = $detailVacuumFullMatch->getMatch(8);
+			$freeSpace = $detailVacuumFullMatch->getMatch(9);
+			// TODO CPU usage
+			$cpuUsage = 0;
+			$duration = (float) $detailVacuumFullMatch->getMatch(12);
 			
 			$logObject->setDetailedInformation($nonRemovableDeadRows,
 				$nonRemovableRowMinSize, $nonRemovableRowMaxSize,
 				$unusedItemPointers,
 				$totalFreeSpace,
 				$numberOfPagesToEmpty, $numberOfPagesToEmptyAtTheEndOfTheTable,
-				$numberOfPagesWithFreeSpace, $freeSpace);
+				$numberOfPagesWithFreeSpace, $freeSpace,
+				$cpuUsage, $duration);
+		} elseif($detailVacuumMatch) {
+			$nonRemovableDeadRows = $detailVacuumMatch->getMatch(1);
+			$nonRemovableRowMinSize = '-';
+			$nonRemovableRowMaxSize = '-';
+			$unusedItemPointers = $detailVacuumMatch->getMatch(2);
+			$totalFreeSpace = '-';
+			$numberOfPagesToEmpty = $detailVacuumMatch->getMatch(3);
+			$numberOfPagesToEmptyAtTheEndOfTheTable = '-';
+			$numberOfPagesWithFreeSpace = '-';
+			$freeSpace = '-';
+			// TODO CPU usage
+			$cpuUsage = 0;
+			$duration = (float) $detailVacuumMatch->getMatch(6);
+			
+			$logObject->setDetailedInformation($nonRemovableDeadRows,
+				$nonRemovableRowMinSize, $nonRemovableRowMaxSize,
+				$unusedItemPointers,
+				$totalFreeSpace,
+				$numberOfPagesToEmpty, $numberOfPagesToEmptyAtTheEndOfTheTable,
+				$numberOfPagesWithFreeSpace, $freeSpace,
+				$cpuUsage, $duration);		
 		}
 	}
 }

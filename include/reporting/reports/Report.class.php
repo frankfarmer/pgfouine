@@ -64,8 +64,8 @@ class Report {
 		return $this->reportAggregator->formatTimestamp($timestamp);
 	}
 	
-	function formatDuration($duration, $decimals = 2) {
-		return $this->reportAggregator->formatDuration($duration, $decimals);
+	function formatDuration($duration, $decimals = 2, $decimalPoint = '.', $thousandSeparator = ',') {
+		return $this->reportAggregator->formatDuration($duration, $decimals, $decimalPoint, $thousandSeparator);
 	}
 	
 	function formatLongDuration($duration) {

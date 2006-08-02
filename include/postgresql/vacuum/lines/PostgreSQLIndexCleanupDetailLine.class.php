@@ -36,11 +36,15 @@ class PostgreSQLIndexCleanupDetailLine extends PostgreSQLVacuumLogLine {
 			$numberOfRemovedRowVersions = $detailMatch->getMatch(1) ? $detailMatch->getMatch(1) : 0;
 			$numberOfDeletedPages = $detailMatch->getMatch(2);
 			$numberOfReusablePages = $detailMatch->getMatch(3);
+			// TODO
+			$cpuUsage = 0;
+			$duration = $detailMatch->getMatch(5);
 			
 			$lastIndexInformation =& $logObject->getLastIndexInformation();
 			
 			if($lastIndexInformation) {			
-				$lastIndexInformation->setDetailedInformation($numberOfRemovedRowVersions, $numberOfDeletedPages, $numberOfReusablePages);
+				$lastIndexInformation->setDetailedInformation($numberOfRemovedRowVersions, $numberOfDeletedPages, $numberOfReusablePages,
+					$cpuUsage, $duration);
 			}
 		}
 	}

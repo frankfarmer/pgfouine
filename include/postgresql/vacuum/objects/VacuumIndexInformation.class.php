@@ -28,6 +28,8 @@ class VacuumIndexInformation {
 	var $numberOfRemovedRowVersions = 0;
 	var $numberOfDeletedPages = 0;
 	var $numberOfReusablePages = 0;
+	var $cpuUsage = 0;
+	var $duration = 0;
 
 	function VacuumIndexInformation($indexName, $numberOfRowVersions, $numberOfPages) {
 		$this->indexName = $indexName;
@@ -35,10 +37,41 @@ class VacuumIndexInformation {
 		$this->numberOfPages = $numberOfPages;
 	}
 	
-	function setDetailedInformation($numberOfRemovedRowVersions, $numberOfDeletedPages, $numberOfReusablePages) {
+	function setDetailedInformation($numberOfRemovedRowVersions, $numberOfDeletedPages, $numberOfReusablePages,
+		$cpuUsage, $duration) {
 		$this->numberOfRemovedRowVersions = $numberOfRemovedRowVersions;
 		$this->numberOfDeletedPages = $numberOfDeletedPages;
 		$this->numberOfReusablePages = $numberOfReusablePages;
+		$this->cpuUsage = $cpuUsage;
+		$this->duration = $duration;
+	}
+	
+	function getIndexName() {
+		return $this->indexName;
+	}
+	
+	function getNumberOfRowVersions() {
+		return $this->numberOfRowVersions;
+	}
+	
+	function getNumberOfPages() {
+		return $this->numberOfPages;
+	}
+	
+	function getNumberOfRemovedRowVersions() {
+		return $this->numberOfRemovedRowVersions;
+	}
+	
+	function getNumberOfDeletedPages() {
+		return $this->numberOfDeletedPages;
+	}
+	
+	function getNumberOfReusablePages() {
+		return $this->numberOfReusablePages;
+	}
+	
+	function getDuration() {
+		return $this->duration;
 	}
 }
 
