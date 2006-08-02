@@ -1,3 +1,12 @@
+2006-08-02  Open Wide <guillaume.smet@openwide.fr>
+
+	* [vacuum] fixed a bug in database/schema filter
+
+2006-07-26  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added a few hints if pgFouine does not find any valid
+	PostgreSQL log line
+
 2006-07-25  Guillaume Smet <guillaume-pg@smet.org>
 
 	* changed the default order for vacuumed tables report

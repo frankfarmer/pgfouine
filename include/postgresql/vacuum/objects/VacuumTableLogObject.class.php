@@ -144,7 +144,7 @@ class VacuumTableLogObject extends VacuumLogObject {
 	function isIgnored() {
 		$path = $this->database.'.'.$this->schema.'.'.$this->table;
 		
-		if(strpos($path, CONFIG_FILTER) === 0) {
+		if(!CONFIG_FILTER || (strpos($path, CONFIG_FILTER) === 0)) {
 			$filtered = false;
 		} else {
 			$filtered = true;
