@@ -38,7 +38,7 @@ class PostgreSQLIndexCleanupDetailLine extends PostgreSQLVacuumLogLine {
 			$numberOfReusablePages = $detailMatch->getMatch(3);
 			// TODO
 			$cpuUsage = 0;
-			$duration = $detailMatch->getMatch(5);
+			$duration = $detailMatch->getMatch(6);
 			
 			$lastIndexInformation =& $logObject->getLastIndexInformation();
 			
