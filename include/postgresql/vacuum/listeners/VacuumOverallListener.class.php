@@ -33,6 +33,7 @@ class VacuumOverallListener {
 		$this->statistics['numberOfRowVersions'] = 0;
 		$this->statistics['numberOfRemovableRowVersions'] = 0;
 		$this->statistics['duration'] = 0;
+		$this->statistics['cpuUsage'] = 0;
 	}
 	
 	function fireEvent(& $vacuumedTable) {
@@ -42,6 +43,7 @@ class VacuumOverallListener {
 		$this->statistics['numberOfRowVersions'] += $vacuumedTable->getTotalNumberOfRows();
 		$this->statistics['numberOfRemovableRowVersions'] += $vacuumedTable->getNumberOfRemovableRows();
 		$this->statistics['duration'] += $vacuumedTable->getDuration();
+		$this->statistics['cpuUsage'] += $vacuumedTable->getCpuUsage();
 		
 		if(!isset($this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfTables'])) {
 			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfTables'] = 0;
@@ -50,6 +52,7 @@ class VacuumOverallListener {
 			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfRowVersions'] = 0;
 			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfRemovableRowVersions'] = 0;
 			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['duration'] = 0;
+			$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['cpuUsage'] = 0;
 		}
 		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfTables'] ++;
 		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfPages'] += $vacuumedTable->getNumberOfPages();
@@ -57,6 +60,7 @@ class VacuumOverallListener {
 		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfRowVersions'] += $vacuumedTable->getTotalNumberOfRows();
 		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['numberOfRemovableRowVersions'] += $vacuumedTable->getNumberOfRemovableRows();
 		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['duration'] += $vacuumedTable->getDuration();
+		$this->statisticsPerDatabase[$vacuumedTable->getDatabase()]['cpuUsage'] += $vacuumedTable->getCpuUsage();
 	}
 	
 	function close() {

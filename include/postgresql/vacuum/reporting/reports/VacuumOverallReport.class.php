@@ -51,6 +51,7 @@ class VacuumOverallReport extends Report {
 		<th style="padding-left:15px; padding-right:15px;">Row versions</th>
 		<th style="padding-left:15px; padding-right:15px;">Removable row versions</th>
 		<th style="width:50px;">%</th>
+		<th>CPU usage</th>
 		<th>Duration</th>
 	</tr>';
 
@@ -64,6 +65,7 @@ class VacuumOverallReport extends Report {
 				<td class="right">'.$this->formatInteger($databaseStatistics['numberOfRowVersions']).'</td>
 				<td class="right">'.$this->formatInteger($databaseStatistics['numberOfRemovableRowVersions']).'</td>
 				<td class="right">'.$this->getPercentage($databaseStatistics['numberOfRemovableRowVersions'], $databaseStatistics['numberOfRowVersions']).'</td>
+				<td class="right">'.$this->formatLongDuration($databaseStatistics['cpuUsage']).'</td>
 				<td class="right">'.$this->formatLongDuration($databaseStatistics['duration']).'</td>
 			</tr>';
 		}
@@ -77,6 +79,7 @@ class VacuumOverallReport extends Report {
 					<td class="right">'.$this->formatInteger($statistics['numberOfRowVersions']).'</td>
 					<td class="right">'.$this->formatInteger($statistics['numberOfRemovableRowVersions']).'</td>
 					<td class="right">'.$this->getPercentage($statistics['numberOfRemovableRowVersions'], $statistics['numberOfRowVersions']).'</td>
+					<td class="right">'.$this->formatLongDuration($statistics['cpuUsage']).'</td>
 					<td class="right">'.$this->formatLongDuration($statistics['duration']).'</td>
 				</tr>';
 		}

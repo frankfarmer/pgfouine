@@ -37,7 +37,7 @@ class VacuumedTablesReport extends Report {
 	function getHtml() {
 		$listener =& $this->reportAggregator->getListener('VacuumedTablesListener');
 		
-		$vacuumedTables =& $listener->getVacuumedTablesSortedByPercentageOfPagesRemoved();
+		$vacuumedTables =& $listener->getVacuumedTablesSortedByPercentageOfRowVersionsRemoved();
 		$vacuumedTablesCount = count($vacuumedTables);
 		
 		$html = '';
@@ -54,8 +54,12 @@ class VacuumedTablesReport extends Report {
 		<th>Row versions</th>
 		<th>Removable row versions</th>
 		<th style="width:50px;">%</th>
-		<th>Duration</th>
-		<th>Details</th>
+		<th>CPU usage</th>
+		<th>Duration</th>';
+		if($this->reportAggregator->containsReportBlock('VacuumedTablesDetailsReport')) {
+			$html .= '<th>Details</th>';
+		}
+		$html .= '
 	</tr>';
 
 		for($i = 0; $i < $vacuumedTablesCount; $i++) {
@@ -69,9 +73,13 @@ class VacuumedTablesReport extends Report {
 				<td class="right">'.$vacuumedTable->getTotalNumberOfRows().'</td>
 				<td class="right">'.$vacuumedTable->getNumberOfRemovableRows().'</td>
 				<td class="right">'.$this->getPercentage($vacuumedTable->getNumberOfRemovableRows(), $vacuumedTable->getTotalNumberOfRows()).'</td>
-				<td class="right" alt="'.$this->formatLongDuration($vacuumedTable->getDuration()).'" title="'.$this->formatLongDuration($vacuumedTable->getDuration()).'">'.$this->formatDuration($vacuumedTable->getDuration(), 2, '.', '').'</td>
-				<td class="center"><a href="#vacuum-table-details-'.$vacuumedTable->getNumber().'">Details</a></td>
-			</tr>';
+				<td class="right" alt="sys: '.$this->formatLongDuration($vacuumedTable->getSystemCpuUsage()).' / user: '.$this->formatLongDuration($vacuumedTable->getUserCpuUsage()).'" title="sys: '.$this->formatLongDuration($vacuumedTable->getSystemCpuUsage()).' / user: '.$this->formatLongDuration($vacuumedTable->getUserCpuUsage()).'">'.$this->formatDuration($vacuumedTable->getCpuUsage(), 2, '.', '').'</td>				
+				<td class="right" alt="'.$this->formatLongDuration($vacuumedTable->getDuration()).'" title="'.$this->formatLongDuration($vacuumedTable->getDuration()).'">'.$this->formatDuration($vacuumedTable->getDuration(), 2, '.', '').'</td>';
+				
+			if($this->reportAggregator->containsReportBlock('VacuumedTablesDetailsReport')) {
+				$html .= '<td class="center"><a href="#vacuum-table-details-'.$vacuumedTable->getNumber().'">Details</a></td>';
+			}
+			$html .= '</tr>';
 		}
 		$html .= '</table>';
 		return $html;

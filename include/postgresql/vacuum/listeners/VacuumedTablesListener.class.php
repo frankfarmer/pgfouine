@@ -46,19 +46,19 @@ class VacuumedTablesListener {
 		return $this->vacuumedTables;
 	}
 	
-	function & getVacuumedTablesSortedByPercentageOfPagesRemoved() {
+	function & getVacuumedTablesSortedByPercentageOfRowVersionsRemoved() {
 		$vacuumedTables = $this->vacuumedTables;
-		usort($vacuumedTables, array($this, 'comparePercentageOfPagesRemoved'));
+		usort($vacuumedTables, array($this, 'comparePercentageOfRowVersionsRemoved'));
 		return $vacuumedTables;
 	}
 	
 	
-	function comparePercentageOfPagesRemoved(& $a, & $b) {
-		$aPercentage = getExactPercentage($a->getNumberOfPagesRemoved(), $a->getNumberOfPages());
-		$bPercentage = getExactPercentage($b->getNumberOfPagesRemoved(), $b->getNumberOfPages());
+	function comparePercentageOfRowVersionsRemoved(& $a, & $b) {
+		$aPercentage = getExactPercentage($a->getNumberOfRemovableRows(), $a->getTotalNumberOfRows());
+		$bPercentage = getExactPercentage($b->getNumberOfRemovableRows(), $b->getTotalNumberOfRows());
 	
 		if($aPercentage == $bPercentage) {
-			return $this->compareNumberOfPagesTruncated($a, $b);
+			return $this->compareNumberOfRowVersionsRemoved($a, $b);
 		} elseif($aPercentage < $bPercentage) {
 			return 1;
 		} else {
@@ -66,10 +66,10 @@ class VacuumedTablesListener {
 		}
 	}
 	
-	function compareNumberOfPagesTruncated(& $a, & $b) {
-		if($a->getNumberOfPagesRemoved() == $b->getNumberOfPagesRemoved()) {
+	function compareNumberOfRowVersionsRemoved(& $a, & $b) {
+		if($a->getNumberOfRemovableRows() == $b->getNumberOfRemovableRows()) {
 			return 0;
-		} elseif($a->getNumberOfPagesRemoved() < $b->getNumberOfPagesRemoved()) {
+		} elseif($a->getNumberOfRemovableRows() < $b->getNumberOfRemovableRows()) {
 			return 1;
 		} else {
 			return -1;

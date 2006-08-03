@@ -44,8 +44,8 @@ class PostgreSQLVacuumDetailLine extends PostgreSQLVacuumLogLine {
 			$numberOfPagesToEmptyAtTheEndOfTheTable = $detailVacuumFullMatch->getMatch(7);
 			$numberOfPagesWithFreeSpace = $detailVacuumFullMatch->getMatch(8);
 			$freeSpace = $detailVacuumFullMatch->getMatch(9);
-			// TODO CPU usage
-			$cpuUsage = 0;
+			$systemCpuUsage = (float) $detailVacuumFullMatch->getMatch(10);
+			$userCpuUsage = (float) $detailVacuumFullMatch->getMatch(11);
 			$duration = (float) $detailVacuumFullMatch->getMatch(12);
 			
 			$logObject->setDetailedInformation($nonRemovableDeadRows,
@@ -54,7 +54,7 @@ class PostgreSQLVacuumDetailLine extends PostgreSQLVacuumLogLine {
 				$totalFreeSpace,
 				$numberOfPagesToEmpty, $numberOfPagesToEmptyAtTheEndOfTheTable,
 				$numberOfPagesWithFreeSpace, $freeSpace,
-				$cpuUsage, $duration);
+				$systemCpuUsage, $userCpuUsage, $duration);
 		} elseif($detailVacuumMatch) {
 			$nonRemovableDeadRows = $detailVacuumMatch->getMatch(1);
 			$nonRemovableRowMinSize = '-';
@@ -65,8 +65,8 @@ class PostgreSQLVacuumDetailLine extends PostgreSQLVacuumLogLine {
 			$numberOfPagesToEmptyAtTheEndOfTheTable = '-';
 			$numberOfPagesWithFreeSpace = '-';
 			$freeSpace = '-';
-			// TODO CPU usage
-			$cpuUsage = 0;
+			$systemCpuUsage = (float) $detailVacuumMatch->getMatch(4);
+			$userCpuUsage = (float) $detailVacuumMatch->getMatch(5);
 			$duration = (float) $detailVacuumMatch->getMatch(6);
 			
 			$logObject->setDetailedInformation($nonRemovableDeadRows,
@@ -75,7 +75,7 @@ class PostgreSQLVacuumDetailLine extends PostgreSQLVacuumLogLine {
 				$totalFreeSpace,
 				$numberOfPagesToEmpty, $numberOfPagesToEmptyAtTheEndOfTheTable,
 				$numberOfPagesWithFreeSpace, $freeSpace,
-				$cpuUsage, $duration);		
+				$systemCpuUsage, $userCpuUsage, $duration);		
 		}
 	}
 }

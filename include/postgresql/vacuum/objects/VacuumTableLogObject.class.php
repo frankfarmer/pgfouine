@@ -37,10 +37,11 @@ class VacuumTableLogObject extends VacuumLogObject {
 	var $numberOfPagesWithFreeSpace = 0;
 	var $freeSpace = 0;
 	
-	var $numberOfRowVersionsMoved = 0;
-	var $numberOfPagesRemoved = 0;
+	var $numberOfRowVersionsMoved = '-';
+	var $numberOfPagesRemoved = '-';
 	
-	var $cpuUsage = 0;
+	var $systemCpuUsage = 0;
+	var $userCpuUsage = 0;
 	var $duration = 0;
 	
 	var $indexesInformation = array();
@@ -89,7 +90,7 @@ class VacuumTableLogObject extends VacuumLogObject {
 		$totalFreeSpace,
 		$numberOfPagesToEmpty, $numberOfPagesToEmptyAtTheEndOfTheTable,
 		$numberOfPagesWithFreeSpace, $freeSpace,
-		$cpuUsage, $duration) {
+		$systemCpuUsage, $userCpuUsage, $duration) {
 		
 		$this->numberOfNonRemovableDeadRows = $nonRemovableDeadRows;
 		$this->nonRemovableRowMinSize = $nonRemovableRowMinSize;
@@ -100,7 +101,8 @@ class VacuumTableLogObject extends VacuumLogObject {
 		$this->numberOfPagesToEmptyAtTheEndOfTheTable = $numberOfPagesToEmptyAtTheEndOfTheTable;
 		$this->numberOfPagesWithFreeSpace = $numberOfPagesWithFreeSpace;
 		$this->freeSpace = $freeSpace;
-		$this->cpuUsage = $cpuUsage;
+		$this->systemCpuUsage = $systemCpuUsage;
+		$this->userCpuUsage = $userCpuUsage;
 		$this->duration = $duration;
 	}
 	
@@ -141,7 +143,15 @@ class VacuumTableLogObject extends VacuumLogObject {
 	}
 	
 	function getCpuUsage() {
-		return $this->cpuUsage;
+		return $this->systemCpuUsage + $this->userCpuUsage;
+	}
+	
+	function getSystemCpuUsage() {
+		return $this->systemCpuUsage;
+	}
+	
+	function getUserCpuUsage() {
+		return $this->userCpuUsage;
 	}
 	
 	function getDuration() {

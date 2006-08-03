@@ -47,25 +47,22 @@ class VacuumedTablesDetailsReport extends Report {
 			
 			$html .= '<div class="indexInformation">';
 			$html .= '<ul>
-				<li>Pages: '.$vacuumedTable->getNumberOfPages().'</li>
-				<li>Pages truncated: '.$vacuumedTable->getNumberOfPagesRemoved().' ( '.$this->getPercentage($vacuumedTable->getNumberOfPagesRemoved(), $vacuumedTable->getNumberOfPages()).'% )</li>
+				<li>Pages: '.$vacuumedTable->getNumberOfPages().'</li>';
+			if($vacuumedTable->getNumberOfPagesRemoved() != '-') {
+				$html .= '<li>Pages truncated: '.$vacuumedTable->getNumberOfPagesRemoved().' ( '.$this->getPercentage($vacuumedTable->getNumberOfPagesRemoved(), $vacuumedTable->getNumberOfPages()).'% )</li>';
+			}
+			$html .= '
 				<li>Row versions: '.$vacuumedTable->getTotalNumberOfRows().'</li>
 				<li>Removable row versions: '.$vacuumedTable->getNumberOfRemovableRows().' ( '.$this->getPercentage($vacuumedTable->getNumberOfRemovableRows(), $vacuumedTable->getTotalNumberOfRows()).'% )</li>
-				<li>Non removable dead rows: '.$vacuumedTable->getNumberOfNonRemovableDeadRows().'</li>
-				<li>Non removable row size: from '.$vacuumedTable->getNonRemovableRowMinSize().' bytes to '.$vacuumedTable->getNonRemovableRowMaxSize().' bytes</li>
+				<li>Non removable dead rows: '.$vacuumedTable->getNumberOfNonRemovableDeadRows().'</li>';
+			if($vacuumedTable->getNonRemovableRowMinSize() != '-') {
+				$html .= '<li>Non removable row size: from '.$vacuumedTable->getNonRemovableRowMinSize().' bytes to '.$vacuumedTable->getNonRemovableRowMaxSize().' bytes</li>';
+			}
+			$html .= '
 				<li>Unused item pointers: '.$vacuumedTable->getNumberOfUnusedItemPointers().'</li>
-				<li>Duration: '.$this->formatLongDuration($vacuumedTable->getDuration()).'</li>
+				<li>CPU usage: sys: '.$this->formatLongDuration($vacuumedTable->getSystemCpuUsage()).' / user: '.$this->formatLongDuration($vacuumedTable->getUserCpuUsage()).'</li>
+				<li>Duration: '.$this->formatLongDuration($vacuumedTable->getDuration()).'</li>				
 			</ul>';
-			/* TODO
-			[totalFreeSpace] => -
-			[numberOfPagesToEmpty] => 0
-			[numberOfPagesToEmptyAtTheEndOfTheTable] => -
-			[numberOfPagesWithFreeSpace] => -
-			[freeSpace] => -
-			[numberOfRowVersionsMoved] => 0
-			[numberOfPagesRemoved] => 0
-			[cpuUsage] => 0
-			*/
 			$indexesInformation =& $vacuumedTable->getIndexesInformation();
 			$numberOfIndexes = count($indexesInformation);
 			if($numberOfIndexes > 0) {
@@ -77,6 +74,7 @@ class VacuumedTablesDetailsReport extends Report {
 						<th>Reusable pages</th>
 						<th>Row versions</th>
 						<th>Removed row versions</th>
+						<th>CPU usage</th>
 						<th>Duration</th>
 					</tr>';
 				for($j = 0; $j < $numberOfIndexes; $j++) {
@@ -89,6 +87,7 @@ class VacuumedTablesDetailsReport extends Report {
 							<td class="right">'.$indexInformation->getNumberOfReusablePages().'</td>
 							<td class="right">'.$indexInformation->getNumberOfRowVersions().'</td>
 							<td class="right">'.$indexInformation->getNumberOfRemovedRowVersions().'</td>
+							<td class="right">sys: '.$this->formatLongDuration($indexInformation->getSystemCpuUsage()).' / user: '.$this->formatLongDuration($indexInformation->getUserCpuUsage()).'</td>
 							<td class="right">'.$this->formatLongDuration($indexInformation->getDuration()).'</td>
 						</tr>';
 					unset($indexInformation);

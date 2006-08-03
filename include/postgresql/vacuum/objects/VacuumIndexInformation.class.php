@@ -28,7 +28,8 @@ class VacuumIndexInformation {
 	var $numberOfRemovedRowVersions = 0;
 	var $numberOfDeletedPages = 0;
 	var $numberOfReusablePages = 0;
-	var $cpuUsage = 0;
+	var $systemCpuUsage = 0;
+	var $userCpuUsage = 0;
 	var $duration = 0;
 
 	function VacuumIndexInformation($indexName, $numberOfRowVersions, $numberOfPages) {
@@ -38,11 +39,12 @@ class VacuumIndexInformation {
 	}
 	
 	function setDetailedInformation($numberOfRemovedRowVersions, $numberOfDeletedPages, $numberOfReusablePages,
-		$cpuUsage, $duration) {
+		$systemCpuUsage, $userCpuUsage, $duration) {
 		$this->numberOfRemovedRowVersions = $numberOfRemovedRowVersions;
 		$this->numberOfDeletedPages = $numberOfDeletedPages;
 		$this->numberOfReusablePages = $numberOfReusablePages;
-		$this->cpuUsage = $cpuUsage;
+		$this->systemCpuUsage = $systemCpuUsage;
+		$this->userCpuUsage = $userCpuUsage;
 		$this->duration = $duration;
 	}
 	
@@ -72,6 +74,18 @@ class VacuumIndexInformation {
 	
 	function getDuration() {
 		return $this->duration;
+	}
+	
+	function getCpuUsage() {
+		return $this->systemCpuUsage + $this->userCpuUsage;
+	}
+	
+	function getSystemCpuUsage() {
+		return $this->systemCpuUsage;
+	}
+	
+	function getUserCpuUsage() {
+		return $this->userCpuUsage;
 	}
 }
 

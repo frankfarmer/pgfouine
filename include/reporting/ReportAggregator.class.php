@@ -148,6 +148,16 @@ class ReportAggregator {
 	function formatRealQuery($query, $prepend = '', $append = '') {
 		return $prepend.$query->getText().$append;
 	}
+	
+	function containsReportBlock($reportBlockName) {
+		$count = count($this->reportBlocks);
+		for($i = 0; $i < $count; $i++) {
+			if(is_a($this->reportBlocks[$i], $reportBlockName)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
 
 ?>
