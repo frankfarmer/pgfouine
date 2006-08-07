@@ -1,3 +1,7 @@
+2006-08-06  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [tsung] began the work on Tsung sessions generator
+
 2006-08-03  Guillaume Smet <guillaume-pg@smet.org>
 
 	* [vacuum] improved the layout

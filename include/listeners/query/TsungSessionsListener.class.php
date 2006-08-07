@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005-2006 Guillaume Smet
+ * Copyright (c) 2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,20 +21,20 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class DurationLogObject extends LogObject {
-	var $duration;
+class TsungSessionsListener extends QueryListener {
+	var $sessions = array();
 	
-	function DurationLogObject($connectionId, $user, $db, $duration) {
-		$this->LogObject($connectionId, $user, $db);
-		$this->duration = $duration;
+	function fireEvent(& $logObject) {
+		$connectionId = $logObject->getConnectionId() ? $logObject->getConnectionId() : 0;
+		
+		if(!isset($this->sessions[$connectionId])) {
+			$this->sessions[$connectionId] = array();
+		}
+		$this->sessions[$connectionId][] =& $logObject;
 	}
 	
-	function getEventType() {
-		return EVENT_DURATION_ONLY;
-	}
-	
-	function getDuration() {
-		return $this->duration;
+	function & getSessions() {
+		return $this->sessions;
 	}
 }
 

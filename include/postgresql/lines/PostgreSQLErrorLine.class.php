@@ -28,7 +28,7 @@ class PostgreSQLErrorLine extends PostgreSQLLogLine {
 		$database = $this->database ? $this->database : $logStream->getDatabase();
 		$user = $this->user ? $this->user : $logStream->getUser();
 		
-		$error = new ErrorLogObject($user, $database, $this->text);
+		$error = new ErrorLogObject($this->getConnectionId(), $user, $database, $this->text);
 		$error->setContextInformation($this->timestamp, $this->commandNumber);
 		
 		return $error;

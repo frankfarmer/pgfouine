@@ -54,7 +54,8 @@ function usage($error = false) {
                                           for stderr, you have to use the following log_line_prefix: \'%t [%p]: [%l-1] \'
   -report [outputfile=]<block1,block2>   list of report blocks separated by a comma
                                          report blocks can be: overall, hourly, bytype, slowest, n-mosttime,
-                                          n-mostfrequent, n-slowestaverage, history, n-mostfrequenterrors
+                                          n-mostfrequent, n-slowestaverage, history, n-mostfrequenterrors,
+                                          tsung
                                          you can add several -report options if you want to generate several reports at once
   -examples <n>                          maximum number of examples for a normalized query
   -onlyselect                            ignore all queries but SELECT
@@ -207,6 +208,7 @@ $supportedReportBlocks = array(
 	'n-slowestaverage' => 'NormalizedQueriesSlowestAverageReport',
 	'history' => 'QueriesHistoryReport',
 	'n-mostfrequenterrors' => 'NormalizedErrorsMostFrequentReport',
+	'tsung' => 'TsungSessionsReport',
 );
 $defaultReportBlocks = array('overall', 'bytype', 'slowest', 'n-mosttime', 'n-mostfrequent', 'n-slowestaverage');
 

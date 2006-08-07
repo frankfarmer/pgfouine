@@ -25,11 +25,13 @@ class Report {
 	var $reportAggregator;
 	var $title = '';
 	var $needs = array();
+	var $displayTitle = true;
 	
-	function Report(& $reportAggregator, $title, $needs) {
+	function Report(& $reportAggregator, $title, $needs, $displayTitle = true) {
 		$this->reportAggregator =& $reportAggregator;
 		$this->title = $title;
 		$this->needs = $needs;
+		$this->displayTitle = $displayTitle;
 	}
 	
 	function getTitle() {
@@ -41,11 +43,21 @@ class Report {
 	}
 	
 	function getTextTitle() {
-		return "\n#####  ".$this->title."  #####\n\n";
+		if($this->displayTitle) {
+			$title = "\n#####  ".$this->title."  #####\n\n";
+		} else {
+			$title = '';
+		}
+		return $title;
 	}
 	
 	function getHtmlTitle() {
-		return '<h2 id="'.$this->getReportClass().'">'.$this->title.' <a href="#top" title="Back to top">^</a></h2>';
+		if($this->displayTitle) {
+			$title = '<h2 id="'.$this->getReportClass().'">'.$this->title.' <a href="#top" title="Back to top">^</a></h2>';
+		} else {
+			$title = '';
+		}
+		return $title;
 	}
 	
 	function pad($string, $length) {

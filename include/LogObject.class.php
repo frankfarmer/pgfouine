@@ -23,6 +23,7 @@
 
 class LogObject {
 	var $text;
+	var $connectionId;
 	var $database;
 	var $user;
 	var $timestamp;
@@ -31,7 +32,8 @@ class LogObject {
 	var $context;
 	var $notices = array();
 
-	function LogObject($user, $database, $text = '', $ignored = false) {
+	function LogObject($connectionId, $user, $database, $text = '', $ignored = false) {
+		$this->connectionId = $connectionId;
 		$this->user = $user;
 		$this->database = $database;
 		$this->text = $text;
@@ -102,6 +104,10 @@ class LogObject {
 			$this->ignored = true;
 		}
 		return $this->ignored;
+	}
+	
+	function getConnectionId() {
+		return $this->connectionId;
 	}
 	
 	function getDatabase() {

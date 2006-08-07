@@ -24,10 +24,10 @@
 class QueryLogObject extends LogObject {
 	var $subQueries = array();
 
-	function QueryLogObject($user, $db, $text = '', $ignored = false) {
+	function QueryLogObject($connectionId, $user, $db, $text = '', $ignored = false) {
 		if(DEBUG > 1 && !$text) stderr('Empty text for QueryLogObject', true);
 		
-		$this->LogObject($user, $db, $text, $ignored);
+		$this->LogObject($connectionId, $user, $db, $text, $ignored);
 	}
 	
 	function getEventType() {

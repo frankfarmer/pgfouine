@@ -27,9 +27,9 @@ class ErrorLogObject extends LogObject {
 	var $error = '';
 	var $textIsAStatement = false;
 	
-	function ErrorLogObject($user, $db, $text = 'No error message') {
+	function ErrorLogObject($connectionId, $user, $db, $text = 'No error message') {
 		$this->error = $text;
-		$this->LogObject($user, $db, $text);
+		$this->LogObject($connectionId, $user, $db, $text);
 	}
 	
 	function getEventType() {

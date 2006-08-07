@@ -28,6 +28,7 @@ require_once('query/HourlyCountersListener.class.php');
 require_once('query/SlowestQueriesListener.class.php');
 require_once('query/NormalizedQueriesListener.class.php');
 require_once('query/QueriesHistoryListener.class.php');
+require_once('query/TsungSessionsListener.class.php');
 
 require_once('error/ErrorListener.class.php');
 require_once('error/PrintErrorListener.class.php');
