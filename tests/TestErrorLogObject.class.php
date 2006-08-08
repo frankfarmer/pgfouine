@@ -9,11 +9,12 @@ require_once('../include/ErrorLogObject.class.php');
 class TestErrorLogObject extends UnitTestCase {
 	
 	function testInstanciation() {
+		define('TEST_CONNECTION_ID', 4356);
 		define('TEST_USER', 'test user');
 		define('TEST_DB', 'test db');
 		define('TEST_TEXT', 'test text');
 		
-		$errorLogObject = new ErrorLogObject(TEST_USER, TEST_DB, TEST_TEXT);
+		$errorLogObject = new ErrorLogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, TEST_TEXT);
 		$this->assertFalse($errorLogObject->isIgnored());
 		$this->assertEqual(TEST_TEXT, $errorLogObject->getText());
 		$this->assertEqual(TEST_TEXT, $errorLogObject->getError());
@@ -21,6 +22,7 @@ class TestErrorLogObject extends UnitTestCase {
 	}
 	
 	function testSettersAndGetters() {
+		define('TEST_CONNECTION_ID', 4356);
 		define('TEST_USER', 'test user');
 		define('TEST_DB', 'test db');
 		define('TEST_TEXT', 'test text');
@@ -28,7 +30,7 @@ class TestErrorLogObject extends UnitTestCase {
 		define('TEST_HINT', 'test_hint');
 		define('TEST_DETAIL', 'test_detail');
 		
-		$errorLogObject = new ErrorLogObject(TEST_USER, TEST_DB, TEST_TEXT);
+		$errorLogObject = new ErrorLogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, TEST_TEXT);
 		$errorLogObject->appendStatement(TEST_STATEMENT);
 		$this->assertEqual(TEST_STATEMENT, $errorLogObject->getText());
 		

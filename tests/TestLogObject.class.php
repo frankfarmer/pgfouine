@@ -8,31 +8,34 @@ require_once('../include/LogObject.class.php');
 class TestLogObject extends UnitTestCase {
 	
 	function testInstanciation() {
+		define('TEST_CONNECTION_ID', 4356);
 		define('TEST_TEXT', 'test text');
 		define('TEST_DB', 'test_db');
 		define('TEST_USER', 'test_user');
 		
-		$logObject = new LogObject(TEST_USER, TEST_DB, TEST_TEXT);
+		$logObject = new LogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, TEST_TEXT);
 		$this->assertFalse($logObject->isIgnored());
 		
-		$logObject = new LogObject(TEST_USER, TEST_DB, TEST_TEXT, true);
+		$logObject = new LogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, TEST_TEXT, true);
 		$this->assertTrue($logObject->isIgnored());
 		$this->assertEqual(TEST_TEXT, $logObject->getText());
 		
-		$logObject = new LogObject(TEST_USER, TEST_DB, TEST_TEXT, false);
+		$logObject = new LogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, TEST_TEXT, false);
 		$this->assertFalse($logObject->isIgnored());
 	}
 	
 	
 	function testSettersAndGetters() {
+		define('TEST_CONNECTION_ID', 4356);
 		define('TEST_TEXT', 'test text');
 		define('TEST_DB', 'test_db');
 		define('TEST_USER', 'test_user');
 		define('TEST_TIMESTAMP', 1234567890);
 		define('TEST_COMMAND_NUMBER', 43);
 		
-		$logObject = new LogObject(TEST_USER, TEST_DB, TEST_TEXT);
+		$logObject = new LogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, TEST_TEXT);
 
+		$this->assertEqual(TEST_CONNECTION_ID, $logObject->getConnectionId());
 		$this->assertEqual(TEST_DB, $logObject->getDatabase());
 		$this->assertEqual(TEST_USER, $logObject->getUser());
 		
@@ -43,7 +46,7 @@ class TestLogObject extends UnitTestCase {
 
 	function testNormalize() {
 		define('TEST_QUERY', "SELECT * FROM   mytable WHERE field1=4 AND field2='string'");
-		$logObject = new LogObject(TEST_USER, TEST_DB, TEST_QUERY, false);
+		$logObject = new LogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, TEST_QUERY, false);
 		$this->assertEqual(TEST_QUERY, $logObject->getText());
 		$this->assertEqual("SELECT * FROM mytable WHERE field1=0 AND field2=''", $logObject->getNormalizedText());
 	}
@@ -52,7 +55,7 @@ class TestLogObject extends UnitTestCase {
 		define('TEST_TEXT1', 'test text 1');
 		define('TEST_TEXT2', 'test text 2');
 		
-		$logObject = new LogObject(TEST_USER, TEST_DB, TEST_TEXT1);
+		$logObject = new LogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, TEST_TEXT1);
 		$logObject->append(TEST_TEXT2);
 		$this->assertEqual(TEST_TEXT1.' '.TEST_TEXT2, $logObject->getText());
 	}

@@ -11,7 +11,8 @@ class TestGenericLogReader extends UnitTestCase {
 		$logReader = new GenericLogReader(
 			'logs/TestGenericLogReader/testReadLogFile.log',
 			'Parser',
-			'Accumulator'
+			'Accumulator',
+			false
 		);
 		$logReader->parse();
 		

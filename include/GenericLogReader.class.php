@@ -25,6 +25,8 @@ require_once('lib/common.lib.php');
 require_once('base.lib.php');
 
 class GenericLogReader {
+	var $displayHelp = true;
+	
 	var $fileName;
 	var $lineParserName;
 	var $accumulatorName;
@@ -38,10 +40,12 @@ class GenericLogReader {
 	var $reportAggregators = array();
 	var $listeners = array();
 	
-	function GenericLogReader($fileName, $lineParserName, $accumulatorName) {
+	function GenericLogReader($fileName, $lineParserName, $accumulatorName, $displayHelp = true) {
 		$this->fileName = $fileName;
 		$this->lineParserName = $lineParserName;
 		$this->accumulatorName = $accumulatorName;
+		
+		$this->displayHelp = $displayHelp;
 	}
 	
 	function addReportAggregator(& $reportAggregator) {
@@ -128,7 +132,7 @@ class GenericLogReader {
 		
 		DEBUG && debug("\nParsed ".$lineParsedCounter.' lines in '.$this->timeToParse.' s');
 		
-		if(!$lineDetected) {
+		if(!$lineDetected && $this->displayHelp) {
 			stderr('pgFouine did not find any valid PostgreSQL log line in your log file:');
 			stderr('* check that PostgreSQL uses an english locale for logging (lc_messages in your postgresql.conf),');
 			stderr('* check that you use the -logtype option (syslog, stderr) according to your log file,');
