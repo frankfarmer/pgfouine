@@ -27,8 +27,7 @@ class VacuumedTablesDetailsReport extends Report {
 	}
 	
 	function getText() {
-		// TODO
-		return '';
+		return 'This report doesn\'t support the text format at the moment.';
 	}
 	
 	function getHtml() {

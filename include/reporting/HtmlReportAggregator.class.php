@@ -155,6 +155,7 @@ class HtmlReportAggregator extends ReportAggregator {
 	
 	function getStyles() {
 		$styles = '';
+		$this->stylesheets = array_unique($this->stylesheets);
 		foreach($this->stylesheets AS $stylesheetPath) {
 			$styles .= "\n/* ".$stylesheetPath." */\n";
 			$styles .= $this->getWebFileContent('css/'.$stylesheetPath);
@@ -166,6 +167,7 @@ class HtmlReportAggregator extends ReportAggregator {
 	
 	function getScripts() {
 		$scripts = '';
+		$this->scripts = array_unique($this->scripts);
 		foreach($this->scripts AS $scriptPath) {
 			$scripts .= "\n/* ".$scriptPath." */\n";
 			$scripts .= $this->getWebFileContent('js/'.$scriptPath);
