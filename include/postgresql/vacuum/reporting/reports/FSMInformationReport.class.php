@@ -45,7 +45,7 @@ class FSMInformationReport extends Report {
 			$html .= '<br />';
 			
 			$html .= '
-<table class="queryList" style="width:40%">
+<table class="queryList fsmInformation" style="width:40%">
 	<tr>
 		<th>&nbsp;</th>
 		<th>Current value</th>
@@ -59,7 +59,7 @@ class FSMInformationReport extends Report {
 				$style = 'warning';
 			}
 			if($pageSlotsUsedPercentage > 99) {
-				$style = 'error';
+				$style = 'fatal';
 			}
 			
 			$html .= '<tr class="'.$this->getRowStyle(0).'">

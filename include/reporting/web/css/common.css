@@ -29,7 +29,7 @@ table.queryList div.examples div.example0 { padding:2px; }
 table.queryList div.examples div.example1 { background-color:#FFFFFF; padding:2px; border:1px solid #EBF0FC; -moz-border-radius:5px; }
 .normal { color: green; font-weight:bold; }
 .warning { color: orange; font-weight:bold; }
-.error { color: red; font-weight:bold; font-style:italic; }
+.fatal { color: red; font-weight:bold; font-style:italic; }
 div.tooltipLink { position:relative; cursor:pointer; }
 div.tooltipLink span.information { border-bottom:1px dotted gray; z-index:10; }
 div.tooltipLink div.tooltip { display:none; background-color:#EBF0FC; border:1px solid #FFFFFF; -moz-border-radius:10px; padding:6px; width:250px; }
