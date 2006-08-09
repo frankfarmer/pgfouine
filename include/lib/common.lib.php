@@ -31,6 +31,8 @@ define('EVENT_VACUUM_TABLE', 'vacuum_table');
 define('EVENT_ANALYZE_TABLE', 'analyze_table');
 define('EVENT_FSM_INFORMATION', 'fsm_information');
 
+define('UNKNOWN_DATABASE', 'unknown');
+
 function debug($string, $displayLineNumber = false) {
 	stderr($string, $displayLineNumber);
 }

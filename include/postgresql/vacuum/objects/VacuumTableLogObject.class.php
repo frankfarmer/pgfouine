@@ -107,7 +107,12 @@ class VacuumTableLogObject extends VacuumLogObject {
 	}
 	
 	function getTablePath() {
-		return $this->database.' - '.$this->schema.'.'.$this->table;
+		$tablePath = '';
+		if($this->database != UNKNOWN_DATABASE) {
+			$tablePath .= $this->database.' - ';
+		}
+		$tablePath .= $this->schema.'.'.$this->table;
+		return $tablePath;
 	}
 	
 	function getNumberOfPages() {

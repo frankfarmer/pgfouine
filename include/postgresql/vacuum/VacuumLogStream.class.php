@@ -29,7 +29,7 @@
  */
 class VacuumLogStream {
 	var $currentBlock = false;
-	var $database = 'unknown';
+	var $database = UNKNOWN_DATABASE;
 
 	/**
 	 * append a log line to the log stream
