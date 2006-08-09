@@ -37,8 +37,8 @@ class VacuumTableLogObject extends VacuumLogObject {
 	var $numberOfPagesWithFreeSpace = 0;
 	var $freeSpace = 0;
 	
-	var $numberOfRowVersionsMoved = '-';
-	var $numberOfPagesRemoved = '-';
+	var $numberOfRowVersionsMoved = 0;
+	var $numberOfPagesRemoved = 0;
 	
 	var $systemCpuUsage = 0;
 	var $userCpuUsage = 0;

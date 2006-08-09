@@ -45,9 +45,7 @@ class VacuumedTablesDetailsReport extends Report {
 			$html .= '<div class="indexInformation">';
 			$html .= '<ul>
 				<li>Pages: '.$vacuumedTable->getNumberOfPages().'</li>';
-			if($vacuumedTable->getNumberOfPagesRemoved() != '-') {
-				$html .= '<li>Pages truncated: '.$vacuumedTable->getNumberOfPagesRemoved().' ( '.$this->getPercentage($vacuumedTable->getNumberOfPagesRemoved(), $vacuumedTable->getNumberOfPages()).'% )</li>';
-			}
+			$html .= '<li>Pages truncated: '.$vacuumedTable->getNumberOfPagesRemoved().' ( '.$this->getPercentage($vacuumedTable->getNumberOfPagesRemoved(), $vacuumedTable->getNumberOfPages()).'% )</li>';
 			$html .= '
 				<li>Row versions: '.$vacuumedTable->getTotalNumberOfRows().'</li>
 				<li>Removable row versions: '.$vacuumedTable->getNumberOfRemovableRows().' ( '.$this->getPercentage($vacuumedTable->getNumberOfRemovableRows(), $vacuumedTable->getTotalNumberOfRows()).'% )</li>
