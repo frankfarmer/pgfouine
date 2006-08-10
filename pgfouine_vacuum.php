@@ -45,11 +45,11 @@ function usage($error = false) {
 		stderr('Error: '.$error);
 		echo "\n";
 	}
-	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-format <format>] [-report [outputfile=]<block1,block2>] [-filter <filter>]
+	echo 'Usage: '.$GLOBALS['executable'].' -file <file> [-report [outputfile=]<block1,block2>] [-filter <filter>]
   -file <file>                           log file to analyze
   -                                      read the log from stdin instead of -file
-  -format <format>                       output format: html, or text. Default is html.
   -report [outputfile=]<block1,block2>   list of report blocks separated by a comma
+                                         report blocks can be: overall, fsm, vacuumedtables, details
                                          you can add several -report options if you want to generate several reports at once
   -filter <filter>                       filter of the form: database or database.schema
                                          filter is applied on output only
@@ -236,16 +236,7 @@ if(isset($options['reports'])) {
 	);
 }
 
-$supportedFormats = array('text' => 'TextReportAggregator', 'html' => 'HtmlReportAggregator');
-if(isset($options['format'])) {
-	if(array_key_exists($options['format'], $supportedFormats)) {
-		$aggregator = $supportedFormats[$options['format']];
-	} else {
-		usage('format not supported');
-	}
-} else {
-	$aggregator = $supportedFormats['html'];
-}
+$aggregator = 'HtmlReportAggregator';
 
 $parser = 'PostgreSQLVacuumParser';
 
