@@ -1,3 +1,21 @@
+2006-08-10  Guillaume Smet <guillaume-pg@smet.org>
+
+	* updated RPM packaging for 0.7
+
+2006-08-09  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [vacuum] fixed the FSM report if we don't find any
+	FSM information
+	* [vacuum] minor cosmetic fixes
+
+2006-08-08  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed unit tests
+
+2006-08-07  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [tsung] completed Tsung support
+
 2006-08-06  Guillaume Smet <guillaume-pg@smet.org>
 
 	* [tsung] began the work on Tsung sessions generator

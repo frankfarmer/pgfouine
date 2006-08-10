@@ -1,6 +1,6 @@
 Summary: pgFouine PostgreSQL log analyzer
 Name: pgfouine
-Version: 0.6.99
+Version: 0.7
 Release: 1
 BuildArch: noarch
 License: GPL
@@ -58,6 +58,8 @@ install -m 755 pgfouine_vacuum.php $RPM_BUILD_ROOT/%{_bindir}/
 %{_libdir}/%{name}
 
 %changelog
+* Thu Aug 17 2006 Guillaume Smet <guillaume-pg@smet.org>
+- released 0.7
 * Wed Jul 19 2006 Guillaume Smet <guillaume-pg@smet.org>
 - added pgfouine_vacuum.php
 * Sun May 21 2006 Guillaume Smet <guillaume-pg@smet.org>
