@@ -60,6 +60,7 @@ class HtmlReportAggregator extends ReportAggregator {
 			'.$this->getStyles().'
 		</style>
 		<script type="text/javascript">
+			 /* <![CDATA[ */
 			function toggle(idButton, idDiv, label) {
 				if(document.getElementById(idDiv)) {
 					if(document.getElementById(idDiv).style.display == \'none\') {
@@ -73,6 +74,7 @@ class HtmlReportAggregator extends ReportAggregator {
 			}
 
 			'.$this->getScripts().'
+			/* ]]> */
 		</script>
 	</head>
 	<body>
