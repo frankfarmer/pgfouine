@@ -88,6 +88,8 @@ class HtmlReportAggregator extends ReportAggregator {
 		$reportsOutput = '';
 		$menu = '<div class="menu">';
 		
+		$hasNormalizedReports = false;
+		
 		for($i = 0; $i < $count; $i++) {
 			$reportBlock =& $this->reportBlocks[$i];
 			if($i > 0) {
@@ -97,12 +99,20 @@ class HtmlReportAggregator extends ReportAggregator {
 			$reportsOutput .= $reportBlock->getHtmlTitle();
 			$reportsOutput .= $this->getHtmlOutput($reportBlock);
 			$reportsOutput .= "\n";
+			
+			if(is_a($reportBlock, 'NormalizedReport') || is_a($reportBlock, 'NormalizedErrorsReport')) {
+				$hasNormalizedReports = true;
+			}
+			
+			unset($reportBlock);
 		}
 		$menu .= '</div>';
 		
 		$output = $menu."\n";
 		
-		$output .= '<p>Normalized reports are marked with a "(N)".</p>';
+		if($hasNormalizedReports) {
+			$output .= '<p>Normalized reports are marked with a "(N)".</p>';
+		}
 		
 		$output .= '<div class="information"><ul>'.
 			'<li>Generated on '.date('Y-m-d H:i').'</li>'.
