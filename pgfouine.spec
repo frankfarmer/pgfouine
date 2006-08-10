@@ -60,6 +60,8 @@ install -m 755 pgfouine_vacuum.php $RPM_BUILD_ROOT/%{_bindir}/
 %changelog
 * Thu Aug 17 2006 Guillaume Smet <guillaume-pg@smet.org>
 - released 0.7
+* Thu Aug 10 2006 Guillaume Smet <guillaume-pg@smet.org>
+- fixed RPM packaging for 0.7
 * Wed Jul 19 2006 Guillaume Smet <guillaume-pg@smet.org>
 - added pgfouine_vacuum.php
 * Sun May 21 2006 Guillaume Smet <guillaume-pg@smet.org>
