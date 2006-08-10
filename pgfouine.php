@@ -22,8 +22,6 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-include('version.php');
-
 ini_set('max_execution_time', 18000);
 
 if(strpos(phpversion(), '4.4') === 0) {
@@ -32,6 +30,7 @@ if(strpos(phpversion(), '4.4') === 0) {
 	error_reporting(E_ALL);
 }
 
+include('version.php');
 require_once('include/lib/common.lib.php');
 require_once('include/base.lib.php');
 require_once('include/listeners/listeners.lib.php');

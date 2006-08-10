@@ -12,7 +12,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-root
 AutoReqProv: off
 Requires: /usr/bin/php
 
-Patch1: pgfouine-0.1-include_path.patch
+Patch1: pgfouine-0.7-include_path.patch
 
 %description
 pgFouine is a PostgreSQL log analyzer. It generates text or HTML reports
@@ -34,7 +34,7 @@ install -m 755 -d $RPM_BUILD_ROOT/%{_libdir}/%{name}
 install -m 755 -d $RPM_BUILD_ROOT/%{_bindir}
 
 # installing pgFouine
-for i in include tests ; do
+for i in include tests version.php; do
 	cp -rp $i $RPM_BUILD_ROOT/%{_libdir}/%{name}/
 done
 
