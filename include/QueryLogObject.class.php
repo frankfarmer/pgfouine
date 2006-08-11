@@ -22,6 +22,7 @@
  */
 
 class QueryLogObject extends LogObject {
+	var $duration = false;
 	var $subQueries = array();
 
 	function QueryLogObject($connectionId, $user, $db, $text = '', $ignored = false) {
