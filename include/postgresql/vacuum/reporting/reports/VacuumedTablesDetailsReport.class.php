@@ -82,7 +82,7 @@ class VacuumedTablesDetailsReport extends Report {
 							<td class="right">'.$indexInformation->getNumberOfReusablePages().'</td>
 							<td class="right">'.$indexInformation->getNumberOfRowVersions().'</td>
 							<td class="right">'.$indexInformation->getNumberOfRemovedRowVersions().'</td>
-							<td class="right">sys: '.$this->formatLongDuration($indexInformation->getSystemCpuUsage()).' / user: '.$this->formatLongDuration($indexInformation->getUserCpuUsage()).'</td>
+							<td class="right">sys:&nbsp;'.$this->formatLongDuration($indexInformation->getSystemCpuUsage()).'&nbsp;/&nbsp;user:&nbsp;'.$this->formatLongDuration($indexInformation->getUserCpuUsage()).'</td>
 							<td class="right">'.$this->formatLongDuration($indexInformation->getDuration()).'</td>
 						</tr>';
 					unset($indexInformation);
