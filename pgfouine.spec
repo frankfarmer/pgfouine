@@ -19,6 +19,10 @@ pgFouine is a PostgreSQL log analyzer. It generates text or HTML reports
 from PostgreSQL log files. These reports contains the list of the slowest queries,
 the queries that take the most time and so on.
 
+pgFouine can also:
+- analyze VACUUM VERBOSE output to help you improve your VACUUM strategy,
+- generate Tsung sessions file to benchmark your PostgreSQL server.
+
 %prep
 %setup
 %patch1 -p0
