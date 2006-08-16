@@ -91,12 +91,18 @@ class PostgreSQLVacuumParser extends PostgreSQLParser {
 				}
 			} elseif($keyword == 'DETAIL') {
 				$vacuumDetailMatch =& $postgreSQLVacuumRegexps['VacuumDetail']->match($postMatch);
+				$cpuDetailMatch =& $postgreSQLVacuumRegexps['CpuDetailLine']->match($postMatch);
 				$fsmInformationDetailMatch =& $postgreSQLVacuumRegexps['FSMInformationDetail']->match($postMatch);
 				$indexDetail1Match =& $postgreSQLVacuumRegexps['IndexCleanupDetail1']->match($postMatch);
 				$indexDetail2Match =& $postgreSQLVacuumRegexps['IndexCleanupDetail2']->match($postMatch);
 				
 				if($vacuumDetailMatch) {
 					$line = new PostgreSQLVacuumDetailLine($postMatch);
+				} elseif($cpuDetailMatch) {
+					$systemCpuUsage = (float) $cpuDetailMatch->getMatch(1);
+					$userCpuUsage = (float) $cpuDetailMatch->getMatch(2);
+					$duration = (float) $cpuDetailMatch->getMatch(3);
+					$line = new PostgreSQLVacuumCpuDetailLine($systemCpuUsage, $userCpuUsage, $duration);
 				} elseif($fsmInformationDetailMatch) {
 					$line = new PostgreSQLFSMInformationDetailLine($postMatch);
 				} elseif($indexDetail1Match || $indexDetail2Match) {

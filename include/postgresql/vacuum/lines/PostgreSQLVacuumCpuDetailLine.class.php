@@ -23,19 +23,22 @@
  */
 
 class PostgreSQLVacuumCpuDetailLine extends PostgreSQLVacuumLogLine {
-	var $cpuUsageTime;
+	var $systemCpuUsage;
+	var $userCpuUsage;
 	var $duration;
 
-	function PostgreSQLVacuumCpuDetailLine($cpuUsageTime, $duration) {
+	function PostgreSQLVacuumCpuDetailLine($systemCpuUsage, $userCpuUsage, $duration) {
 		$this->PostgreSQLVacuumLogLine();
 		
-		$this->cpuUsageTime = $cpuUsageTime;
+		$this->systemCpuUsage = $systemCpuUsage;
+		$this->userCpuUsage = $userCpuUsage;
 		$this->duration = $duration;
 	}
 	
 	function appendTo(& $logObject) {
-		$logObject->setCpuUsageTime($this->cpuUsageTime);
-		$logObject->setDuration($this->duration);
+		$logObject->addSystemCpuUsage($this->systemCpuUsage);
+		$logObject->addUserCpuUsage($this->userCpuUsage);
+		$logObject->addDuration($this->duration);
 	}
 }
 

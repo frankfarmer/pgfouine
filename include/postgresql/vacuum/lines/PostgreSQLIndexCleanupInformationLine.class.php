@@ -35,7 +35,7 @@ class PostgreSQLIndexCleanupInformationLine extends PostgreSQLVacuumLogLine {
 	}
 	
 	function appendTo(& $logObject) {
-		$indexInformation = new VacuumIndexInformation($this->indexName, $this->numberOfRowVersions, $this->numberOfPages);
+		$indexInformation = new VacuumIndexInformation($logObject, $this->indexName, $this->numberOfRowVersions, $this->numberOfPages);
 		$logObject->addIndexInformation($indexInformation);
 	}
 }

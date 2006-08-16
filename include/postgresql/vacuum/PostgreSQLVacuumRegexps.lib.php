@@ -29,6 +29,7 @@ $postgreSQLVacuumRegexps['VacuumingDatabase'] = new RegExp('/vacuuming database 
 $postgreSQLVacuumRegexps['VacuumingOrAnalyzingTable'] = new RegExp('/(vacuuming|analyzing) "(?:([^".]*)\.)?([^".]*)"/');
 $postgreSQLVacuumRegexps['RemovableInformation'] = new RegExp('/: found ([0-9]+) removable, ([0-9]+) nonremovable row versions in ([0-9]+) pages/');
 $postgreSQLVacuumRegexps['OperationInformation'] = new RegExp('/: moved ([0-9]+) row versions, truncated ([0-9]+) to ([0-9]+) pages/');
+$postgreSQLVacuumRegexps['CpuDetailLine'] = new RegExp('/CPU ([0-9.]+)s\/([0-9.]+)u sec elapsed ([0-9.]+) sec\./');
 $postgreSQLVacuumRegexps['VacuumDetail'] = new RegExp('/([0-9]+) dead row versions cannot be removed yet./');
 $postgreSQLVacuumRegexps['IndexCleanupInformation'] = new RegExp('/index "([^".]*)" now contains ([0-9]+) row versions in ([0-9]+) pages/');
 $postgreSQLVacuumRegexps['IndexCleanupDetail1'] = new RegExp('/([0-9]+) index row versions were removed./');

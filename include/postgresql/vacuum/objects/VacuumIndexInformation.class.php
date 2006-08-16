@@ -22,6 +22,7 @@
  */
 
 class VacuumIndexInformation {
+	var $vacuumedTable;
 	var $indexName;
 	var $numberOfRowVersions = 0;
 	var $numberOfPages = 0;
@@ -32,7 +33,8 @@ class VacuumIndexInformation {
 	var $userCpuUsage = 0;
 	var $duration = 0;
 
-	function VacuumIndexInformation($indexName, $numberOfRowVersions, $numberOfPages) {
+	function VacuumIndexInformation(& $vacuumedTable, $indexName, $numberOfRowVersions, $numberOfPages) {
+		$this->vacuumedTable =& $vacuumedTable;
 		$this->indexName = $indexName;
 		$this->numberOfRowVersions = $numberOfRowVersions;
 		$this->numberOfPages = $numberOfPages;
@@ -46,6 +48,13 @@ class VacuumIndexInformation {
 		$this->systemCpuUsage = $systemCpuUsage;
 		$this->userCpuUsage = $userCpuUsage;
 		$this->duration = $duration;
+		
+		if($this->vacuumedTable->hasDuration()) {
+			// it's a vacuum full, we add the index rusage to get the global rusage
+			$this->vacuumedTable->addSystemCpuUsage($this->getSystemCpuUsage());
+			$this->vacuumedTable->addUserCpuUsage($this->getUserCpuUsage());
+			$this->vacuumedTable->addDuration($this->getDuration());
+		}
 	}
 	
 	function getIndexName() {
