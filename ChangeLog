@@ -1,7 +1,11 @@
+2006-08-19  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [0.7] fixed detection of malformed log files
+
 2006-08-17  Guillaume Smet <guillaume-pg@smet.org>
 
 	* released 0.7
-	* applied Devrim Gunduz's patch to RPM spec file
+	* [0.7] applied Devrim Gunduz's patch to RPM spec file
 
 2006-08-16  Guillaume Smet <guillaume-pg@smet.org>
 
