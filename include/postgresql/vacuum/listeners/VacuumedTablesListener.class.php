@@ -30,7 +30,6 @@ class VacuumedTablesListener {
 	}
 	
 	function fireEvent(& $vacuumedTable) {
-		//stderrArray($vacuumedTable);
 		$vacuumedTable->setNumber($this->counter++);
 		$this->vacuumedTables[] =& $vacuumedTable;
 	}
