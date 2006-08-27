@@ -54,7 +54,6 @@ class TsungSessionsReport extends Report {
 					$text .= "\t\t".'<request><pgsql type="connect" database="'.$query->getDatabase().'" username="'.$query->getUser().'" /></request>'."\n";
 				}
 				if(isset($lastQuery)) {
-					// TODO : checker le thinktime / la duration
 					$thinkTime = (int) ($query->getTimestamp() - ($lastQuery->getTimestamp() + $lastQuery->getDuration()));
 					if($thinkTime >= 1) {
 						$text .= "\t\t".'<thinktime random="true" value="'.$thinkTime.'" />'."\n";
