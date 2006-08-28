@@ -26,6 +26,7 @@ class PostgreSQLQueryStartLine extends PostgreSQLLogLine {
 		$this->PostgreSQLLogLine($this->filterQuery($text), $duration);
 	}
 
+	// TODO: remove this test from here and implement a -ignore option
 	function filterQuery($text) {
 		$loweredText = strtolower(trim($text));
 		$this->ignore = (strpos($loweredText, 'begin') !== false) || (strpos($loweredText, 'vacuum') !== false) || ($loweredText == 'select 1');
