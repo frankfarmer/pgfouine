@@ -32,6 +32,7 @@ class LogStream {
 	var $port = '';
 	var $user = '';
 	var $database = '';
+	var $preparedStatements = array();
 
 	/**
 	 * append a log line to the log stream
@@ -169,6 +170,26 @@ class LogStream {
 			}
 		}
 		$this->currentBlock = false;
+	}
+	
+	/**
+	 * add a prepared statement to the list
+	 * 
+	 * @param object $preparedStatement the PreparedStatement object to add
+	 */
+	function addPreparedStatement(& $preparedStatement) {
+		$name = $preparedStatement->getName();
+		$this->preparedStatements[$name] =& $preparedStatement;
+	}
+	
+	/**
+	 * returns a prepared statement by name
+	 * 
+	 * @param string $name name of the prepared statement
+	 * @param string $portalName name of the portal
+	 */
+	function & getPreparedStatement($name, $portalName) {
+		return $this->preparedStatements[$name];
 	}
 }
 

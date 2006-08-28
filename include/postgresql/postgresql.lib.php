@@ -39,6 +39,10 @@ require_once('lines/PostgreSQLErrorLine.class.php');
 require_once('lines/PostgreSQLHintLine.class.php');
 require_once('lines/PostgreSQLStatusLine.class.php');
 require_once('lines/PostgreSQLNoticeLine.class.php');
+require_once('lines/PostgreSQLPreparedStatementPrepareLine.class.php');
+require_once('lines/PostgreSQLPreparedStatementExecuteLine.class.php');
+require_once('lines/PostgreSQLPreparedStatementExecuteWithDurationLine.class.php');
+require_once('lines/PostgreSQLPreparedStatementBindLine.class.php');
 
 // parsers
 require_once('parsers/PostgreSQLParser.class.php');

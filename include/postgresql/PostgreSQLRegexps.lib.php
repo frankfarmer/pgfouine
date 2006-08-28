@@ -30,6 +30,7 @@ $postgreSQLRegexps['ContinuationLine'] = new RegExp("/^(\^I|\s)/");
 $postgreSQLRegexps['QueryStartPart'] = new RegExp("/^(query|statement):[\s]+/");
 $postgreSQLRegexps['StatusPart'] = new RegExp("/^(connection|received|unexpected EOF)/");
 $postgreSQLRegexps['DurationPart'] = new RegExp("/^duration:([\s\d\.]+)(sec|ms|us)/");
+$postgreSQLRegexps['PreparedStatementPart'] = new RegExp("/^(prepare|bind|execute) ([^:]*):[\s]+/");
 
 // PostgreSQLStatusLine
 $postgreSQLRegexps['ConnectionReceived'] = new RegExp('/connection received: host=([^\s]+) port=([\d]+)/');
@@ -41,6 +42,9 @@ $postgreSQLRegexps['QueryOrStatementPart'] = new RegExp('/[\s]*(query|statement)
 // PostgreSQLContextLine
 $postgreSQLRegexps['ContextSqlStatement'] = new RegExp('/^SQL statement "/');
 $postgreSQLRegexps['ContextSqlFunction'] = new RegExp('/([^\s]+)[\s]+function[\s]+"([^"]+)"(.*)$/');
+
+// PreparedStatement
+$postgreSQLRegexps['BindDetail'] = new RegExp('/(\$[0-9]+) = "(.*)"(?=(?:, \$[0-9]+ = |\z))/U');
 
 $GLOBALS['postgreSQLRegexps'] =& $postgreSQLRegexps;
 

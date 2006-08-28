@@ -1,3 +1,8 @@
+2006-08-28  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added support for prepared statements (including CVS tip bind
+	parameters)
+
 2006-08-17  Guillaume Smet <guillaume-pg@smet.org>
 
 	* released 0.7

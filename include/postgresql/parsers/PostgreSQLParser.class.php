@@ -42,10 +42,43 @@ class PostgreSQLParser {
 					if($additionalInformation == '') {
 						$line = new PostgreSQLDurationLine(trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
 					} else {
-						$line = new PostgreSQLQueryStartWithDurationLine($additionalInformation, trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
+						if($preparedStatementMatch =& $postgreSQLRegexps['PreparedStatementPart']->match($additionalInformation)) {
+							$statementInformation = explode('/', $preparedStatementMatch->getMatch(2));
+							$preparedStatementName = $statementInformation[0];
+							if(count($statementInformation) > 1) {
+								$portalName = $statementInformation[1];
+							} else {
+								$portalName = '';
+							}
+							$text = $preparedStatementMatch->getPostMatch();
+							$line = new PostgreSQLPreparedStatementExecuteWithDurationLine($preparedStatementName, $portalName, $text, trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
+						} else {
+							$line = new PostgreSQLQueryStartWithDurationLine($additionalInformation, trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
+						}
 					}
 				} elseif($statusMatch =& $postgreSQLRegexps['StatusPart']->match($postMatch)) {
 						$line = new PostgreSQLStatusLine($postMatch);
+				} elseif($preparedStatementMatch =& $postgreSQLRegexps['PreparedStatementPart']->match($postMatch)) {
+					$action = $preparedStatementMatch->getMatch(1);
+					$statementInformation = explode('/', $preparedStatementMatch->getMatch(2));
+					$preparedStatementName = $statementInformation[0];
+					if(count($statementInformation) > 1) {
+						$portalName = $statementInformation[1];
+					} else {
+						$portalName = '';
+					}
+					$text = $preparedStatementMatch->getPostMatch();
+					switch($action) {
+						case 'prepare':
+							$line = new PostgreSQLPreparedStatementPrepareLine($preparedStatementName, $portalName, $text);
+							break;
+						case 'bind':
+							$line = new PostgreSQLPreparedStatementBindLine($preparedStatementName, $portalName, $text);
+							break;
+						case 'execute':
+							$line = new PostgreSQLPreparedStatementExecuteLine($preparedStatementName, $portalName, $text);
+							break;
+					}
 				} else {
 					// we ignore a lot of common log lines as they are not interesting
 					// but we still raise an error if we don't recognize a log line

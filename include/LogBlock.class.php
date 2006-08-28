@@ -125,7 +125,7 @@ class LogBlock {
 	 * 
 	 * @return object log object
 	 */	
-	function close() {
+	function & close() {
 		$count = count($this->lines);
 		$logObject =& $this->lines[0]->getLogObject($this->logStream);
 			
@@ -133,6 +133,11 @@ class LogBlock {
 			for($i = 1; $i < $count; $i++) {
 				$this->lines[$i]->appendTo($logObject);
 			}
+		}
+		// this filter removes the PreparedStatement
+		if(!is_a($logObject, 'LogObject')) {
+			unset($logObject);
+			$logObject = false;
 		}
 		return $logObject;
 	}

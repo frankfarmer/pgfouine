@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005-2006 Guillaume Smet
+ * Copyright (c) 2006 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,22 +21,31 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-require_once('lib/Profiler.class.php');
+class PostgreSQLPreparedStatementPrepareLine extends PostgreSQLLogLine {
+	var $statementName;
+	var $portalName;
+	
+	function PostgreSQLPreparedStatementPrepareLine($statementName, $portalName, $text) {
+		$this->PostgreSQLLogLine($text);
+		
+		$this->statementName = $statementName;
+		$this->portalName = $portalName;
+	}
+	
+	function & getLogObject(& $logStream) {
+		$database = $this->database ? $this->database : $logStream->getDatabase();
+		$user = $this->user ? $this->user : $logStream->getUser();
 
-require_once('Accumulator.class.php');
-require_once('Parser.class.php');
-require_once('LogBlock.class.php');
-require_once('LogStream.class.php');
-require_once('PreparedStatement.class.php');
-
-require_once('LogObject.class.php');
-require_once('QueryLogObject.class.php');
-require_once('DurationLogObject.class.php');
-require_once('ErrorLogObject.class.php');
-
-require_once('GenericLogReader.class.php');
-require_once('SlowestQueryList.class.php');
-require_once('NormalizedQuery.class.php');
-require_once('NormalizedError.class.php');
+		$preparedStatement = new PreparedStatement($this->statementName, $this->portalName, $this->text);
+		$logStream->addPreparedStatement($preparedStatement);
+		
+		$logObject = false;
+		return $logObject;
+	}
+	
+	function complete() {
+		return true;
+	}
+}
 
 ?>
