@@ -31,6 +31,7 @@ class LogObject {
 	var $ignored;
 	var $context;
 	var $notices = array();
+	var $number = 0;
 
 	function LogObject($connectionId, $user, $database, $text = '', $ignored = false) {
 		$this->connectionId = $connectionId;
@@ -78,9 +79,9 @@ class LogObject {
 		$regexpRemoveText = "/'[^']*'/";
 		$regexpRemoveNumbers = '/([^a-zA-Z_\$])([0-9]{1,10})/';
 
-		$text = '';
-		if($this->text) {
-			$text = normalizeWhitespaces($this->text);
+		$text = $this->text;
+		if($text) {
+			$text = normalizeWhitespaces($text);
 			$text = str_replace("\\'", '', $text);
 			$text = preg_replace($regexpRemoveText, "''", $text);
 			$text = preg_replace($regexpRemoveNumbers, '${1}0', $text);
@@ -132,6 +133,17 @@ class LogObject {
 			$detailedInformation .= ' - '.$this->getUser().'@'.$this->getDatabase();
 		}
 		return $detailedInformation;
+	}
+	
+	function appendDetail($detail) {
+	}
+	
+	function setNumber($number) {
+		$this->number = $number;
+	}
+	
+	function getNumber() {
+		return $this->number;
 	}
 }
 

@@ -134,8 +134,7 @@ class LogBlock {
 				$this->lines[$i]->appendTo($logObject);
 			}
 		}
-		// this filter removes the PreparedStatement
-		if(!is_a($logObject, 'LogObject')) {
+		if(is_a($logObject, 'UselessLogObject')) {
 			unset($logObject);
 			$logObject = false;
 		}

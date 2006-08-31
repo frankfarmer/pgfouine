@@ -72,7 +72,7 @@ class LogStream {
 				// if the line number of the added line is 1, we begin a new log block
 				$this->currentBlock = new LogBlock($this, $lineCommandNumber, $line);
 			} else {
-				// otherwise our log file probabbly begins with an incomplete block
+				// otherwise our log file probably begins with an incomplete block
 				// we only raise an error in DEBUG mode as it is very common and is not a blocking problem
 				if(DEBUG) {
 					stderr('we just closed a LogBlock, line number should be 1 and is '.$line->getLineNumber(), true);
