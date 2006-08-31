@@ -23,8 +23,11 @@
 
 class QueriesHistoryListener extends QueryListener {
 	var $queries = array();
+	var $counter = 0;
 	
 	function fireEvent(& $logObject) {
+		$this->counter ++;
+		$logObject->setNumber($this->counter);
 		$this->queries[] =& $logObject;
 	}
 	
@@ -35,8 +38,18 @@ class QueriesHistoryListener extends QueryListener {
 	
 	function compareTimestamp(& $a, & $b) {
 		if($a->getTimestamp() == $b->getTimestamp()) {
-			return 0;
+			return $this->compareNumber($a, $b);
 		} elseif($a->getTimestamp() < $b->getTimestamp()) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
+	
+	function compareNumber(& $a, & $b) {
+		if($a->getNumber() == $b->getNumber()) {
+			return 0;
+		} elseif($a->getNumber() < $b->getNumber()) {
 			return -1;
 		} else {
 			return 1;
