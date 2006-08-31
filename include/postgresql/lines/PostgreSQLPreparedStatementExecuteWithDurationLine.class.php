@@ -21,26 +21,19 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class PostgreSQLPreparedStatementExecuteWithDurationLine extends PostgreSQLLogLine {
+class PostgreSQLPreparedStatementExecuteWithDurationLine extends PostgreSQLPreparedStatementExecuteLine {
 	var $statementName;
 	var $portalName;
 	
-	function PostgreSQLPreparedStatementExecuteWithDurationLine($statementName, $portalName, $text, $timeString, $unit) {
-		$this->PostgreSQLLogLine($text, $this->parseDuration($timeString, $unit));
-		
-		$this->statementName = $statementName;
-		$this->portalName = $portalName;
+	function PostgreSQLPreparedStatementExecuteWithDurationLine($statementName, $portalName, $text, $parameters, $timeString, $unit) {
+		$this->PostgreSQLPreparedStatementExecuteLine($statementName, $portalName, $text, $parameters, $this->parseDuration($timeString, $unit));
 	}
 	
 	function & getLogObject(& $logStream) {
-		$database = $this->database ? $this->database : $logStream->getDatabase();
-		$user = $this->user ? $this->user : $logStream->getUser();
+		$preparedStatement =& parent::getLogObject($logStream);
+		$preparedStatement->setDuration($this->duration);
 		
-		$query = new QueryLogObject($this->getConnectionId(), $user, $database, $this->text, $this->ignore);
-		$query->setContextInformation($this->timestamp, $this->commandNumber);
-		$query->setDuration($this->duration);
-		
-		return $query;
+		return $preparedStatement;
 	}
 	
 	function complete() {

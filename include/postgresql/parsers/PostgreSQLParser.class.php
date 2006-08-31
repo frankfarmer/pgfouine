@@ -36,13 +36,33 @@ class PostgreSQLParser {
 			if($keyword == 'LOG' || $keyword == 'DEBUG') {
 				$queryMatch =& $postgreSQLRegexps['QueryStartPart']->match($postMatch);
 				if($queryMatch) {
-					$line = new PostgreSQLQueryStartLine($queryMatch->getPostMatch());
+					$queryPostMatch = $queryMatch->getPostMatch();
+					if($preparedStatementMatch =& $postgreSQLRegexps['PreparedStatementPart']->match($queryPostMatch)) {
+						$action = strtolower($preparedStatementMatch->getMatch(1));
+						$statementInformation = explode('/', $preparedStatementMatch->getMatch(2));
+						$preparedStatementName = $statementInformation[0];
+						if(count($statementInformation) > 1) {
+							$portalName = $statementInformation[1];
+						} else {
+							$portalName = '';
+						}
+						$text = $preparedStatementMatch->getPostMatch();
+						if($action == 'execute') {
+							$line = new PostgreSQLPreparedStatementExecuteLine($preparedStatementName, $portalName, $text);
+						} else {
+							$line = new PostgreSQLPreparedStatementUselessLine();
+						}
+					} else {
+						$line = new PostgreSQLQueryStartLine($queryPostMatch);
+					}
 				} elseif($durationMatch =& $postgreSQLRegexps['DurationPart']->match($postMatch)) {
 					$additionalInformation = trim($durationMatch->getPostMatch());
 					if($additionalInformation == '') {
 						$line = new PostgreSQLDurationLine(trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
 					} else {
+						// TODO: test the new behaviour
 						if($preparedStatementMatch =& $postgreSQLRegexps['PreparedStatementPart']->match($additionalInformation)) {
+							$action = strtolower($preparedStatementMatch->getMatch(1));
 							$statementInformation = explode('/', $preparedStatementMatch->getMatch(2));
 							$preparedStatementName = $statementInformation[0];
 							if(count($statementInformation) > 1) {
@@ -51,34 +71,17 @@ class PostgreSQLParser {
 								$portalName = '';
 							}
 							$text = $preparedStatementMatch->getPostMatch();
-							$line = new PostgreSQLPreparedStatementExecuteWithDurationLine($preparedStatementName, $portalName, $text, trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
+							if($action == 'execute') {
+								$line = new PostgreSQLPreparedStatementExecuteWithDurationLine($preparedStatementName, $portalName, $text, trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
+							} else {
+								$line = new PostgreSQLPreparedStatementUselessLine();
+							}
 						} else {
 							$line = new PostgreSQLQueryStartWithDurationLine($additionalInformation, trim($durationMatch->getMatch(1)), $durationMatch->getMatch(2));
 						}
 					}
 				} elseif($statusMatch =& $postgreSQLRegexps['StatusPart']->match($postMatch)) {
 						$line = new PostgreSQLStatusLine($postMatch);
-				} elseif($preparedStatementMatch =& $postgreSQLRegexps['PreparedStatementPart']->match($postMatch)) {
-					$action = $preparedStatementMatch->getMatch(1);
-					$statementInformation = explode('/', $preparedStatementMatch->getMatch(2));
-					$preparedStatementName = $statementInformation[0];
-					if(count($statementInformation) > 1) {
-						$portalName = $statementInformation[1];
-					} else {
-						$portalName = '';
-					}
-					$text = $preparedStatementMatch->getPostMatch();
-					switch($action) {
-						case 'prepare':
-							$line = new PostgreSQLPreparedStatementPrepareLine($preparedStatementName, $portalName, $text);
-							break;
-						case 'bind':
-							$line = new PostgreSQLPreparedStatementBindLine($preparedStatementName, $portalName, $text);
-							break;
-						case 'execute':
-							$line = new PostgreSQLPreparedStatementExecuteLine($preparedStatementName, $portalName, $text);
-							break;
-					}
 				} else {
 					// we ignore a lot of common log lines as they are not interesting
 					// but we still raise an error if we don't recognize a log line

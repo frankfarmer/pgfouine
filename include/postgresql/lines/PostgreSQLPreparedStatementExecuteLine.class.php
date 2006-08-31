@@ -24,31 +24,62 @@
 class PostgreSQLPreparedStatementExecuteLine extends PostgreSQLLogLine {
 	var $statementName;
 	var $portalName;
+	var $parameters = array();
 	
-	function PostgreSQLPreparedStatementExecuteLine($statementName, $portalName, $text) {
-		$this->PostgreSQLLogLine($text);
+	function PostgreSQLPreparedStatementExecuteLine($statementName, $portalName, $text, $duration = false) {
+		$this->PostgreSQLLogLine($text, $duration);
 		
 		$this->statementName = $statementName;
 		$this->portalName = $portalName;
+		
+		if(substr(trim($text), 0, 1) == '(') {
+			$this->parameters = $this->parseParameters(trim($text, ' ();'));
+		}
 	}
 	
 	function & getLogObject(& $logStream) {
-		$preparedStatement =& $logStream->getPreparedStatement($this->statementName, $this->portalName);
-		if($preparedStatement) {
-			$preparedStatement->execute();
-			$queryText = $preparedStatement->getQueryText($this->text);
-		} else {
-			stderr('No prepared statement for this execute command.');
-			$queryText = $this->text;
-		}
-		
 		$database = $this->database ? $this->database : $logStream->getDatabase();
 		$user = $this->user ? $this->user : $logStream->getUser();
 		
-		$query = new QueryLogObject($this->getConnectionId(), $user, $database, $queryText, $this->ignore);
-		$query->setContextInformation($this->timestamp, $this->commandNumber);
+		$preparedStatement = new PreparedStatementLogObject($this->getConnectionId(), $user, $database, $this->statementName, $this->portalName, 'Unknown query text', $this->ignore);
+		$preparedStatement->setContextInformation($this->timestamp, $this->commandNumber);
+		$preparedStatement->setParameters($this->parameters);
 		
-		return $query;
+		return $preparedStatement;
+	}
+	
+	function parseParameters($parameters) {
+		$parametersLength = strlen($parameters);
+		$parametersArray = array();
+		$currentParameter = '';
+		$quote = false;
+		$escape = false;
+	
+		for($i = 0; $i < $parametersLength; $i++) {
+			$char = $parameters{$i};
+			if($char == '\'') {
+				if($escape) {
+					$escape = false;
+				} else {
+					$quote = !$quote;
+				}
+			} elseif($char == '\\') {
+				$escape = !$escape;
+			} elseif($char == ',') {
+				if(!$quote) {
+					$parametersArray[] = trim($currentParameter);
+					$currentParameter = '';
+					continue;
+				}
+			} else {
+				$escape = false;
+			}
+			$currentParameter .= $char;
+		}
+		if(strlen($currentParameter) > 0) {
+			$parametersArray[] = trim($currentParameter);
+		}
+		return $parametersArray;
 	}
 }
 

@@ -21,25 +21,15 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class PostgreSQLPreparedStatementPrepareLine extends PostgreSQLLogLine {
-	var $statementName;
-	var $portalName;
+class PostgreSQLPreparedStatementUselessLine extends PostgreSQLLogLine {
 	
-	function PostgreSQLPreparedStatementPrepareLine($statementName, $portalName, $text) {
-		$this->PostgreSQLLogLine($text);
-		
-		$this->statementName = $statementName;
-		$this->portalName = $portalName;
+	function PostgreSQLPreparedStatementUselessLine() {
+		$this->PostgreSQLLogLine('');
 	}
 	
 	function & getLogObject(& $logStream) {
-		$database = $this->database ? $this->database : $logStream->getDatabase();
-		$user = $this->user ? $this->user : $logStream->getUser();
-
-		$preparedStatement = new PreparedStatement($this->statementName, $this->portalName, $this->text);
-		$logStream->addPreparedStatement($preparedStatement);
+		$logObject = new UselessLogObject();
 		
-		$logObject = false;
 		return $logObject;
 	}
 	

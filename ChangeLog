@@ -1,3 +1,10 @@
+2006-08-31  Guillaume Smet <guillaume-pg@smet.org>
+
+	* reworked everything in prepared statements support for current
+	CVS tip
+	* fixed a bug in history listener: queries were not ordered
+	correctly if their timestamps were identical
+
 2006-08-28  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added support for prepared statements (including CVS tip bind
