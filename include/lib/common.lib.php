@@ -146,6 +146,10 @@ class RegExp {
 		return $matches;
 	}
 	
+	function replace($text, $replacement) {
+		return preg_replace($this->pattern, $replacement, $text);
+	}
+	
 	function getPattern() {
 		return $this->pattern;
 	}
