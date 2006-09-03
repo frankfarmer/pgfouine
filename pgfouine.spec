@@ -33,7 +33,7 @@ sed -i 's!@INCLUDEPATH@!%{_datadir}/%{name}!' pgfouine.php
 
 %install
 # cleaning build environment
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 # creating required directories
 install -m 755 -d %{buildroot}/%{_datadir}/%{name}
