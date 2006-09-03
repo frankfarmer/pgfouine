@@ -1,17 +1,13 @@
 Summary:	PgFouine PostgreSQL log analyzer
 Name:		pgfouine
 Version:	0.7
-Release:	2%{?dist}
+Release:	4%{?dist}
 BuildArch:	noarch
 License:	GPL
 Group:		Development/Tools
 Source0:	http://pgfoundry.org/frs/download.php/1041/%{name}-%{version}.tar.gz
 URL: 		http://pgfouine.projects.postgresql.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-AutoReqProv:	off
-
-Requires:	php
 
 Patch1:		pgfouine-0.7-include_path.patch
 
@@ -30,6 +26,8 @@ PostgreSQL server.
 %prep
 %setup -q 
 %patch1 -p0
+sed -i 's!@INCLUDEPATH@!%{_datadir}/%{name}!' pgfouine_vacuum.php
+sed -i 's!@INCLUDEPATH@!%{_datadir}/%{name}!' pgfouine.php
 
 %build
 
@@ -42,7 +40,7 @@ install -m 755 -d %{buildroot}/%{_datadir}/%{name}
 install -m 755 -d %{buildroot}/%{_bindir}
 
 # installing pgFouine
-for i in include tests version.php; do
+for i in include version.php; do
 	cp -rp $i %{buildroot}/%{_datadir}/%{name}/
 done
 
@@ -50,16 +48,20 @@ install -m 755 pgfouine.php %{buildroot}/%{_bindir}/
 install -m 755 pgfouine_vacuum.php %{buildroot}/%{_bindir}/
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%doc AUTHORS COPYING INSTALL THANKS README
+%doc AUTHORS ChangeLog COPYING THANKS README
 %attr(0755, root, root) %{_bindir}/pgfouine.php
 %attr(0755, root, root) %{_bindir}/pgfouine_vacuum.php
 %{_datadir}/%{name}
 
 %changelog
+* Sun Sep 3 2006 Guillaume Smet <guillaume-pg@smet.org> - 0.7-4
+- fixed spec according to bugzilla #202901 comment #2
+* Thu Aug 18 2006 Devrim Gunduz <devrim@CommandPrompt.com> - 0.7-3
+- fixed spec, per bugzilla review
 * Thu Aug 17 2006 Devrim Gunduz <devrim@CommandPrompt.com> - 0.7-2
 - fixed rpmlint warnings, and made cosmetic changes
 * Thu Aug 17 2006 Guillaume Smet <guillaume-pg@smet.org>

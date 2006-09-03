@@ -1,3 +1,9 @@
+2006-09-03  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [0.7] commited Devrim Gunduz's changes to the spec file
+	* [0.7] fixed problems raised by Toshio Kuratomi in Red Hat's
+	bugzilla: https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=202901#c2
+
 2006-08-19  Guillaume Smet <guillaume-pg@smet.org>
 
 	* [0.7] fixed detection of malformed log files
