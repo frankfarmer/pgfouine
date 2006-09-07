@@ -1,3 +1,8 @@
+2006-09-07  Guillaume Smet <guillaume-pg@smet.org>
+
+	* implemented -keepformatting option to close [#1000724]
+	Do not strip \n's from SQL queries
+
 2006-08-31  Guillaume Smet <guillaume-pg@smet.org>
 
 	* reworked everything in prepared statements support for current

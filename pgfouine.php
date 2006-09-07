@@ -62,6 +62,7 @@ function usage($error = false) {
   -to "<date>"                           ignore lines logged after this date (uses strtotime)
   -database <database>                   consider only queries on this database
   -user <user>                           consider only queries executed by this user
+  -keepformatting                        keep the formatting of the query
   -title <title>                         define the title of the reports
   -syslogident <ident>                   PostgreSQL syslog identity. Default is postgres.
   -memorylimit <n>                       PHP memory limit in MB. Default is 128.
@@ -310,6 +311,12 @@ if(isset($options['user']) && !empty($options['user'])) {
 	define('CONFIG_USER', $options['user']);
 } else {
 	define('CONFIG_USER', false);
+}
+
+if(isset($options['keepformatting'])) {
+	define('CONFIG_KEEP_FORMATTING', true);
+} else {
+	define('CONFIG_KEEP_FORMATTING', false);
 }
 
 if(isset($options['from']) && !empty($options['from'])) {

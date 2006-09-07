@@ -77,11 +77,11 @@ class LogObject {
 	
 	function getNormalizedText() {
 		$regexpRemoveText = "/'[^']*'/";
-		$regexpRemoveNumbers = '/([^a-zA-Z_\$])([0-9]{1,10})/';
+		$regexpRemoveNumbers = '/([^a-zA-Z_\$-])-?([0-9]{1,10})/';
 
 		$text = $this->text;
 		if($text) {
-			$text = normalizeWhitespaces($text);
+			$text = normalizeWhitespaces($text, CONFIG_KEEP_FORMATTING);
 			$text = str_replace("\\'", '', $text);
 			$text = preg_replace($regexpRemoveText, "''", $text);
 			$text = preg_replace($regexpRemoveNumbers, '${1}0', $text);
@@ -91,7 +91,7 @@ class LogObject {
 	
 	function accumulateTo(& $accumulator) {
 		if(!$this->isIgnored()) {
-			$this->text = normalizeWhitespaces($this->text);
+			$this->text = normalizeWhitespaces($this->text, CONFIG_KEEP_FORMATTING);
 			$accumulator->fireEvent($this);
 		}
 	}

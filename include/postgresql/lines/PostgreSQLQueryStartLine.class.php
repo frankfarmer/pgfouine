@@ -49,6 +49,13 @@ class PostgreSQLQueryStartLine extends PostgreSQLLogLine {
 		
 		$logObject->addSubQuery($query);
 	}
+	
+	function appendText($text) {
+		if(CONFIG_KEEP_FORMATTING && substr($text, 0, 1) == "\t") {
+			$this->text .= "\n";
+		}
+		$this->text .= $text;
+	}
 }
 
 ?>
