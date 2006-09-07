@@ -1,3 +1,8 @@
+2006-09-07  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [0.7] fixed [#1000723] Normalization: negative and positive numbers
+	produces separate groups
+
 2006-09-03  Guillaume Smet <guillaume-pg@smet.org>
 
 	* [0.7] commited Devrim Gunduz's changes to the spec file
