@@ -51,7 +51,7 @@ class PostgreSQLQueryStartLine extends PostgreSQLLogLine {
 	}
 	
 	function appendText($text) {
-		if(CONFIG_KEEP_FORMATTING && substr($text, 0, 1) == "\t") {
+		if(CONFIG_KEEP_FORMATTING && (substr($text, 0, 1) == "\t" || substr($text, 0, 2) == '  ') && strlen($this->text) > 0) {
 			$this->text .= "\n";
 		}
 		$this->text .= $text;

@@ -26,7 +26,7 @@ class PostgreSQLContinuationLine extends PostgreSQLLogLine {
 
 	function PostgreSQLContinuationLine($text, $duration = false) {
 		$text = str_replace('^I', "\t", $text);
-		if(substr(trim($text), 0, 2) == '--') {
+		if(substr(trim($text), 0, 2) == '--' && !CONFIG_KEEP_FORMATTING) {
 			$text = false;
 		}
 		$this->PostgreSQLLogLine($text);

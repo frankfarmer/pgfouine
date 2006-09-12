@@ -88,14 +88,14 @@ function getExactPercentage($number, $total) {
 	return $percentage;
 }
 
-function normalizeWhitespaces($text, $onlySpace = false) {
-	$text = trim($text);
-	if($onlySpace) {
-		$toReplace = ' ';
+function normalizeWhitespaces($text, $keepOnlyIndent = false) {
+	if($keepOnlyIndent) {
+		$toReplace = '/(?<=[^\s])[ \t]+/m';
 	} else {
-		$toReplace = '\s';
+		$text = trim($text);
+		$toReplace = '/\s+/';
 	}
-	$text = preg_replace('/'.$toReplace.'+/', ' ', $text);
+	$text = preg_replace($toReplace, ' ', $text);
 	return $text;
 }
 
