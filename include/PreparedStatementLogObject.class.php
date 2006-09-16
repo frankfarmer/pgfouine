@@ -33,12 +33,17 @@ class PreparedStatementLogObject extends QueryLogObject {
 	function appendDetail($detail) {
 		global $postgreSQLRegexps;
 		
-		$executeDetailsMatch =& $postgreSQLRegexps['ExecuteDetail']->match($detail);
-		$this->text = $postgreSQLRegexps['RemovePreparePart']->replace($executeDetailsMatch->getMatch(1), '');
+		// if we use queries, the text of the query is in the DETAIL line
+		$prepareDetailMatch =& $postgreSQLRegexps['PrepareDetail']->match($detail);
+		if($prepareDetailMatch) {
+			$this->text = $prepareDetailMatch->getPostMatch();
+		}
+		
+		// if we use the v3 protocol, bind information are in the DETAIL line below the execute line
+		$bindDetailMatch =& $postgreSQLRegexps['BindDetail']->match($detail);
+		if($bindDetailMatch) {
+			$bindParametersMatch = $postgreSQLRegexps['BindParameters']->matchAll($bindDetailMatch->getPostMatch());
 
-		// if we use the v3 protocol, bind information are in the DETAIL line below the execute line		
-		if($executeDetailsMatch->getMatchCount() > 2) {
-			$bindParametersMatch = $postgreSQLRegexps['BindParameters']->matchAll($executeDetailsMatch->getMatch(2));
 			$replace = array();
 			
 			for($i = 0; $i < count($bindParametersMatch); $i++) {

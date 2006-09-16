@@ -27,12 +27,7 @@ class PostgreSQLQueryStartWithDurationLine extends PostgreSQLQueryStartLine {
 	function PostgreSQLQueryStartWithDurationLine($text, $timeString, $unit) {
 		global $postgreSQLRegexps;
 		
-		if($match = $postgreSQLRegexps['QueryOrStatementPart']->match($text)) {
-			$this->PostgreSQLQueryStartLine($match->getPostMatch(), $this->parseDuration($timeString, $unit));
-		} else {
-			stderr('Found garbage after duration line: '.$text, true);
-			$this->PostgreSQLQueryStartLine($text, $this->parseDuration($timeString, $unit));
-		}
+		$this->PostgreSQLQueryStartLine($text, $this->parseDuration($timeString, $unit));
 	}
 
 	function & getLogObject(& $logStream) {

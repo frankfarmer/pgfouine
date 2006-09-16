@@ -1,6 +1,10 @@
+2006-09-17  Guillaume Smet <guillaume-pg@smet.org>
+
+	* resynced prepared statements support with current CVS tip
+
 2006-09-12  Guillaume Smet <guillaume-pg@smet.org>
 
-	* improved -keepformatting option (keep comment and allow
+	* improved -keepformatting option (keep commented lines and allow
 	space indent)
 
 2006-09-07  Guillaume Smet <guillaume-pg@smet.org>

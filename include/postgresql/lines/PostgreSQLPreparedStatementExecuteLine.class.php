@@ -41,7 +41,7 @@ class PostgreSQLPreparedStatementExecuteLine extends PostgreSQLLogLine {
 		$database = $this->database ? $this->database : $logStream->getDatabase();
 		$user = $this->user ? $this->user : $logStream->getUser();
 		
-		$preparedStatement = new PreparedStatementLogObject($this->getConnectionId(), $user, $database, $this->statementName, $this->portalName, 'Unknown query text', $this->ignore);
+		$preparedStatement = new PreparedStatementLogObject($this->getConnectionId(), $user, $database, $this->statementName, $this->portalName, $this->text, $this->ignore);
 		$preparedStatement->setContextInformation($this->timestamp, $this->commandNumber);
 		$preparedStatement->setParameters($this->parameters);
 		

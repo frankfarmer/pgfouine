@@ -27,9 +27,10 @@ $postgreSQLRegexps = array();
 $postgreSQLRegexps['LogLine'] = new RegExp("/^(.*?)(LOG|DEBUG|CONTEXT|WARNING|ERROR|FATAL|PANIC|HINT|DETAIL|NOTICE|STATEMENT|INFO):[\s]+/");
 $postgreSQLRegexps['LogLinePrefix'] = new RegExp('/([a-z]*)=([^ ,]*)/');
 $postgreSQLRegexps['QueryStartPart'] = new RegExp("/^(query|statement):[\s]+/");
+$postgreSQLRegexps['RegularQueryStartPart'] = new RegExp("/^(query|statement):[\s]+(?!(?:prepare|parse|bind|execute|execute from fetch))/i");
 $postgreSQLRegexps['StatusPart'] = new RegExp("/^(connection|received|unexpected EOF)/");
 $postgreSQLRegexps['DurationPart'] = new RegExp("/^duration:([\s\d\.]+)(sec|ms|us)/");
-$postgreSQLRegexps['PreparedStatementPart'] = new RegExp("/^(prepare|bind|execute) ([^:( ]*)(?::[\s]+)?/i");
+$postgreSQLRegexps['PreparedStatementPart'] = new RegExp("/^(prepare|parse|bind|execute|execute from fetch) ([^:(]*)(?::[\s]+)?/i");
 
 // PostgreSQLStatusLine
 $postgreSQLRegexps['ConnectionReceived'] = new RegExp('/connection received: host=([^\s]+) port=([\d]+)/');
@@ -43,8 +44,8 @@ $postgreSQLRegexps['ContextSqlStatement'] = new RegExp('/^SQL statement "/');
 $postgreSQLRegexps['ContextSqlFunction'] = new RegExp('/([^\s]+)[\s]+function[\s]+"([^"]+)"(.*)$/');
 
 // PreparedStatement
-$postgreSQLRegexps['ExecuteDetail'] = new RegExp('/prepare: (.*)(?:\z|  \|  bind: (.*))$/Ui');
-$postgreSQLRegexps['RemovePreparePart']  = new RegExp('/^prepare [^ ]* as /i');
+$postgreSQLRegexps['PrepareDetail']  = new RegExp('/^prepare: prepare [^ ]* as /i');
+$postgreSQLRegexps['BindDetail'] = new RegExp('/^parameters: /');
 $postgreSQLRegexps['BindParameters'] = new RegExp('/(\$[0-9]+) = (.*)(?=(?:, \$[0-9]+ = |\z))/U');
 
 $GLOBALS['postgreSQLRegexps'] =& $postgreSQLRegexps;
