@@ -1,7 +1,7 @@
 Summary:	PgFouine PostgreSQL log analyzer
 Name:		pgfouine
-Version:	0.7
-Release:	4%{?dist}
+Version:	0.7.90
+Release:	1%{?dist}
 BuildArch:	noarch
 License:	GPL
 Group:		Development/Tools
