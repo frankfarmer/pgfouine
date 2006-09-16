@@ -1,6 +1,7 @@
 2006-09-17  Guillaume Smet <guillaume-pg@smet.org>
 
 	* resynced prepared statements support with current CVS tip
+	* added duration in history report
 
 2006-09-12  Guillaume Smet <guillaume-pg@smet.org>
 

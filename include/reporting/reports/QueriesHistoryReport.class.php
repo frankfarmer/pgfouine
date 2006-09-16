@@ -34,7 +34,7 @@ class QueriesHistoryReport extends Report {
 		$count = count($queries);
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
-			$text .= ($i+1).') '.$this->formatTimestamp($query->getTimestamp()).' - '.$this->formatRealQuery($query)."\n";
+			$text .= ($i+1).') '.$this->formatTimestamp($query->getTimestamp()).' - '.$this->formatDuration($query->getDuration()).' - '.$this->formatRealQuery($query)."\n";
 			$text .= "--\n";
 			
 			unset($query);
@@ -50,6 +50,7 @@ class QueriesHistoryReport extends Report {
 		<th>Rank</th>
 		<th>Time</th>
 		<th>Query</th>
+		<th>Duration&nbsp;(s)</th>
 	</tr>';
 		$queries =& $listener->getQueriesHistory();
 		$count = count($queries);
@@ -61,6 +62,7 @@ class QueriesHistoryReport extends Report {
 				<td class="center top">'.($i+1).'</td>
 				<td class="top center">'.$this->formatTimestamp($query->getTimestamp()).'</td>
 				<td title="'.$query->getDetailedInformation().'">'.$this->formatRealQuery($query).'</td>
+				<td class="top center">'.$this->formatDuration($query->getDuration()).'</td>
 			</tr>';
 			$html .= "\n";
 			
