@@ -109,7 +109,9 @@ class GenericLogReader {
 				$this->lastLineTimestamp = $line->getTimestamp();
 				$accumulator->append($line);
 				
-				$lineDetected = true;
+				if(!is_a($line, 'PostgreSQLContinuationLine')) {
+					$lineDetected = true;
+				}
 			}
 			if($lineParsedCounter % 100000 == 0) {
 				stderr('parsed '.$lineParsedCounter.' lines');
