@@ -5,9 +5,9 @@
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter)
  * Release Version: 1.0.7.4
- * CVS Revision Version: $Revision: 1.2 $
+ * CVS Revision Version: $Revision: 1.3 $
  * Date Started: 2004/06/04
- * Last Modified: $Date: 2005/11/20 21:24:46 $
+ * Last Modified: $Date: 2006/10/14 21:53:04 $
  *
  * SQL language file for GeSHi.
  *
@@ -115,11 +115,12 @@ $language_data = array (
 	'STYLES' => array(
 		'KEYWORDS' => array(
 			1 => 'color: #993333; font-weight: bold; text-transform: uppercase;',
-			2 => 'color: #993333; text-transform: uppercase;'
+			2 => 'color: #993333; font-style: italic;'
 			),
 		'COMMENTS' => array(
 			1 => 'color: #808080; font-style: italic;',
-			2 => 'color: #808080; font-style: italic;'
+			2 => 'color: #808080; font-style: italic;',
+			'MULTI' => 'color: #808080; font-style: italic;'
 			),
 		'ESCAPE_CHAR' => array(
 			0 => 'color: #000099; font-weight: bold;'
