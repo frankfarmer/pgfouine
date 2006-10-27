@@ -34,7 +34,7 @@ class SlowestQueriesReport extends Report {
 		$count = count($queries);
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
-			$text .= ($i+1).') '.$this->formatDuration($query->getDuration()).' - '.$this->formatRealQuery($query)."\n";
+			$text .= ($i+1).') '.$this->formatDuration($query->getDuration()).' '.CONFIG_TIME_UNIT.' - '.$this->formatRealQuery($query)."\n";
 			$text .= "--\n";
 			
 			unset($query);
@@ -48,7 +48,7 @@ class SlowestQueriesReport extends Report {
 <table class="queryList">
 	<tr>
 		<th>Rank</th>
-		<th>Duration&nbsp;(s)</th>
+		<th>Duration&nbsp;('.CONFIG_TIME_UNIT.')</th>
 		<th>Query</th>
 	</tr>';
 		$queries =& $listener->getSortedQueries();

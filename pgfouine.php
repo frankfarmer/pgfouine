@@ -63,6 +63,7 @@ function usage($error = false) {
   -database <database>                   consider only queries on this database
   -user <user>                           consider only queries executed by this user
   -keepformatting                        keep the formatting of the query
+  -timeunit <s|ms>                       unit used to display the durations. Default is s(econds).
   -title <title>                         define the title of the reports
   -syslogident <ident>                   PostgreSQL syslog identity. Default is postgres.
   -memorylimit <n>                       PHP memory limit in MB. Default is 128.
@@ -317,6 +318,12 @@ if(isset($options['keepformatting'])) {
 	define('CONFIG_KEEP_FORMATTING', true);
 } else {
 	define('CONFIG_KEEP_FORMATTING', false);
+}
+
+if(isset($options['timeunit']) && $options['timeunit'] == 'ms') {
+	define('CONFIG_TIME_UNIT', 'ms');
+} else {
+	define('CONFIG_TIME_UNIT', 's');
 }
 
 if(isset($options['from']) && !empty($options['from'])) {

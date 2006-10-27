@@ -1,3 +1,7 @@
+2006-10-27  Guillaume Smet <guillaume-pg@smet.org>
+
+	* work on adding a unit option (graphs don't support it yet)
+
 2006-10-14  Guillaume Smet <guillaume-pg@smet.org>
 
 	* updated GeSHi to 1.0.7.14 to fix [#1000753]

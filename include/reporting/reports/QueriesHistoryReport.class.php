@@ -50,7 +50,7 @@ class QueriesHistoryReport extends Report {
 		<th>Rank</th>
 		<th>Time</th>
 		<th>Query</th>
-		<th>Duration&nbsp;(s)</th>
+		<th>Duration&nbsp;('.CONFIG_TIME_UNIT.')</th>
 	</tr>';
 		$queries =& $listener->getQueriesHistory();
 		$count = count($queries);

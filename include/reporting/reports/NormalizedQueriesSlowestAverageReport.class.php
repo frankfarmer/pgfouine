@@ -48,7 +48,7 @@ class NormalizedQueriesSlowestAverageReport extends NormalizedReport {
 <table class="queryList">
 	<tr>
 		<th>Rank</th>
-		<th>Av. duration&nbsp;(s)</th>
+		<th>Av. duration&nbsp;('.CONFIG_TIME_UNIT.')</th>
 		<th>Times executed</th>
 		<th>Total duration</th>
 		<th>Query</th>
