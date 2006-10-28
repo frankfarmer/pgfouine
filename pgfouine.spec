@@ -5,7 +5,7 @@ Release:	1%{?dist}
 BuildArch:	noarch
 License:	GPL
 Group:		Development/Tools
-Source0:	http://pgfoundry.org/frs/download.php/1041/%{name}-%{version}.tar.gz
+Source0:	http://pgfouine.projects.postgresql.org/releases/%{name}-%{version}.tar.gz
 URL: 		http://pgfouine.projects.postgresql.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
