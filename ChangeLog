@@ -1,3 +1,10 @@
+2006-10-27  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [0.7] fixed a typo that prevents -from option from working
+	* [0.7] fixed an error when pgFouine does not find any query
+	* [0.7] allowed -from and -to options to be used separately
+	* [0.7] released 0.7.1
+
 2006-09-07  Guillaume Smet <guillaume-pg@smet.org>
 
 	* [0.7] fixed [#1000723] Normalization: negative and positive numbers

@@ -1,7 +1,7 @@
 Summary:	PgFouine PostgreSQL log analyzer
 Name:		pgfouine
-Version:	0.7
-Release:	4%{?dist}
+Version:	0.7.1
+Release:	1%{?dist}
 BuildArch:	noarch
 License:	GPL
 Group:		Development/Tools
@@ -58,6 +58,8 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}
 
 %changelog
+* Sat Oct 28 2006 Guillaume Smet <guillaume-pg@smet.org> - 0.7.1-1
+- released 0.7.1
 * Sun Sep 3 2006 Guillaume Smet <guillaume-pg@smet.org> - 0.7-4
 - fixed spec according to bugzilla #202901 comment #2
 * Thu Aug 18 2006 Devrim Gunduz <devrim@CommandPrompt.com> - 0.7-3

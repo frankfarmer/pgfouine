@@ -72,9 +72,11 @@ class OverallStatsReport extends Report {
 		if($statsListener->getQueryDuration() != $statsListener->getIdentifiedQueryDuration()) {
 			$html .= ' (identified: '.$this->formatLongDuration($statsListener->getIdentifiedQueryDuration()).')';
 		}
+		$firstQueryTime = ($statsListener->getFirstQueryTimestamp() == MAX_TIMESTAMP) ? 'no query detected' : $this->formatTimestamp($statsListener->getFirstQueryTimestamp());
+		$lastQueryTime = ($statsListener->getLastQueryTimestamp() == MIN_TIMESTAMP) ? 'no query detected' : $this->formatTimestamp($statsListener->getLastQueryTimestamp());
 		$html .= '</li>';
-		$html .= '<li>First query: '.$this->formatTimestamp($statsListener->getFirstQueryTimestamp()).'</li>';
-		$html .= '<li>Last query: '.$this->formatTimestamp($statsListener->getLastQueryTimestamp()).'</li>';
+		$html .= '<li>First query: '.$firstQueryTime.'</li>';
+		$html .= '<li>Last query: '.$lastQueryTime.'</li>';
 		$peakTimestamps = $statsListener->getQueryPeakTimestamps();
 		if($peakTimestamps) {
 			array_walk($peakTimestamps, array(&$this, 'walkFormatTimestamp'));
