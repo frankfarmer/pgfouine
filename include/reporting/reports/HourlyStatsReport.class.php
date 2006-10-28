@@ -199,6 +199,9 @@ class HourlyStatsReport extends Report {
 		$writeDurationValues = $this->filterNull($writeDurationValues);
 		
 		$peaksStatistics =& $statsListener->getQueryPeaksStatistics();
+		if(empty($peaksStatistics)) {
+			return $graphsGenerated;
+		}
 		$currentTimestamp = key($peaksStatistics) - (key($peaksStatistics) % 3600);
 		$lastTimestamp = max(array_keys($peaksStatistics));
 		$firstData = false;
