@@ -1,3 +1,7 @@
+2006-11-24  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [0.7] fixed [#1000792] tooltip dates incorrect
+
 2006-10-27  Guillaume Smet <guillaume-pg@smet.org>
 
 	* [0.7] fixed a typo that prevents -from option from working
