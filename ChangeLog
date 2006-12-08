@@ -1,3 +1,8 @@
+2006-12-08  Open Wide <guillaume.smet@openwide.fr>
+
+	* [0.7] fixed hourly stats when there are hours with no query at all
+	* [0.7] commited a tutorial for RPM packaging per Devrim Gunduz
+
 2006-11-24  Guillaume Smet <guillaume-pg@smet.org>
 
 	* [0.7] fixed [#1000792] tooltip dates incorrect

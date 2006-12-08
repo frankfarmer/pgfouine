@@ -1,11 +1,12 @@
 Summary:	PgFouine PostgreSQL log analyzer
 Name:		pgfouine
 Version:	0.7.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 BuildArch:	noarch
 License:	GPL
 Group:		Development/Tools
 Source0:	http://pgfouine.projects.postgresql.org/releases/%{name}-%{version}.tar.gz
+Source2:	pgfouine-tutorial.txt
 URL: 		http://pgfouine.projects.postgresql.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -28,6 +29,8 @@ PostgreSQL server.
 %patch1 -p0
 sed -i 's!@INCLUDEPATH@!%{_datadir}/%{name}!' pgfouine_vacuum.php
 sed -i 's!@INCLUDEPATH@!%{_datadir}/%{name}!' pgfouine.php
+
+cp %{SOURCE2} .
 
 %build
 
@@ -52,12 +55,14 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%doc AUTHORS ChangeLog COPYING THANKS README
+%doc AUTHORS ChangeLog COPYING THANKS README pgfouine-tutorial.txt
 %attr(0755, root, root) %{_bindir}/pgfouine.php
 %attr(0755, root, root) %{_bindir}/pgfouine_vacuum.php
 %{_datadir}/%{name}
 
-%changelog
+%changelog 
+* Thu Nov 30 2006 Devrim Gunduz <devrim@CommandPrompt.com> - 0.7.1-2
+- Added tutorial.txt per bugzilla review
 * Sat Oct 28 2006 Guillaume Smet <guillaume-pg@smet.org> - 0.7.1-1
 - released 0.7.1
 * Sun Sep 3 2006 Guillaume Smet <guillaume-pg@smet.org> - 0.7-4
