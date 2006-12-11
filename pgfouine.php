@@ -368,4 +368,6 @@ $logReader->output();
 
 fclose($stderr);
 
+exit(0);
+
 ?>
