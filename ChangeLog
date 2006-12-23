@@ -1,6 +1,29 @@
+2006-12-23  Open Wide <guillaume.smet@openwide.fr>
+
+	* merged 0.7 branch into HEAD
+	* added a history per connection report
+
+2006-12-11  Open Wide <guillaume.smet@openwide.fr>
+
+	* [0.7] improved error detection and added exit code
+	* [0.7] released 0.7.2
+
+2006-12-08  Open Wide <guillaume.smet@openwide.fr>
+
+	* [0.7] fixed hourly stats when there are hours with no query at all
+	* [0.7] commited a tutorial for RPM packaging per Devrim Gunduz
+
+2006-11-24  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [0.7] fixed [#1000792] tooltip dates incorrect
+
 2006-10-27  Guillaume Smet <guillaume-pg@smet.org>
 
 	* work on adding a unit option (graphs don't support it yet)
+	* [0.7] fixed a typo that prevents -from option from working
+	* [0.7] fixed an error when pgFouine does not find any query
+	* [0.7] allowed -from and -to options to be used separately
+	* [0.7] released 0.7.1
 
 2006-10-14  Guillaume Smet <guillaume-pg@smet.org>
 

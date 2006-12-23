@@ -36,6 +36,21 @@ class QueriesHistoryListener extends QueryListener {
 		return $this->queries;
 	}
 	
+	function & getQueriesHistoryPerConnection() {
+		usort($this->queries, array($this, 'compareConnectionId'));
+		return $this->queries;
+	}
+	
+	function compareConnectionId(& $a, & $b) {
+		if($a->getConnectionId() == $b->getConnectionId()) {
+			return $this->compareTimestamp($a, $b);
+		} elseif($a->getConnectionId() < $b->getConnectionId()) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
+	
 	function compareTimestamp(& $a, & $b) {
 		if($a->getTimestamp() == $b->getTimestamp()) {
 			return $this->compareNumber($a, $b);

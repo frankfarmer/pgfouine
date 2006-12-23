@@ -208,6 +208,7 @@ $supportedReportBlocks = array(
 	'n-mostfrequent' => 'NormalizedQueriesMostFrequentReport',
 	'n-slowestaverage' => 'NormalizedQueriesSlowestAverageReport',
 	'history' => 'QueriesHistoryReport',
+	'history-per-connection' => 'QueriesHistoryPerConnectionReport',
 	'n-mostfrequenterrors' => 'NormalizedErrorsMostFrequentReport',
 	'tsung' => 'TsungSessionsReport',
 );
@@ -327,14 +328,13 @@ if(isset($options['timeunit']) && $options['timeunit'] == 'ms') {
 }
 
 if(isset($options['from']) && !empty($options['from'])) {
-	$fromTimestamp = strtotime($options['to']);
+	$fromTimestamp = strtotime($options['from']);
 	if($fromTimestamp <= 0) {
 		$fromTimestamp = false;
 	}
 } else {
 	$fromTimestamp = false;
 }
-define('CONFIG_FROM_TIMESTAMP', $fromTimestamp);
 
 if(isset($options['to']) && !empty($options['to'])) {
 	$toTimestamp = strtotime($options['to']);
@@ -344,10 +344,19 @@ if(isset($options['to']) && !empty($options['to'])) {
 } else {
 	$toTimestamp = false;
 }
-define('CONFIG_TO_TIMESTAMP', $toTimestamp);
 
-if(CONFIG_FROM_TIMESTAMP || CONFIG_TO_TIMESTAMP) {
+if($fromTimestamp || $toTimestamp) {
 	define('CONFIG_TIMESTAMP_FILTER', true);
+	if($fromTimestamp) {
+		define('CONFIG_FROM_TIMESTAMP', $fromTimestamp);
+	} else {
+		define('CONFIG_FROM_TIMESTAMP', MIN_TIMESTAMP);
+	}
+	if($toTimestamp) {
+		define('CONFIG_TO_TIMESTAMP', $toTimestamp);
+	} else {
+		define('CONFIG_TO_TIMESTAMP', MAX_TIMESTAMP);
+	}
 } else {
 	define('CONFIG_TIMESTAMP_FILTER', false);
 }
@@ -373,5 +382,7 @@ $logReader->parse();
 $logReader->output();
 
 fclose($stderr);
+
+exit(0);
 
 ?>

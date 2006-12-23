@@ -61,14 +61,17 @@ class HourlyStatsReport extends Report {
 		<th style="width: 10%">Av. duration</th>
 	</tr>';
 		
+		$previousDay = '';
 		for($i = 0; $i < $hourCount; $i++) {
 			$hour = $hours[$i];
 			$hourTimestamp = strtotime($hour);
 			
 			$counter =& $hourlyStatistics[$hour];
 			
-			if(date('H', $hourTimestamp) == 0 || $i == 0) {
+			$currentDay = date('Y-m-d', $hourTimestamp);
+			if($currentDay != $previousDay) {
 				$day = date('M j', $hourTimestamp);
+				$previousDay = $currentDay;
 			} else {
 				$day = '&nbsp;';
 			}
@@ -142,7 +145,9 @@ class HourlyStatsReport extends Report {
 		
 		$hourlyStatistics =& $statsListener->getHourlyStatistics();
 		$hours = array_keys($hourlyStatistics);
-		$hourCount = count($hours);
+		$minHour = strtotime(min($hours));
+		$maxHour = strtotime(max($hours));
+		$hourCount = ($maxHour - $minHour) / 3600;
 		
 		$hoursAxis = array();
 		$queryCountValues = array();
@@ -155,50 +160,64 @@ class HourlyStatsReport extends Report {
 		$globalCountValues = array();
 		$writeDurationValues = array();
 		
-		for($i = 0; $i < $hourCount; $i++) {
-			$hour = $hours[$i];
-			$hourTimestamp = strtotime($hour);
+		for($currentHour = $minHour; $currentHour <= $maxHour; $currentHour += 3600) {
+			$formattedHour = date('Y-m-d H:00:00', $currentHour);
 			
-			$counter =& $hourlyStatistics[$hour];
-			if($hourCount <= 25 || (date('G', $hourTimestamp) % 6 == 0)) {
-				if($i == 0 || date('G', $hourTimestamp) == 0) {
-					$hoursAxis[] = date("ga\nM j", $hourTimestamp);
+			if($hourCount <= 25 || (date('G', $currentHour) % 6 == 0)) {
+				if($currentHour == $minHour || date('G', $currentHour) == 0) {
+					$hoursAxis[] = date("ga\nM j", $currentHour);
 				} else {
-					$hoursAxis[] = date("ga", $hourTimestamp);
+					$hoursAxis[] = date("ga", $currentHour);
 				}
 			} else {
 				$hoursAxis[] = '';
 			}
-			$queryCountValues[] = $counter->getQueryCount();
-			if($counter->getQueryCount() > 0) {
-				$queryDurationValues[] = $counter->getQueryDuration() / $counter->getQueryCount();
+			
+			if(isset($hourlyStatistics[$formattedHour])) {
+				$counter =& $hourlyStatistics[$formattedHour];
+				$queryCountValues[] = $counter->getQueryCount();
+				if($counter->getQueryCount() > 0) {
+					$queryDurationValues[] = $counter->getQueryDuration() / $counter->getQueryCount();
+				} else {
+					$queryDurationValues[] = NULL;
+				}
+				$selectCountValues[] = $counter->getSelectCount();
+				if($counter->getSelectCount() > 0) {
+					$selectDurationValues[] = $counter->getSelectDuration() / $counter->getSelectCount();
+				} else {
+					$selectDurationValues[] = NULL;
+				}
+				$insertCountValues[] = $counter->getInsertCount();
+				$deleteCountValues[] = $counter->getDeleteCount();
+				$updateCountValues[] = $counter->getUpdateCount();
+				
+				$writeCount = $counter->getInsertCount() + $counter->getDeleteCount() + $counter->getUpdateCount();
+				
+				if($writeCount > 0) {
+					$writeDurationValues[] = ($counter->getInsertDuration() + $counter->getDeleteDuration() + $counter->getUpdateDuration()) / $writeCount;
+				} else {
+					$writeDurationValues[] = NULL;
+				}
+				unset($counter);
 			} else {
+				$queryCountValues[] = 0;
 				$queryDurationValues[] = NULL;
-			}
-			$selectCountValues[] = $counter->getSelectCount();
-			if($counter->getSelectCount() > 0) {
-				$selectDurationValues[] = $counter->getSelectDuration() / $counter->getSelectCount();
-			} else {
+				$selectCountValues[] = 0;
 				$selectDurationValues[] = NULL;
-			}
-			$insertCountValues[] = $counter->getInsertCount();
-			$deleteCountValues[] = $counter->getDeleteCount();
-			$updateCountValues[] = $counter->getUpdateCount();
-			
-			$writeCount = $counter->getInsertCount() + $counter->getDeleteCount() + $counter->getUpdateCount();
-			
-			if($writeCount > 0) {
-				$writeDurationValues[] = ($counter->getInsertDuration() + $counter->getDeleteDuration() + $counter->getUpdateDuration()) / $writeCount;
-			} else {
+				$insertCountValues[] = 0;
+				$deleteCountValues[] = 0;
+				$updateCountValues[] = 0;
 				$writeDurationValues[] = NULL;
 			}
-			unset($counter);
 		}
 		$queryDurationValues = $this->filterNull($queryDurationValues);
 		$selectDurationValues = $this->filterNull($selectDurationValues);
 		$writeDurationValues = $this->filterNull($writeDurationValues);
 		
 		$peaksStatistics =& $statsListener->getQueryPeaksStatistics();
+		if(empty($peaksStatistics)) {
+			return $graphsGenerated;
+		}
 		$currentTimestamp = key($peaksStatistics) - (key($peaksStatistics) % 3600);
 		$lastTimestamp = max(array_keys($peaksStatistics));
 		$firstData = false;
@@ -337,7 +356,7 @@ class HourlyStatsReport extends Report {
 	
 			$plot->mark->setType(MARK_CIRCLE);
 			$plot->mark->setFill(new MidRed);
-			if($hourCount <= 24) {
+			if($hourCount <= 25) {
 				$plot->mark->setSize(6);
 			} else {
 				$plot->mark->setSize(2);
@@ -352,7 +371,7 @@ class HourlyStatsReport extends Report {
 			
 			$plot->mark->setType(MARK_SQUARE);
 			$plot->mark->setFill(new DarkGreen);
-			if($hourCount <= 24) {
+			if($hourCount <= 25) {
 				$plot->mark->setSize(5);
 			} else {
 				$plot->mark->setSize(2);
@@ -414,7 +433,7 @@ class HourlyStatsReport extends Report {
 	
 			$plot->mark->setType(MARK_CIRCLE);
 			$plot->mark->setFill(new MidRed);
-			if($hourCount <= 24) {
+			if($hourCount <= 25) {
 				$plot->mark->setSize(6);
 			} else {
 				$plot->mark->setSize(2);
@@ -515,7 +534,7 @@ class HourlyStatsReport extends Report {
 			
 			$plot->mark->setType(MARK_SQUARE);
 			$plot->mark->setFill(new DarkGreen);
-			if($hourCount <= 24) {
+			if($hourCount <= 25) {
 				$plot->mark->setSize(5);
 			} else {
 				$plot->mark->setSize(2);

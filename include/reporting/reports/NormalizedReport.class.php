@@ -71,10 +71,13 @@ class NormalizedReport extends Report {
 		<th>Av.&nbsp;Duration</th>
 	</tr>';
 		$i = 0;
+		$previousDay = '';
 		foreach($hourlyStatistics AS $hour => $hourlyCounter) {
 			$hourTimestamp = strtotime($hour);
-			if(date('H', $hourTimestamp) == 0 || $i == 0) {
+			$currentDay = date('Y-m-d', $hourTimestamp);
+			if($currentDay != $previousDay) {
 				$day = date('M j', $hourTimestamp);
+				$previousDay = $currentDay;
 			} else {
 				$day = '&nbsp;';
 			}

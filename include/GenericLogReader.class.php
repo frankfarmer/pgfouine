@@ -134,6 +134,16 @@ class GenericLogReader {
 		
 		DEBUG && debug("\nParsed ".$lineParsedCounter.' lines in '.$this->timeToParse.' s');
 		
+		if(PROFILE) {
+			$GLOBALS['profiler']->end();
+			$GLOBALS['profiler']->displayProfile();
+		}
+		
+		if(!$lineParsedCounter) {
+			stderr('Log file is empty.');
+			exit(0);
+		}
+		
 		if(!$lineDetected && $this->displayHelp) {
 			stderr('pgFouine did not find any valid PostgreSQL log line in your log file:');
 			stderr('* check that PostgreSQL uses an english locale for logging (lc_messages in your postgresql.conf),');
@@ -141,11 +151,7 @@ class GenericLogReader {
 			stderr('* if you use syslog and log_line_prefix, check that your log_line_prefix has a trailing space,');
 			stderr('* if you use stderr, check that your log_line_prefix is of the form \'%t [%p]: [%l-1] \'.');
 			stderr('If you think your log file and your options are correct, please contact the author (gsmet on #postgresql@freenode or guillaume-pg at smet dot org).');
-		}
-		
-		if(PROFILE) {
-			$GLOBALS['profiler']->end();
-			$GLOBALS['profiler']->displayProfile();
+			exit(1);
 		}
 	}
 	
