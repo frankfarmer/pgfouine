@@ -29,7 +29,7 @@ class PostgreSQLQueryStartLine extends PostgreSQLLogLine {
 	// TODO: remove this test from here and implement a -ignore option
 	function filterQuery($text) {
 		$loweredText = strtolower(trim($text));
-		//$this->ignore = (strpos($loweredText, 'begin') !== false) || (strpos($loweredText, 'vacuum') !== false) || ($loweredText == 'select 1');
+		$this->ignore = (strpos($loweredText, 'begin') !== false) || (strpos($loweredText, 'vacuum') !== false) || ($loweredText == 'select 1');
 		return $text;
 	}
 	
