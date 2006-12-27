@@ -114,8 +114,15 @@ class ReportAggregator {
 		return formatTimestamp($timestamp);
 	}
 	
+	function getDurationForUnit($duration) {
+		if(CONFIG_DURATION_UNIT == 'ms') {
+			$duration = $duration * 1000;
+		}
+		return $duration;
+	}
+	
 	function formatDuration($duration, $decimals = 2, $decimalPoint = '.', $thousandSeparator = ',') {
-		if(CONFIG_TIME_UNIT == 'ms') {
+		if(CONFIG_DURATION_UNIT == 'ms') {
 			$duration = $duration * 1000;
 		}
 		return number_format($duration, $decimals, $decimalPoint, $thousandSeparator);
@@ -141,7 +148,7 @@ class ReportAggregator {
 			if($duration > 0) {
 				$formattedDuration .= intval($duration).'s';
 			}
-		} elseif($duration < 0.1 && CONFIG_TIME_UNIT == 'ms') {
+		} elseif($duration < 0.1 && CONFIG_DURATION_UNIT == 'ms') {
 			$formattedDuration = round($duration * 1000).'ms';
 		} else {
 			$formattedDuration = $this->formatDuration($duration, $decimals).'s';

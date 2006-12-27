@@ -23,6 +23,8 @@
  */
 
 ini_set('max_execution_time', 18000);
+ini_set('log_errors', true);
+ini_set('display_errors', false);
 
 if(strpos(phpversion(), '4.4') === 0) {
 	error_reporting(E_ALL - E_NOTICE);
@@ -63,7 +65,7 @@ function usage($error = false) {
   -database <database>                   consider only queries on this database
   -user <user>                           consider only queries executed by this user
   -keepformatting                        keep the formatting of the query
-  -timeunit <s|ms>                       unit used to display the durations. Default is s(econds).
+  -durationunit <s|ms>                   unit used to display the durations. Default is s(econds).
   -title <title>                         define the title of the reports
   -syslogident <ident>                   PostgreSQL syslog identity. Default is postgres.
   -memorylimit <n>                       PHP memory limit in MB. Default is 128.
@@ -208,7 +210,7 @@ $supportedReportBlocks = array(
 	'n-mostfrequent' => 'NormalizedQueriesMostFrequentReport',
 	'n-slowestaverage' => 'NormalizedQueriesSlowestAverageReport',
 	'history' => 'QueriesHistoryReport',
-	'history-per-connection' => 'QueriesHistoryPerConnectionReport',
+	'historyperpid' => 'QueriesHistoryPerPidReport',
 	'n-mostfrequenterrors' => 'NormalizedErrorsMostFrequentReport',
 	'tsung' => 'TsungSessionsReport',
 );
@@ -321,10 +323,10 @@ if(isset($options['keepformatting'])) {
 	define('CONFIG_KEEP_FORMATTING', false);
 }
 
-if(isset($options['timeunit']) && $options['timeunit'] == 'ms') {
-	define('CONFIG_TIME_UNIT', 'ms');
+if(isset($options['durationunit']) && $options['durationunit'] == 'ms') {
+	define('CONFIG_DURATION_UNIT', 'ms');
 } else {
-	define('CONFIG_TIME_UNIT', 's');
+	define('CONFIG_DURATION_UNIT', 's');
 }
 
 if(isset($options['from']) && !empty($options['from'])) {

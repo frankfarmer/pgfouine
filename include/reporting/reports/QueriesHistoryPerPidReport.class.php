@@ -21,9 +21,9 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-class QueriesHistoryPerConnectionReport extends Report {
-	function QueriesHistoryPerConnectionReport(& $reportAggregator) {
-		$this->Report($reportAggregator, 'Queries history per connection', array('QueriesHistoryListener'));
+class QueriesHistoryPerPidReport extends Report {
+	function QueriesHistoryPerPidReport(& $reportAggregator) {
+		$this->Report($reportAggregator, 'Queries history per PID', array('QueriesHistoryListener'));
 	}
 	
 	function getHtml() {
@@ -42,14 +42,14 @@ class QueriesHistoryPerConnectionReport extends Report {
 				if($currentConnectionId != 0) {
 					$html .= '</table>';
 				}
-				$html .= '<h3>'.$query->getConnectionId().'</h3>';
+				$html .= '<h3>Pid: '.$query->getConnectionId().'</h3>';
 				$html .= '
 					<table class="queryList">
 						<tr>
 							<th>Rank</th>
 							<th>Time</th>
 							<th>Query</th>
-							<th>Duration&nbsp;('.CONFIG_TIME_UNIT.')</th>
+							<th>Duration&nbsp;('.CONFIG_DURATION_UNIT.')</th>
 						</tr>';
 				$currentConnectionId = $query->getConnectionId();
 			}

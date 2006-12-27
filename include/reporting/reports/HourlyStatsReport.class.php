@@ -52,13 +52,13 @@ class HourlyStatsReport extends Report {
 	</tr>
 	<tr>
 		<th style="width: 10%">Count</th>
-		<th style="width: 10%">Av. duration</th>
+		<th style="width: 10%">Av.&nbsp;duration&nbsp;('.CONFIG_DURATION_UNIT.')</th>
 		<th style="width: 10%">Count</th>
-		<th style="width: 10%">Av. duration</th>
+		<th style="width: 10%">Av.&nbsp;duration&nbsp;('.CONFIG_DURATION_UNIT.')</th>
 		<th style="width: 10%">INSERT</th>
 		<th style="width: 10%">UPDATE</th>
 		<th style="width: 10%">DELETE</th>
-		<th style="width: 10%">Av. duration</th>
+		<th style="width: 10%">Av.&nbsp;duration&nbsp;('.CONFIG_DURATION_UNIT.')</th>
 	</tr>';
 		
 		$previousDay = '';
@@ -177,13 +177,13 @@ class HourlyStatsReport extends Report {
 				$counter =& $hourlyStatistics[$formattedHour];
 				$queryCountValues[] = $counter->getQueryCount();
 				if($counter->getQueryCount() > 0) {
-					$queryDurationValues[] = $counter->getQueryDuration() / $counter->getQueryCount();
+					$queryDurationValues[] = $this->getDurationForUnit($counter->getQueryDuration() / $counter->getQueryCount());
 				} else {
 					$queryDurationValues[] = NULL;
 				}
 				$selectCountValues[] = $counter->getSelectCount();
 				if($counter->getSelectCount() > 0) {
-					$selectDurationValues[] = $counter->getSelectDuration() / $counter->getSelectCount();
+					$selectDurationValues[] = $this->getDurationForUnit($counter->getSelectDuration() / $counter->getSelectCount());
 				} else {
 					$selectDurationValues[] = NULL;
 				}
@@ -194,7 +194,7 @@ class HourlyStatsReport extends Report {
 				$writeCount = $counter->getInsertCount() + $counter->getDeleteCount() + $counter->getUpdateCount();
 				
 				if($writeCount > 0) {
-					$writeDurationValues[] = ($counter->getInsertDuration() + $counter->getDeleteDuration() + $counter->getUpdateDuration()) / $writeCount;
+					$writeDurationValues[] = $this->getDurationForUnit(($counter->getInsertDuration() + $counter->getDeleteDuration() + $counter->getUpdateDuration()) / $writeCount);
 				} else {
 					$writeDurationValues[] = NULL;
 				}
@@ -380,7 +380,7 @@ class HourlyStatsReport extends Report {
 			$plot->setYAxis(PLOT_RIGHT);
 			$plot->setYMax(max($queryDurationValues));
 			
-			$group->legend->add($plot, 'Average duration (s)', LEGEND_MARK);
+			$group->legend->add($plot, 'Average duration ('.CONFIG_DURATION_UNIT.')', LEGEND_MARK);
 			$group->add($plot);
 			
 			$graph->add($group);

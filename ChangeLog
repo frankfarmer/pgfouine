@@ -1,6 +1,17 @@
-2006-12-23  Open Wide <guillaume.smet@openwide.fr>
+2006-12-25  Guillaume Smet <guillaume-pg@smet.org>
+
+	* renamed history per connection to history per pid
+
+2006-12-23  Guillaume Smet <guillaume-pg@smet.org>
 
 	* merged 0.7 branch into HEAD
+	* updated GeSHi to 1.0.7.16
+	* renamed -timeunit option to -durationunit
+	* implemented -durationunit option for graphs and fixed hourly stats
+	table header
+	* PHP errors are now written in stderr instead of the standard output
+
+2006-12-22  Open Wide <guillaume.smet@openwide.fr>
 	* added a history per connection report
 
 2006-12-11  Open Wide <guillaume.smet@openwide.fr>
