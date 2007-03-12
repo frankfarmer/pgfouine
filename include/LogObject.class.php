@@ -84,6 +84,7 @@ class LogObject {
 			$text = normalizeWhitespaces($text, CONFIG_KEEP_FORMATTING);
 			$text = str_replace("\\'", '', $text);
 			$text = preg_replace($regexpRemoveText, "''", $text);
+			$text = preg_replace("/''('')+/", "''", $text);
 			$text = preg_replace($regexpRemoveNumbers, '${1}0', $text);
 		}
 		return $text;
