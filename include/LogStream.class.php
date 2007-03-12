@@ -45,7 +45,7 @@ class LogStream {
 		$lineCommandNumber = $line->getCommandNumber();
 		
 		if(!$this->currentBlock ||
-			((($lineCommandNumber != $this->currentBlock->getCommandNumber()) || ($line->getLineNumber() == 1)) && $this->currentBlock->isComplete()) ||			
+			((($lineCommandNumber != $this->currentBlock->getCommandNumber()) || ($line->getLineNumber() == 1)) && $this->currentBlock->isComplete() && !$line->isContextual()) ||			
 			is_a($line, 'PostgreSQLErrorLine')
 		) {
 			// if one of this condition is true:

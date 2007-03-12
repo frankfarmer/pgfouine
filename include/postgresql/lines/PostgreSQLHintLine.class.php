@@ -27,6 +27,10 @@ class PostgreSQLHintLine extends PostgreSQLLogLine {
 	function appendTo(& $logObject) {
 		$logObject->appendHint($this->text);
 	}
+	
+	function isContextual() {
+		return true;
+	}
 }
 
 ?>

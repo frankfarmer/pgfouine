@@ -51,6 +51,10 @@ class PostgreSQLContextLine extends PostgreSQLLogLine {
 		}
 		return false;
 	}
+	
+	function isContextual() {
+		return true;
+	}
 }
 
 ?>

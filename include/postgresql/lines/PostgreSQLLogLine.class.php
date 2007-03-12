@@ -121,6 +121,10 @@ class PostgreSQLLogLine {
 			}
 		}
 	}
+	
+	function isContextual() {
+		return false;
+	}
 }
 
 ?>

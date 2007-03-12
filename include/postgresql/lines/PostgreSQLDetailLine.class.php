@@ -27,6 +27,10 @@ class PostgreSQLDetailLine extends PostgreSQLLogLine {
 	function appendTo(& $logObject) {
 		$logObject->appendDetail($this->text);
 	}
+	
+	function isContextual() {
+		return true;
+	}
 }
 
 ?>
