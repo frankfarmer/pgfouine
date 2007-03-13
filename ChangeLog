@@ -4,7 +4,9 @@
 	* fixed normalization of query text for quote escaping
 	* the timezone is not always present in stderr prefix so make it
 	optional
-	* all three per report from Stephen Denne in
+	* removed the random selection of examples as it is slower than
+	simply adding them all
+	* all four per report from Stephen Denne in
 	http://pgfoundry.org/forum/forum.php?thread_id=1204&forum_id=555
 
 2007-02-05  Guillaume Smet <guillaume-pg@smet.org>

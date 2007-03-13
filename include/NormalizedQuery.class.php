@@ -51,13 +51,7 @@ class NormalizedQuery {
 		$this->hourlyStatistics[$formattedTimestamp]['duration']+= $query->getDuration();
 		
 		if($this->examples) {
-			if($this->count == 1) {
-				$this->examples->addQuery($query);
-			} else {
-				if(intval(rand(1, 100)) == 50) {
-					$this->examples->addQuery($query);
-				}
-			}
+			$this->examples->addQuery($query);
 		}
 	}
 	
