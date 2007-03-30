@@ -13,6 +13,7 @@ define('CONFIG_TIMESTAMP_FILTER', false);
 define('CONFIG_DATABASE', false);
 define('CONFIG_USER', false);
 define('CONFIG_SYSLOG_IDENTITY', 'postgres');
+define('CONFIG_KEEP_FORMATTING', 1);
 
 $stderr = fopen('php://stderr', 'w');
 
