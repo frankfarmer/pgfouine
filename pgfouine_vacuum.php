@@ -154,6 +154,8 @@ if(isset($options['profile'])) {
 }
 
 define('CONFIG_ONLY_SELECT', false);
+define('CONFIG_KEEP_FORMATTING', false);
+define('CONFIG_DURATION_UNIT', 's');
 define('CONFIG_TIMESTAMP_FILTER', false);
 define('CONFIG_DATABASE', false);
 define('CONFIG_USER', false);
