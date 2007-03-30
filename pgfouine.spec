@@ -61,6 +61,8 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}
 
 %changelog
+* Sat Mar 31 2007 Guillaume Smet <guillaume-pg@smet.org> - 1.0-1
+- released 1.0
 * Mon Dec 11 2006 Guillaume Smet <guillaume-pg@smet.org> - 0.7.2-1
 - released 0.7.2
 * Thu Nov 30 2006 Devrim Gunduz <devrim@CommandPrompt.com> - 0.7.1-2
