@@ -1,12 +1,9 @@
-2007-03-31  Guillaume Smet <guillaume-pg@smet.org>
-
-	* released 1.0
-
 2007-03-30  Guillaume Smet <guillaume-pg@smet.org>
 
 	* updated GeSHi to 1.0.7.18
 	* fixed test cases
 	* fixed pgfouine_vacuum.php
+	* released 1.0
 
 2007-03-12  Guillaume Smet <guillaume-pg@smet.org>
 
