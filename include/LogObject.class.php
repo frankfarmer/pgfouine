@@ -78,6 +78,7 @@ class LogObject {
 	function getNormalizedText() {
 		$regexpRemoveText = "/'[^']*'/";
 		$regexpRemoveNumbers = '/([^a-zA-Z_\$-])-?([0-9]{1,10})/';
+		$regexpRemoveHexadecimalNumbers = '/([^a-z_\$-])0x[0-9a-f]{1,10}/i';
 
 		$text = $this->text;
 		if($text) {
@@ -86,6 +87,7 @@ class LogObject {
 			$text = preg_replace($regexpRemoveText, "''", $text);
 			$text = preg_replace("/''('')+/", "''", $text);
 			$text = preg_replace($regexpRemoveNumbers, '${1}0', $text);
+			$text = preg_replace($regexpRemoveHexadecimalNumbers, '${1}0x', $text);
 		}
 		return $text;
 	}

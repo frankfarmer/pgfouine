@@ -1,3 +1,8 @@
+2008-02-25  Guillaume Smet <guillaume-pg@smet.org>
+
+	* applied a patch from Russell Garrett @last.fm to normalize
+	hexadecimal numbers
+
 2007-03-30  Guillaume Smet <guillaume-pg@smet.org>
 
 	* updated GeSHi to 1.0.7.18
