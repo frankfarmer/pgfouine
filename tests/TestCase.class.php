@@ -15,6 +15,8 @@ define('CONFIG_USER', false);
 define('CONFIG_SYSLOG_IDENTITY', 'postgres');
 define('CONFIG_KEEP_FORMATTING', 1);
 
+ini_set('error_reporting', 2039);
+
 $stderr = fopen('php://stderr', 'w');
 
 $commonTests = &new GroupTest('Common tests');
