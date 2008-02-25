@@ -2,6 +2,7 @@
 
 	* applied a patch from Russell Garrett @last.fm to normalize
 	hexadecimal numbers
+	* added invalid startup packet error to ignore list [#1010261]
 
 2007-03-30  Guillaume Smet <guillaume-pg@smet.org>
 

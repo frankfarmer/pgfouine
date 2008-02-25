@@ -93,7 +93,8 @@ class PostgreSQLParser {
 						strpos($postMatch, 'removing transaction log file "') !== 0 &&
 						strpos($postMatch, 'removing file "') !== 0 &&
 						strpos($postMatch, 'could not receive data from client') !== 0 &&
-						strpos($postMatch, 'checkpoints are occurring too frequently (') !== 0
+						strpos($postMatch, 'checkpoints are occurring too frequently (') !== 0 &&
+						strpos($postMatch, 'invalid length of startup packet') !== 0
 						) {
 						stderr('Unrecognized LOG or DEBUG line: '.$text, true);
 					}
