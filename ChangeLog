@@ -3,6 +3,7 @@
 	* applied a patch from Russell Garrett @last.fm to normalize
 	hexadecimal numbers
 	* added invalid startup packet error to ignore list [#1010261]
+	* added a couple of words to colorize per [#1006782]
 
 2007-03-30  Guillaume Smet <guillaume-pg@smet.org>
 

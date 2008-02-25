@@ -58,13 +58,13 @@ $language_data = array (
 		1 => array(
 			'ALL', 'ASC', 'AS',  'ALTER', 'AND', 'ADD', 'AUTO_INCREMENT', 'ANY', 'ANALYZE',
 			'BETWEEN', 'BINARY', 'BOTH', 'BY', 'BOOLEAN', 'BEGIN',
-			'CHANGE', 'CHECK', 'COLUMNS', 'COLUMN', 'CROSS','CREATE', 'CASE', 'COMMIT', 'COALESCE', 'CLUSTER',
+			'CHANGE', 'CHECK', 'COLUMNS', 'COLUMN', 'CROSS','CREATE', 'CASE', 'COMMIT', 'COALESCE', 'CLUSTER', 'COPY',
 			'DATABASES', 'DATABASE', 'DATA', 'DELAYED', 'DESCRIBE', 'DESC',  'DISTINCT', 'DELETE', 'DROP', 'DEFAULT',
-			'ENCLOSED', 'ESCAPED', 'EXISTS', 'EXPLAIN', 'ELSE', 'END',
+			'ENCLOSED', 'ESCAPED', 'EXISTS', 'EXPLAIN', 'ELSE', 'END', 'EXCEPT',
 			'FIELDS', 'FIELD', 'FLUSH', 'FOR', 'FOREIGN', 'FUNCTION', 'FROM',
 			'GROUP', 'GRANT', 'GREATEST',
 			'HAVING',
-			'IGNORE', 'INDEX', 'INFILE', 'INSERT', 'INNER', 'INTO', 'IDENTIFIED', 'IN', 'IS', 'IF',
+			'IGNORE', 'INDEX', 'INFILE', 'INSERT', 'INNER', 'INTO', 'IDENTIFIED', 'IN', 'IS', 'IF', 'INTERSECT',
 			'JOIN',
 			'KEYS', 'KILL','KEY',
 			'LEADING', 'LIKE', 'LIMIT', 'LINES', 'LOAD', 'LOCAL', 'LOCK', 'LOW_PRIORITY', 'LEFT', 'LANGUAGE', 'LEAST',
@@ -73,7 +73,7 @@ $language_data = array (
 			'OPTIMIZE', 'OPTION', 'OPTIONALLY', 'ORDER', 'OUTFILE', 'OR', 'OUTER', 'ON', 'OVERLAPS',
 			'PROCEDURE','PROCEDURAL', 'PRIMARY',
 			'READ', 'REFERENCES', 'REGEXP', 'RENAME', 'REPLACE', 'RETURN', 'REVOKE', 'RLIKE', 'RIGHT', 'ROLLBACK',
-			'SHOW', 'SONAME', 'STATUS', 'STRAIGHT_JOIN', 'SELECT', 'SETVAL', 'SET', 'SOME',
+			'SHOW', 'SONAME', 'STATUS', 'STRAIGHT_JOIN', 'SELECT', 'SETVAL', 'SET', 'SOME', 'SEQUENCE',
 			'TABLES', 'TEMINATED', 'TO', 'TRAILING','TRUNCATE', 'TABLE', 'TEMPORARY', 'TRIGGER', 'TRUSTED', 'THEN',
 			'UNIQUE', 'UNLOCK', 'USE', 'USING', 'UPDATE', 'UNSIGNED',
 			'VALUES', 'VARIABLES', 'VIEW', 'VACUUM',
@@ -100,7 +100,10 @@ $language_data = array (
 			'substring', 'split_part', 'strpos', 'substr', 'set_byte', 'set_bit',
 			'trim', 'to_ascii', 'to_hex', 'translate', 'to_char', 'to_date', 'to_timestamp', 'to_number', 'timeofday',
 			'upper',
-			)
+			),
+		3 => array(
+			'STDIN', 'STDOUT'
+			),
 		),
 	'SYMBOLS' => array(
 		'(', ')', '=', '<', '>', '|', '!='
@@ -108,12 +111,14 @@ $language_data = array (
 	'CASE_SENSITIVE' => array(
 		GESHI_COMMENTS => false,
 		1 => false,
-		2 => false
+		2 => false,
+		3 => false,
 		),
 	'STYLES' => array(
 		'KEYWORDS' => array(
 			1 => 'color: #993333; font-weight: bold; text-transform: uppercase;',
-			2 => 'color: #993333; font-style: italic;'
+			2 => 'color: #993333; font-style: italic;',
+			3 => 'color: #993333; text-transform: uppercase;'
 			),
 		'COMMENTS' => array(
 			1 => 'color: #808080; font-style: italic;',
