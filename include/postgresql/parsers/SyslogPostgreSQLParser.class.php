@@ -25,7 +25,7 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 	var $regexpSyslogContext;
 	
 	function SyslogPostgreSQLParser($syslogString = CONFIG_SYSLOG_IDENTITY) {
-		$this->regexpSyslogContext = new RegExp('/^([A-Z][a-z]{2} [ 0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}) .*? '.$syslogString.'\[(\d{1,5})\]: .*?\[(\d{1,20})(?:\-(\d{1,5}))?\] /');
+		$this->regexpSyslogContext = new RegExp('/^((?:[0-9]{4} )?[A-Z][a-z]{2} [ 0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}) .*? '.$syslogString.'\[(\d{1,5})\]: .*?\[(\d{1,20})(?:\-(\d{1,5}))?\] /');
 	}
 
 	function & parse($data) {
@@ -44,10 +44,15 @@ class SyslogPostgreSQLParser extends PostgreSQLParser {
 		}
 		
 		$formattedDate = $matches[1][0];
-		$timestamp = strtotime(preg_replace('/(^[a-z]{3}[ ]+[0-9]{1,2})/i', '\1 '.date('Y'), $formattedDate));
-
-		if($timestamp > time()) {
-			$timestamp = strtotime(preg_replace('/(^[a-z]{3}[ ]+[0-9]{1,2})/i', '\1 '.(date('Y')-1), $formattedDate));
+		
+		if(preg_match('/^[0-9]{4} /', $formattedDate)) {
+			$timestamp = strtotime(preg_replace('/^([0-9]{4} )([a-z]{3}[ ]+[0-9]{1,2})/i', '\2 \1', $formattedDate));
+		} else {
+			$timestamp = strtotime(preg_replace('/(^[a-z]{3}[ ]+[0-9]{1,2})/i', '\1 '.date('Y'), $formattedDate));
+	
+			if($timestamp > time()) {
+				$timestamp = strtotime(preg_replace('/(^[a-z]{3}[ ]+[0-9]{1,2})/i', '\1 '.(date('Y')-1), $formattedDate));
+			}
 		}
 		if($timestamp < 0) {
 			$timestamp = 0;
