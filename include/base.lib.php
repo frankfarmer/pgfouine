@@ -4,7 +4,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005-2006 Guillaume Smet
+ * Copyright (c) 2005-2008 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ require_once('ErrorLogObject.class.php');
 require_once('UselessLogObject.class.php');
 
 require_once('GenericLogReader.class.php');
+require_once('CsvLogReader.class.php');
 require_once('SlowestQueryList.class.php');
 require_once('NormalizedQuery.class.php');
 require_once('NormalizedError.class.php');
