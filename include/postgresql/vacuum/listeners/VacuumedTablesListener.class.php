@@ -5,7 +5,7 @@
  * 
  * pgFouine - a PostgreSQL log analyzer
  * Copyright (c) 2006 Open Wide
- * Copyright (c) 2006 Guillaume Smet
+ * Copyright (c) 2006-2008 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
