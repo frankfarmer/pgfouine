@@ -42,7 +42,7 @@ $postgreSQLVacuumRegexps['VacuumEnd'] = new RegExp('/^VACUUM$/');
 // PostgreSQLVacuumDetailLine
 $postgreSQLVacuumRegexps['VacuumFullDetailLine'] = new RegExp('/([0-9]+) dead row versions cannot be removed yet\. Nonremovable row versions range from ([0-9]+) to ([0-9]+) bytes long\. There were ([0-9]+) unused item pointers\. Total free space \(including removable row versions\) is ([0-9]+) bytes\. ([0-9]+) pages are or will become empty, including ([0-9]+) at the end of the table\. ([0-9]+) pages containing ([0-9]+) free bytes are potential move destinations\. CPU ([0-9.]+)s\/([0-9.]+)u sec elapsed ([0-9.]+) sec\./');
 $postgreSQLVacuumRegexps['VacuumDetailLine'] = new RegExp('/([0-9]+) dead row versions cannot be removed yet\. There were ([0-9]+) unused item pointers\. ([0-9]+) pages are entirely empty\. CPU ([0-9.]+)s\/([0-9.]+)u sec elapsed ([0-9.]+) sec\./');
-$postgreSQLVacuumRegexps['FSMDetailLine'] = new RegExp('/A total of ([0-9]+) page slots are in use \(including overhead\). ([0-9]+) page slots are required to track all free space. Current limits are:  ([0-9]+) page slots, ([0-9]+) relations, using ([0-9]+) KB./');
+$postgreSQLVacuumRegexps['FSMDetailLine'] = new RegExp('/A total of ([0-9]+) page slots are in use \(including overhead\). ([0-9]+) page slots are required to track all free space. Current limits are:  ([0-9]+) page slots, ([0-9]+) relations, using ([0-9]+) KB./i');
 
 // PostgreSQLIndexCleanupDetailLine
 $postgreSQLVacuumRegexps['IndexCleanupDetailLine'] = new RegExp('/(?:([0-9]+) index row versions were removed\. )?([0-9]+) index pages have been deleted, ([0-9]+) are currently reusable\. CPU ([0-9.]+)s\/([0-9.]+)u sec elapsed ([0-9.]+) sec\./');
