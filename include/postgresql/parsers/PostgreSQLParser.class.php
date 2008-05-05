@@ -84,6 +84,7 @@ class PostgreSQLParser {
 				} else {
 					// we ignore a lot of common log lines as they are not interesting
 					// but we still raise an error if we don't recognize a log line
+					// as it may provide useful information about an unusual activity
 					if(
 						strpos($postMatch, 'transaction ID wrap limit is') !== 0 &&
 						strpos($postMatch, 'archived transaction log file') !== 0 &&
@@ -94,7 +95,8 @@ class PostgreSQLParser {
 						strpos($postMatch, 'removing file "') !== 0 &&
 						strpos($postMatch, 'could not receive data from client') !== 0 &&
 						strpos($postMatch, 'checkpoints are occurring too frequently (') !== 0 &&
-						strpos($postMatch, 'invalid length of startup packet') !== 0
+						strpos($postMatch, 'invalid length of startup packet') !== 0 &&
+						strpos($postMatch, 'incomplete startup packet') !== 0
 						) {
 						stderr('Unrecognized LOG or DEBUG line: '.$text, true);
 					}
@@ -112,6 +114,8 @@ class PostgreSQLParser {
 				$line = new PostgreSQLDetailLine($postMatch);
 			} elseif($keyword == 'NOTICE') {
 				$line = new PostgreSQLNoticeLine($postMatch);
+			} elseif($keyword == 'LOCATION') {
+				$line = new PostgreSQLLocationLine($postMatch);
 			}
 			if($line) {
 				$line->setLogLinePrefix($logLinePrefix);
