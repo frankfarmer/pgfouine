@@ -203,6 +203,9 @@ class HtmlReportAggregator extends ReportAggregator {
 		foreach($notices AS $notice) {
 			$html .= '<div class="queryNotice">Notice: '.$notice.'</div>';
 		}
+		if($query->getLocation()) {
+			$html .= '<div class="queryNotice">Location: '.$query->getLocation().'</div>';
+		}
 		return $html;
 	}
 	

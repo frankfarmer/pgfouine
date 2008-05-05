@@ -32,6 +32,7 @@ class LogObject {
 	var $context;
 	var $notices = array();
 	var $number = 0;
+	var $location;
 
 	function LogObject($connectionId, $user, $database, $text = '', $ignored = false) {
 		$this->connectionId = $connectionId;
@@ -147,6 +148,14 @@ class LogObject {
 	
 	function getNumber() {
 		return $this->number;
+	}
+	
+	function setLocation($location) {
+		$this->location = $location;
+	}
+	
+	function getLocation() {
+		return $this->location;
 	}
 }
 
