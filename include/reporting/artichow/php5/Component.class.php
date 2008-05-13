@@ -168,7 +168,7 @@ abstract class awComponent {
 		// Component title
 		$this->title = new awLabel(
 			NULL,
-			new awVera(10),
+			new awDejaVuSans(10),
 			NULL,
 			0
 		);

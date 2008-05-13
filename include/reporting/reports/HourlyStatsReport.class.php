@@ -258,7 +258,7 @@ class HourlyStatsReport extends Report {
 			
 			$graph->title->set('Queries per second (5 minutes average)');
 			$graph->title->setPadding(30, 30, 2, 2);
-			$graph->title->setFont(new Vera(8));
+			$graph->title->setFont(new DejaVuSans(8));
 			$graph->title->setColor(new Color(0x00, 0x00, 0x00));
 			$graph->title->setBackgroundColor(new Color(0xFE, 0xE3, 0xC4));
 			$graph->title->border->show();
@@ -284,7 +284,7 @@ class HourlyStatsReport extends Report {
 			
 			$group->legend->setAlign(LEGEND_RIGHT, LEGEND_BOTTOM);
 			$group->legend->setPosition(1.21, 0.88);
-			$group->legend->setTextFont(new Vera(8));
+			$group->legend->setTextFont(new DejaVuSans(8));
 			$group->legend->setSpace(10);
 	
 			$plot = new LinePlot($max);
@@ -319,7 +319,7 @@ class HourlyStatsReport extends Report {
 			
 			$graph->title->set('All queries');
 			$graph->title->setPadding(30, 30, 2, 2);
-			$graph->title->setFont(new Vera(8));
+			$graph->title->setFont(new DejaVuSans(8));
 			$graph->title->setColor(new Color(0x00, 0x00, 0x00));
 			$graph->title->setBackgroundColor(new Color(0xFE, 0xE3, 0xC4));
 			$graph->title->border->show();
@@ -347,7 +347,7 @@ class HourlyStatsReport extends Report {
 			
 			$group->legend->setAlign(LEGEND_RIGHT, LEGEND_BOTTOM);
 			$group->legend->setPosition(1.21, 0.88);
-			$group->legend->setTextFont(new Vera(8));
+			$group->legend->setTextFont(new DejaVuSans(8));
 			$group->legend->setSpace(10);
 			
 			$plot = new LinePlot($queryCountValues, LINEPLOT_MIDDLE);
@@ -397,7 +397,7 @@ class HourlyStatsReport extends Report {
 			
 			$graph->title->set('SELECT queries');
 			$graph->title->setPadding(30, 30, 2, 2);
-			$graph->title->setFont(new Vera(8));
+			$graph->title->setFont(new DejaVuSans(8));
 			$graph->title->setColor(new Color(0x00, 0x00, 0x00));
 			$graph->title->setBackgroundColor(new Color(0xFE, 0xE3, 0xC4));
 			$graph->title->border->show();
@@ -424,7 +424,7 @@ class HourlyStatsReport extends Report {
 			
 			$group->legend->setAlign(LEGEND_RIGHT, LEGEND_BOTTOM);
 			$group->legend->setPosition(1.21, 0.88);
-			$group->legend->setTextFont(new Vera(8));
+			$group->legend->setTextFont(new DejaVuSans(8));
 			$group->legend->setSpace(10);
 			
 			$plot = new LinePlot($selectCountValues, LINEPLOT_MIDDLE);
@@ -474,7 +474,7 @@ class HourlyStatsReport extends Report {
 			
 			$graph->title->set('Write queries');
 			$graph->title->setPadding(30, 30, 2, 2);
-			$graph->title->setFont(new Vera(8));
+			$graph->title->setFont(new DejaVuSans(8));
 			$graph->title->setColor(new Color(0x00, 0x00, 0x00));
 			$graph->title->setBackgroundColor(new Color(0xFE, 0xE3, 0xC4));
 			$graph->title->border->show();
@@ -500,7 +500,7 @@ class HourlyStatsReport extends Report {
 			
 			$group->legend->setAlign(LEGEND_RIGHT, LEGEND_BOTTOM);
 			$group->legend->setPosition(1.21, 0.88);
-			$group->legend->setTextFont(new Vera(8));
+			$group->legend->setTextFont(new DejaVuSans(8));
 			$group->legend->setSpace(10);
 			
 			$plot1 = $updateCountValues;

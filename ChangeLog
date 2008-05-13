@@ -1,3 +1,7 @@
+2008-05-13  Guillaume Smet <guillaume-pg@smet.org>
+
+	* moved from Vera to DejaVuSans
+
 2008-02-25  Guillaume Smet <guillaume-pg@smet.org>
 
 	* applied a patch from Russell Garrett @last.fm to normalize

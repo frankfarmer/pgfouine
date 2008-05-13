@@ -235,7 +235,7 @@ class awMathPlot extends awComponent {
 		$axis->addTick('micro', new awTick(0, 1));
 		$axis->setNumberByTick('minor', 'major', 1);
 		$axis->setNumberByTick('micro', 'minor', 4);
-		$axis->label->setFont(new awVera(7));
+		$axis->label->setFont(new awDejaVuSans(7));
 		
 	}
 	

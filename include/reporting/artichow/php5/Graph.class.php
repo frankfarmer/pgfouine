@@ -130,7 +130,7 @@ class awGraph extends awImage {
 		
 		$this->title = new awLabel(
 			NULL,
-			new awVera(16),
+			new awDejaVuSans(16),
 			NULL,
 			0
 		);

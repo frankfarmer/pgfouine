@@ -169,7 +169,7 @@ abstract class awPlot extends awComponent {
 		$this->xAxis->addTick('major', new awTick(0, 5));
 		$this->xAxis->addTick('minor', new awTick(0, 3));
 		$this->xAxis->setTickStyle(awTick::OUT);
-		$this->xAxis->label->setFont(new awVera(7));
+		$this->xAxis->label->setFont(new awDejaVuSans(7));
 		
 		$this->yAxis = new awAxis;
 		$this->yAxis->auto(TRUE);
@@ -177,7 +177,7 @@ abstract class awPlot extends awComponent {
 		$this->yAxis->addTick('minor', new awTick(0, 3));
 		$this->yAxis->setTickStyle(awTick::OUT);
 		$this->yAxis->setNumberByTick('minor', 'major', 3);
-		$this->yAxis->label->setFont(new awVera(7));
+		$this->yAxis->label->setFont(new awDejaVuSans(7));
 		$this->yAxis->title->setAngle(90);
 		
 	}
@@ -779,7 +779,7 @@ class awPlotAxis {
 	
 		$axis->addTick('major', new awTick(0, 5));
 		$axis->addTick('minor', new awTick(0, 3));
-		$axis->label->setFont(new awVera(7));
+		$axis->label->setFont(new awDejaVuSans(7));
 		
 	}
 	
@@ -788,7 +788,7 @@ class awPlotAxis {
 		$axis->addTick('major', new awTick(0, 5));
 		$axis->addTick('minor', new awTick(0, 3));
 		$axis->setNumberByTick('minor', 'major', 3);
-		$axis->label->setFont(new awVera(7));
+		$axis->label->setFont(new awDejaVuSans(7));
 		$axis->title->setAngle(90);
 		
 	}
