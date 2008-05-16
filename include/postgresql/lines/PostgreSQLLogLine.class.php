@@ -73,6 +73,11 @@ class PostgreSQLLogLine {
 		$this->lineNumber = $lineNumber;
 	}
 	
+	function setConnectionInformation($database, $user) {
+		$this->database = $database;
+		$this->user = $user;
+	}
+	
 	function getTimestamp() {
 		return $this->timestamp;
 	}

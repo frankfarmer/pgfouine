@@ -5,7 +5,7 @@
  * This file is part of pgFouine.
  * 
  * pgFouine - a PostgreSQL log analyzer
- * Copyright (c) 2005-2006 Guillaume Smet
+ * Copyright (c) 2005-2008 Guillaume Smet
  *
  * pgFouine is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ function usage($error = false) {
   -                                      read the log from stdin instead of -file
   -top <n>                               number of queries in lists. Default is 20.
   -format <format>                       output format: html, html-with-graphs or text. Default is html.
-  -logtype <logtype>                     log type: syslog or stderr. Default is syslog.
+  -logtype <logtype>                     log type: syslog, stderr or csvlog. Default is syslog.
                                           for stderr, you have to use the following log_line_prefix: \'%t [%p]: [%l-1] \'
   -report [outputfile=]<block1,block2>   list of report blocks separated by a comma
                                          report blocks can be: overall, hourly, bytype, slowest, n-mosttime,
@@ -281,15 +281,22 @@ if(isset($options['format'])) {
 	$aggregator = $supportedFormats['html'];
 }
 
-$supportedLogTypes = array('syslog' => 'SyslogPostgreSQLParser', 'stderr' => 'StderrPostgreSQLParser');
+$supportedLogTypes = array(
+	'syslog' => 'SyslogPostgreSQLParser',
+	'stderr' => 'StderrPostgreSQLParser',
+	'csvlog' => 'CsvlogPostgreSQLParser',
+);
+$logtype = '';
 if(isset($options['logtype'])) {
 	if(array_key_exists($options['logtype'], $supportedLogTypes)) {
 		$parser = $supportedLogTypes[$options['logtype']];
+		$logtype = $options['logtype'];
 	} else {
 		usage('log type not supported');
 	}
 } else {
 	$parser = $supportedLogTypes['syslog'];
+	$logtype = 'syslog';
 }
 
 if(isset($options['examples'])) {
@@ -369,7 +376,11 @@ if(isset($options['syslogident'])) {
 	define('CONFIG_SYSLOG_IDENTITY', 'postgres');
 }
 
-$logReader = new GenericLogReader($filePath, $parser, 'PostgreSQLAccumulator');
+if($logtype == 'csvlog') {
+	$logReader = new CsvlogLogReader($filePath, $parser, 'PostgreSQLAccumulator');
+} else {
+	$logReader = new GenericLogReader($filePath, $parser, 'PostgreSQLAccumulator');
+}
 
 foreach($reports AS $report) {
 	$reportAggregator = new $aggregator($logReader, $report['file']);

@@ -44,9 +44,10 @@ class LogStream {
 		$logObject = false;
 		$lineCommandNumber = $line->getCommandNumber();
 		
-		if(!$this->currentBlock ||
-			((($lineCommandNumber != $this->currentBlock->getCommandNumber()) || ($line->getLineNumber() == 1)) && $this->currentBlock->isComplete() && !$line->isContextual()) ||			
-			is_a($line, 'PostgreSQLErrorLine')
+		if((!$this->currentBlock ||
+			((($lineCommandNumber != $this->currentBlock->getCommandNumber()) || ($line->getLineNumber() == 1)) && $this->currentBlock->isComplete()) ||			
+			is_a($line, 'PostgreSQLErrorLine'))
+				&& !$line->isContextual()
 		) {
 			// if one of this condition is true:
 			// 1. we don't have a current block (e.g. we just started a new log stream)
@@ -83,7 +84,7 @@ class LogStream {
 					$this->currentBlock = false;
 				}
 			}
-		} else {
+		} elseif($this->currentBlock) {
 			// we add all the lines associated with the block to the current block
 			if(is_a($line, 'PostgreSQLContinuationLine')) {
 				// it is just a continuation line so we just add the text to the text of the last line)

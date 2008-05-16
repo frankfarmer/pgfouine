@@ -1,6 +1,30 @@
+2008-05-15  Guillaume Smet <guillaume-pg@smet.org>
+
+	* fixed the regexp of the stderr parser to exclude the timezone
+	from the timestamp pattern
+	* fixed a problem with NOTICE lines causing other lines to be ignored
+	(not sure about the consequences though...)
+
 2008-05-13  Guillaume Smet <guillaume-pg@smet.org>
 
 	* moved from Vera to DejaVuSans
+
+2008-05-05  Guillaume Smet <guillaume.smet@openwide.fr>
+
+	* fixed [#1010324] "Fails to recognize FSM info" reported by
+	Peter Eisentraut
+	* fixed [#1010306] "pgfouine 1.0 not recognizing postgres syslog
+	lines" reported by Neil Murray by adding log_error_verbosity=verbose
+	support
+
+2008-03-19  Guillaume Smet <guillaume-pg@smet.org>
+
+	* preliminary support for CSV log format introduced in 8.3
+
+2008-03-09  Guillaume Smet <guillaume-pg@smet.org>
+
+	* global copyright update
+	* made date parsing more clever in syslog parser
 
 2008-02-25  Guillaume Smet <guillaume-pg@smet.org>
 
@@ -46,6 +70,7 @@
 	* PHP errors are now written in stderr instead of the standard output
 
 2006-12-22  Open Wide <guillaume.smet@openwide.fr>
+
 	* added a history per connection report
 
 2006-12-11  Open Wide <guillaume.smet@openwide.fr>

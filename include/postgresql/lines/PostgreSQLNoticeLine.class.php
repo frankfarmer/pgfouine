@@ -25,7 +25,13 @@ class PostgreSQLNoticeLine extends PostgreSQLLogLine {
 	var $ignore = false;
 
 	function appendTo(& $logObject) {
-		$logObject->addNotice($this->text);
+		if($this->commandNumber == $logObject->getCommandNumber()) {
+			$logObject->addNotice($this->text);
+		}
+	}
+
+	function isContextual() {
+		return true;
 	}
 }
 

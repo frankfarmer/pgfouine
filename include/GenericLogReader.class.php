@@ -93,36 +93,8 @@ class GenericLogReader {
 			$GLOBALS['profiler']->start();
 		}
 		
-		$currentTimestamp = time();
-		while (!feof($filePointer)) {
-			$text = rtrim(fgets($filePointer), "\r\n");
-			if(empty($text)) {
-				continue;
-			}
-			$lineParsedCounter ++;
-			
-			$line =& $lineParser->parse($text);
-			if($line) {
-				if(!isset($this->firstLineTimestamp)) {
-					$this->firstLineTimestamp = $line->getTimestamp();
-				}
-				$this->lastLineTimestamp = $line->getTimestamp();
-				$accumulator->append($line);
-				
-				if(!is_a($line, 'PostgreSQLContinuationLine')) {
-					$lineDetected = true;
-				}
-			}
-			if($lineParsedCounter % 100000 == 0) {
-				stderr('parsed '.$lineParsedCounter.' lines');
-				if(DEBUG) {
-					$currentTime = time() - $currentTimestamp;
-					$currentTimestamp = time();
-					debug('    '.getMemoryUsage());
-					debug('    Time: '.$currentTime.' s');
-				}
-			}
-		}
+		$this->readFile($accumulator, $filePointer, $lineParser, $lineParsedCounter, $lineDetected);
+		
 		DEBUG && debug('Before close - '.getMemoryUsage());
 		$accumulator->close();
 		DEBUG && debug('After close - '.getMemoryUsage());
@@ -152,6 +124,40 @@ class GenericLogReader {
 			stderr('* if you use stderr, check that your log_line_prefix is of the form \'%t [%p]: [%l-1] \'.');
 			stderr('If you think your log file and your options are correct, please contact the author (gsmet on #postgresql@freenode or guillaume-pg at smet dot org).');
 			exit(1);
+		}
+	}
+	
+	function readFile(& $accumulator, & $filePointer, &$lineParser, &$lineParsedCounter, &$lineDetected) {
+		$currentTimestamp = time();
+		
+		while (!feof($filePointer)) {
+			$text = rtrim(fgets($filePointer), "\r\n");
+			if(empty($text)) {
+				continue;
+			}
+			$lineParsedCounter ++;
+			
+			$line =& $lineParser->parse($text);
+			if($line) {
+				if(!isset($this->firstLineTimestamp)) {
+					$this->firstLineTimestamp = $line->getTimestamp();
+				}
+				$this->lastLineTimestamp = $line->getTimestamp();
+				$accumulator->append($line);
+				
+				if(!is_a($line, 'PostgreSQLContinuationLine')) {
+					$lineDetected = true;
+				}
+			}
+			if($lineParsedCounter % 100000 == 0) {
+				stderr('parsed '.$lineParsedCounter.' lines');
+				if(DEBUG) {
+					$currentTime = time() - $currentTimestamp;
+					$currentTimestamp = time();
+					debug('    '.getMemoryUsage());
+					debug('    Time: '.$currentTime.' s');
+				}
+			}
 		}
 	}
 	
