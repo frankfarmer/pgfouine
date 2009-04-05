@@ -2,6 +2,8 @@
 
 	* applied a patch from Max Valjanski to support large pids on 64 bits
 	servers
+	* applied a patch from Steve Woodcock to fix a long standing problem
+	resulting in leading "statement: " in the query text for some queries
 
 2009-04-01  Guillaume Smet <guillaume-pg@smet.org>
 
