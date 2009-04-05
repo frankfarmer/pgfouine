@@ -1,3 +1,8 @@
+2009-04-01  Guillaume Smet <guillaume-pg@smet.org>
+
+	* applied [#1010529] Error in normalize for bigint (or numeric) numbers
+	(length > 10) by Oleg Serov
+
 2008-05-15  Guillaume Smet <guillaume-pg@smet.org>
 
 	* fixed the regexp of the stderr parser to exclude the timezone
