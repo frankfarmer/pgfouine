@@ -31,7 +31,7 @@ class StderrPostgreSQLParser extends PostgreSQLParser {
 	var $tainted = false;
 	
 	function StderrPostgreSQLParser() {
-		$this->regexpStderrContext = new RegExp('/^([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})(?: [A-Z]{2,4})? .*?\[(\d{1,5})\]: \[(\d{1,10})(?:\-(\d{1,5}))?\] /');
+		$this->regexpStderrContext = new RegExp('/^([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})(?: [A-Z]{2,4})? .*?\[(\d{1,7})\]: \[(\d{1,10})(?:\-(\d{1,5}))?\] /');
 	}
 
 	function & parse($data) {
