@@ -24,6 +24,7 @@
 class PostgreSQLAccumulator extends Accumulator {
 	var $working = array();
 	var $stream;
+	var $lastTimestamp;
 	
 	function PostgreSQLAccumulator() {
 		$this->stream = new LogStream();
@@ -53,6 +54,22 @@ class PostgreSQLAccumulator extends Accumulator {
 			$logStream =& $this->working[$key];
 			$logStream->flush($this);
 			unset($logStream);
+		}
+	}
+	
+	function garbageCollect($lastLineTimestamp) {
+		if($this->stream->getLastLineTimestamp() < ($lastLineTimestamp - (5 * 60))) {
+			$this->stream->flush($this);
+		}
+
+		$logStreamsKeys = array_keys($this->working);
+		foreach($logStreamsKeys AS $key) {
+			$logStream =& $this->working[$key];
+			if($logStream->getLastLineTimestamp() < ($lastLineTimestamp - (5 * 60))) {
+				$logStream->flush($this);
+				unset($logStream);
+				unset($this->working[$key]);
+			}
 		}
 	}
 }

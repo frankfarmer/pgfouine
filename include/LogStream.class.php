@@ -33,6 +33,7 @@ class LogStream {
 	var $user = '';
 	var $database = '';
 	var $preparedStatements = array();
+	var $lastLineTimestamp = 0;
 
 	/**
 	 * append a log line to the log stream
@@ -43,6 +44,8 @@ class LogStream {
 	function append(& $line) {
 		$logObject = false;
 		$lineCommandNumber = $line->getCommandNumber();
+		
+		$this->lastLineTimestamp = $line->getTimestamp();
 		
 		if((!$this->currentBlock ||
 			((($lineCommandNumber != $this->currentBlock->getCommandNumber()) || ($line->getLineNumber() == 1)) && $this->currentBlock->isComplete()) ||			
@@ -191,6 +194,10 @@ class LogStream {
 	 */
 	function & getPreparedStatement($name, $portalName) {
 		return $this->preparedStatements[$name];
+	}
+	
+	function getLastLineTimestamp() {
+		return $this->lastLineTimestamp;
 	}
 }
 

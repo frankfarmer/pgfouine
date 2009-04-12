@@ -65,6 +65,12 @@ class Accumulator {
 	}
 	
 	/**
+	 * run the garbage collector
+	 */
+	function garbageCollect($lastLineTimestamp) {
+	}
+	
+	/**
 	 * closes all the listeners
 	 */
 	function closeListeners() {

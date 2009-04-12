@@ -149,6 +149,16 @@ class GenericLogReader {
 					$lineDetected = true;
 				}
 			}
+			if($lineParsedCounter % 20000 == 0 && isset($this->lastLineTimestamp)) {
+				if(DEBUG) {
+					debug('    Garbage collector:');
+					debug('         before: '.getMemoryUsage());
+				}
+				$accumulator->garbageCollect($this->lastLineTimestamp);
+				if(DEBUG) {
+					debug('         after: '.getMemoryUsage());
+				}
+			}
 			if($lineParsedCounter % 100000 == 0) {
 				stderr('parsed '.$lineParsedCounter.' lines');
 				if(DEBUG) {
