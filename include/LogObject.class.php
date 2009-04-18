@@ -101,11 +101,25 @@ class LogObject {
 	}
 
 	function isIgnored() {
-		if(
-			(CONFIG_DATABASE && $this->database != CONFIG_DATABASE) ||
-			(CONFIG_USER && $this->user != CONFIG_USER) ||
-			(CONFIG_TIMESTAMP_FILTER && ($this->timestamp < CONFIG_FROM_TIMESTAMP || $this->timestamp > CONFIG_TO_TIMESTAMP))
-		) {
+		if(CONFIG_DATABASE && $this->database != CONFIG_DATABASE) {
+			return true;
+		}
+		if(CONFIG_DATABASE_REGEXP && !preg_match(CONFIG_DATABASE_REGEXP, $this->database)) {
+			return true;
+		}
+		if(CONFIG_DATABASE_LIST && !in_array($this->database, explode(',', CONFIG_DATABASE_LIST))) {
+			return true;
+		}
+		if(CONFIG_USER && $this->user != CONFIG_USER) {
+			return true;
+		}
+		if(CONFIG_USER_REGEXP && !preg_match(CONFIG_USER_REGEXP, $this->user)) {
+			return true;
+		}
+		if(CONFIG_USER_LIST && !in_array($this->user, explode(',', CONFIG_USER_LIST))) {
+			return true;
+		}
+		if((CONFIG_TIMESTAMP_FILTER && ($this->timestamp < CONFIG_FROM_TIMESTAMP || $this->timestamp > CONFIG_TO_TIMESTAMP))) {
 			$this->ignored = true;
 		}
 		return $this->ignored;

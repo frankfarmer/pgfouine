@@ -1,3 +1,7 @@
+2009-04-18  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added support for lists and regexps in -user and -database filter options
+
 2009-04-12  Guillaume Smet <guillaume-pg@smet.org>
 
 	* implemented a simple garbage collector mechanism which should reduce

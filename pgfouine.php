@@ -63,7 +63,9 @@ function usage($error = false) {
   -from "<date>"                         ignore lines logged before this date (uses strtotime)
   -to "<date>"                           ignore lines logged after this date (uses strtotime)
   -database <database>                   consider only queries on this database
+                                         (supports db1,db2 and /regexp/)
   -user <user>                           consider only queries executed by this user
+                                         (supports user1,user2 and /regexp/)
   -keepformatting                        keep the formatting of the query
   -durationunit <s|ms>                   unit used to display the durations. Default is s(econds).
   -title <title>                         define the title of the reports
@@ -313,16 +315,48 @@ if(isset($options['onlyselect'])) {
 }
 
 if(isset($options['database']) && !empty($options['database'])) {
-	define('CONFIG_DATABASE', $options['database']);
-} else {
-	define('CONFIG_DATABASE', false);
+	$options['database'] = trim($options['database']);
+	if(substr($options['database'], 0, 1) == '/' && substr($options['database'], -1, 1) == '/') {
+		// the filter is probably a regexp
+		if(@preg_match($options['database'], $value) === false) {
+			usage('database filter regexp is not valid');
+		} else {
+			define('CONFIG_DATABASE_REGEXP', $options['database']);
+		}
+	} elseif(strpos($options['database'], ',') !== false) {
+		// the filter is a list
+		$databases = explode(',', $options['database']);
+		$databases = array_map('trim', $databases);
+		define('CONFIG_DATABASE_LIST', implode(',', $databases));
+	} else {
+		define('CONFIG_DATABASE', $options['database']);
+	}
 }
+if(!defined('CONFIG_DATABASE')) define('CONFIG_DATABASE', false);
+if(!defined('CONFIG_DATABASE_LIST')) define('CONFIG_DATABASE_LIST', false);
+if(!defined('CONFIG_DATABASE_REGEXP')) define('CONFIG_DATABASE_REGEXP', false);
 
 if(isset($options['user']) && !empty($options['user'])) {
-	define('CONFIG_USER', $options['user']);
-} else {
-	define('CONFIG_USER', false);
+	$options['user'] = trim($options['user']);
+	if(substr($options['user'], 0, 1) == '/' && substr($options['user'], -1, 1) == '/') {
+		// the filter is probably a regexp
+		if(@preg_match($options['user'], $value) === false) {
+			usage('user filter regexp is not valid');
+		} else {
+			define('CONFIG_USER_REGEXP', $options['user']);
+		}
+	} elseif(strpos($options['user'], ',') !== false) {
+		// the filter is a list
+		$users = explode(',', $options['user']);
+		$users = array_map('trim', $users);
+		define('CONFIG_USER_LIST', implode(',', $users));
+	} else {
+		define('CONFIG_USER', $options['user']);
+	}
 }
+if(!defined('CONFIG_USER')) define('CONFIG_USER', false);
+if(!defined('CONFIG_USER_LIST')) define('CONFIG_USER_LIST', false);
+if(!defined('CONFIG_USER_REGEXP')) define('CONFIG_USER_REGEXP', false);
 
 if(isset($options['keepformatting'])) {
 	define('CONFIG_KEEP_FORMATTING', true);

@@ -11,6 +11,8 @@ define('PROFILE', false);
 define('CONFIG_ONLY_SELECT', false);
 define('CONFIG_TIMESTAMP_FILTER', false);
 define('CONFIG_DATABASE', false);
+define('CONFIG_DATABASE_LIST', false);
+define('CONFIG_DATABASE_REGEXP', false);
 define('CONFIG_USER', false);
 define('CONFIG_SYSLOG_IDENTITY', 'postgres');
 define('CONFIG_KEEP_FORMATTING', 1);
