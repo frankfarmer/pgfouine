@@ -55,7 +55,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%doc AUTHORS ChangeLog COPYING THANKS README pgfouine-tutorial.txt
+%doc AUTHORS ChangeLog COPYING THANKS README RELEASE pgfouine-tutorial.txt
 %attr(0755, root, root) %{_bindir}/pgfouine.php
 %attr(0755, root, root) %{_bindir}/pgfouine_vacuum.php
 %{_datadir}/%{name}
