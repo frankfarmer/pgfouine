@@ -1,13 +1,13 @@
 Summary:	PgFouine PostgreSQL log analyzer
 Name:		pgfouine
-Version:	1.0
-Release:	3%{?dist}
+Version:	1.1
+Release:	1%{?dist}
 BuildArch:	noarch
 License:	GPLv2+
 Group:		Development/Tools
-Source0:	http://pgfoundry.org/frs/download.php/1334/%{name}-%{version}.tar.gz
+Source0:	http://pgfouine.projects.postgresql.org/releases/%{name}-%{version}.tar.gz
 Source2:	pgfouine-tutorial.txt
-URL: 		http://pgfouine.projects.postgresql.org
+URL: 		http://pgfouine.projects.postgresql.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Patch1:		pgfouine-0.7-include_path.patch
@@ -61,6 +61,9 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}
 
 %changelog 
+* Sun Apr 26 2009  Guillaume Smet <guillaume-pg@smet.org> - 1.1-1
+- Update to 1.1
+
 * Thu Aug 28 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 1.0-3
 - fix license tag
 
