@@ -39,16 +39,11 @@ class StderrPostgreSQLParser extends PostgreSQLParser {
 		
 		if($contextMatch === false) {
 			if($this->lineNumber) {
-				if(!$this->tainted) {
-					stderr('Your log file contains multiline queries. We cannot guarantee the consistency of the queries.');
-					$this->tainted = true;
-				}
-				
 				$text = $data;
 				$timestamp = $this->timestamp;
 				$connectionId = $this->connectionId;
 				$commandNumber = $this->commandNumber;
-				$lineNumber = $this->lineNumber ++;
+				$lineNumber = ++$this->lineNumber;
 			} else {
 				$line = false;
 				return $line;
@@ -76,7 +71,6 @@ class StderrPostgreSQLParser extends PostgreSQLParser {
 			} else {
 				$lineNumber = 1;
 			}
-			$this->lineNumber = $lineNumber;
 			
 			$this->timestamp = $timestamp;
 			$this->connectionId = $connectionId;
