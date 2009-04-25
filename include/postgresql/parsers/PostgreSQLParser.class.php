@@ -116,6 +116,8 @@ class PostgreSQLParser {
 				$line = new PostgreSQLNoticeLine($postMatch);
 			} elseif($keyword == 'LOCATION') {
 				$line = new PostgreSQLLocationLine($postMatch);
+			} else {
+				$line = false;
 			}
 			if($line) {
 				$line->setLogLinePrefix($logLinePrefix);

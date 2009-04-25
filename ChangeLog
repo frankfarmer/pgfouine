@@ -56,6 +56,11 @@
 	* added a couple of words to colorize per [#1006782]
 	* updated GeSHi to 1.0.7.20
 
+2007-05-11  Guillaume Smet <guillaume-pg@smet.org>
+
+	* [1.0] applied [#1003645] Avoid PHP Notice for undefined $line error
+	by Russell Smith
+
 2007-03-30  Guillaume Smet <guillaume-pg@smet.org>
 
 	* updated GeSHi to 1.0.7.18
