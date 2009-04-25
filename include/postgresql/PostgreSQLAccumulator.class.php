@@ -58,18 +58,25 @@ class PostgreSQLAccumulator extends Accumulator {
 	}
 	
 	function garbageCollect($lastLineTimestamp) {
-		if($this->stream->getLastLineTimestamp() < ($lastLineTimestamp - (5 * 60))) {
+		if($this->stream->getLastLineTimestamp() < ($lastLineTimestamp - 60)) {
 			$this->stream->flush($this);
+		}
+		
+		if(DEBUG) {
+			stderr('         before: '.count($this->working).' log streams');
 		}
 
 		$logStreamsKeys = array_keys($this->working);
 		foreach($logStreamsKeys AS $key) {
 			$logStream =& $this->working[$key];
-			if($logStream->getLastLineTimestamp() < ($lastLineTimestamp - (5 * 60))) {
+			if($logStream->getLastLineTimestamp() < ($lastLineTimestamp - 60)) {
 				$logStream->flush($this);
 				unset($logStream);
 				unset($this->working[$key]);
 			}
+		}
+		if(DEBUG) {
+			stderr('         after: '.count($this->working).' log streams');
 		}
 	}
 }
