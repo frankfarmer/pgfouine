@@ -2,7 +2,7 @@
 
 	* added normalization of IN() clauses
 	* changed the default order of reports
-	* release 1.1
+	* released 1.1
 
 2009-04-25  Guillaume Smet <guillaume-pg@smet.org>
 
