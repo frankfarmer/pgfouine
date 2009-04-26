@@ -146,7 +146,7 @@ for($i = 0; $i < $argvCount; $i++) {
 if(isset($options['memorylimit']) && ((int) $options['memorylimit']) > 0) {
 	$memoryLimit = (int) $options['memorylimit'];
 } else {
-	$memoryLimit = 128;
+	$memoryLimit = 256;
 }
 ini_set('memory_limit', $memoryLimit.'M');
 
