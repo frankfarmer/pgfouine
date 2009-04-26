@@ -216,7 +216,7 @@ $supportedReportBlocks = array(
 	'n-mostfrequenterrors' => 'NormalizedErrorsMostFrequentReport',
 	'tsung' => 'TsungSessionsReport',
 );
-$defaultReportBlocks = array('overall', 'bytype', 'slowest', 'n-mosttime', 'n-mostfrequent', 'n-slowestaverage');
+$defaultReportBlocks = array('overall', 'bytype', 'n-mosttime', 'slowest', 'n-mostfrequent', 'n-slowestaverage');
 
 $reports = array();
 if(isset($options['reports'])) {
