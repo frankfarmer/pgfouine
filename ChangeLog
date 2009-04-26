@@ -2,7 +2,7 @@
 
 	* added normalization of IN() clauses
 	* changed the default order of reports
-	* raised the default memory limit to 256 MB
+	* raised the default memory limit to 512 MB
 	* released 1.1
 
 2009-04-25  Guillaume Smet <guillaume-pg@smet.org>

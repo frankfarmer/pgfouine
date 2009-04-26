@@ -70,7 +70,7 @@ function usage($error = false) {
   -durationunit <s|ms>                   unit used to display the durations. Default is s(econds).
   -title <title>                         define the title of the reports
   -syslogident <ident>                   PostgreSQL syslog identity. Default is postgres.
-  -memorylimit <n>                       PHP memory limit in MB. Default is 128.
+  -memorylimit <n>                       PHP memory limit in MB. Default is 512.
   -debug                                 debug mode
   -profile                               profile mode
   -help                                  this help
@@ -146,7 +146,7 @@ for($i = 0; $i < $argvCount; $i++) {
 if(isset($options['memorylimit']) && ((int) $options['memorylimit']) > 0) {
 	$memoryLimit = (int) $options['memorylimit'];
 } else {
-	$memoryLimit = 256;
+	$memoryLimit = 512;
 }
 ini_set('memory_limit', $memoryLimit.'M');
 
