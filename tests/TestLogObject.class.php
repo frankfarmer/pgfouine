@@ -45,10 +45,10 @@ class TestLogObject extends UnitTestCase {
     }
 
 	function testNormalize() {
-		define('TEST_QUERY', "SELECT * FROM   mytable WHERE field1=4 AND field2='string' AND field3=0x80");
-		$logObject = new LogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, TEST_QUERY, false);
-		$this->assertEqual(TEST_QUERY, $logObject->getText());
-		$this->assertEqual("SELECT * FROM mytable WHERE field1=0 AND field2='' AND field3=0x", $logObject->getNormalizedText());
+		$testQuery = "SELECT * FROM   mytable WHERE field1=4 AND field2='string' AND field3=0x80 AND field4 IN ('test',   5, 0x80 ) AND field5 IN (SELECT 1 FROM test)";
+		$logObject = new LogObject(TEST_CONNECTION_ID, TEST_USER, TEST_DB, $testQuery, false);
+		$this->assertEqual($testQuery, $logObject->getText());
+		$this->assertEqual("SELECT * FROM mytable WHERE field1=0 AND field2='' AND field3=0x AND field4 IN (...) AND field5 IN (SELECT 0 FROM test)", $logObject->getNormalizedText());
 	}
 	
 	function testAppend() {

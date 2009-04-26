@@ -1,3 +1,7 @@
+2009-04-26  Guillaume Smet <guillaume-pg@smet.org>
+
+	* added normalization of IN() clauses
+
 2009-04-25  Guillaume Smet <guillaume-pg@smet.org>
 
 	* fixed an oversight in stderr parser related to [#1010525] stderr
