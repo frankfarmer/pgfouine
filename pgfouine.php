@@ -56,7 +56,7 @@ function usage($error = false) {
   -report [outputfile=]<block1,block2>   list of report blocks separated by a comma
                                          report blocks can be: overall, hourly, bytype, slowest, n-mosttime,
                                           n-mostfrequent, n-slowestaverage, history, n-mostfrequenterrors,
-                                          tsung
+                                          tsung, csv-query
                                          you can add several -report options if you want to generate several reports at once
   -examples <n>                          maximum number of examples for a normalized query
   -onlyselect                            ignore all queries but SELECT
@@ -216,6 +216,7 @@ $supportedReportBlocks = array(
 	'historyperpid' => 'QueriesHistoryPerPidReport',
 	'n-mostfrequenterrors' => 'NormalizedErrorsMostFrequentReport',
 	'tsung' => 'TsungSessionsReport',
+	'csv-query' => 'CsvQueriesHistoryReport'
 );
 $defaultReportBlocks = array('overall', 'bytype', 'n-mosttime', 'slowest', 'n-mostfrequent', 'n-slowestaverage');
 

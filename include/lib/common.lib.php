@@ -128,6 +128,16 @@ function arrayAdd($array1, $array2) {
 	return $sum;
 }
 
+function str_putcsv($input, $delimiter = ',', $enclosure = '"') {
+	 $fp = fopen('php://temp', 'r+');
+	 fputcsv($fp, $input, $delimiter, $enclosure);
+	 rewind($fp);
+	 $data = fread($fp, 1048576);
+	 fclose($fp);
+	 
+	 return $data;
+}
+
 class RegExp {
 	var $pattern;
 	

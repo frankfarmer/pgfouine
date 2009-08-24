@@ -1,6 +1,7 @@
 2009-08-24  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added -maxquerylength option per request from Josh Berkus
+	* added a CSV query report per request from David Fetter
 
 2009-04-26  Guillaume Smet <guillaume-pg@smet.org>
 
