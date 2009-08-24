@@ -36,7 +36,7 @@ class NormalizedQueriesMostTimeReport extends NormalizedReport {
 		
 		for($i = 0; $i < $count; $i++) {
 			$query =& $queries[$i];
-			$text .= ($i+1).') '.$this->formatLongDuration($query->getTotalDuration()).' - '.$this->formatInteger($query->getTimesExecuted()).' - '.$query->getNormalizedText()."\n";
+			$text .= ($i+1).') '.$this->formatLongDuration($query->getTotalDuration()).' - '.$this->formatInteger($query->getTimesExecuted()).' - '.$this->shortenQueryText($query->getNormalizedText())."\n";
 			$text .= "--\n";
 		}
 		return $text;

@@ -157,8 +157,16 @@ class ReportAggregator {
 		return $formattedDuration;
 	}
 	
+	function shortenQueryText($queryText) {
+		if(CONFIG_MAX_QUERY_LENGTH > 0 && strlen($queryText) > CONFIG_MAX_QUERY_LENGTH) {
+			return substr($queryText, 0, CONFIG_MAX_QUERY_LENGTH).'...';
+		} else {
+			return $queryText;
+		}
+	}
+	
 	function formatRealQuery($query, $prepend = '', $append = '') {
-		return $prepend.$query->getText().$append;
+		return $prepend.$this->shortenQueryText($query->getText()).$append;
 	}
 	
 	function containsReportBlock($reportBlockName) {

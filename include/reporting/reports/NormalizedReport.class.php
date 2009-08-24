@@ -35,7 +35,7 @@ class NormalizedReport extends Report {
 		if($normalizedQuery->getTimesExecuted() == 1 || !$exampleCount) {
 			$html .= $this->formatRealQuery($normalizedQuery->getQuery());
 		} else {
-			$html .= $this->highlightSql($normalizedQuery->getNormalizedText());
+			$html .= $this->highlightSql($this->shortenQueryText($normalizedQuery->getNormalizedText()));
 			
 			$buttonId = 'button_'.$this->getReportClass().'_'.$counter;
 			$divId = 'examples_'.$this->getReportClass().'_'.$counter;

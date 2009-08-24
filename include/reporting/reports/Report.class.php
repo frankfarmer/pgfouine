@@ -102,7 +102,11 @@ class Report {
 	
 	function formatRealQuery(& $query, $prepend = '', $append = '') {
 		return $this->reportAggregator->formatRealQuery($query, $prepend, $append);
-	}	
+	}
+	
+	function shortenQueryText($queryText) {
+		return $this->reportAggregator->shortenQueryText($queryText);
+	}
 } 
 
 ?>

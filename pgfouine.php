@@ -67,6 +67,7 @@ function usage($error = false) {
   -user <user>                           consider only queries executed by this user
                                          (supports user1,user2 and /regexp/)
   -keepformatting                        keep the formatting of the query
+  -maxquerylength <length>               maximum length of a query: we cut it if it exceeds this length
   -durationunit <s|ms>                   unit used to display the durations. Default is s(econds).
   -title <title>                         define the title of the reports
   -syslogident <ident>                   PostgreSQL syslog identity. Default is postgres.
@@ -362,6 +363,12 @@ if(isset($options['keepformatting'])) {
 	define('CONFIG_KEEP_FORMATTING', true);
 } else {
 	define('CONFIG_KEEP_FORMATTING', false);
+}
+
+if(isset($options['maxquerylength']) && is_numeric($options['maxquerylength'])) {
+	define('CONFIG_MAX_QUERY_LENGTH', $options['maxquerylength']);
+} else {
+	define('CONFIG_MAX_QUERY_LENGTH', 0);
 }
 
 if(isset($options['durationunit']) && $options['durationunit'] == 'ms') {
