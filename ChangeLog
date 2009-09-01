@@ -1,3 +1,8 @@
+2009-09-01  Guillaume Smet <guillaume-pg@smet.org>
+
+	* applied [#1010669] Add a '-quiet' option so unrecognised lines are not
+	displayed by Chris Smith
+
 2009-08-24  Guillaume Smet <guillaume-pg@smet.org>
 
 	* added -maxquerylength option per request from Josh Berkus

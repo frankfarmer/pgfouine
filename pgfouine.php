@@ -72,6 +72,7 @@ function usage($error = false) {
   -title <title>                         define the title of the reports
   -syslogident <ident>                   PostgreSQL syslog identity. Default is postgres.
   -memorylimit <n>                       PHP memory limit in MB. Default is 512.
+  -quiet                                 quiet mode
   -debug                                 debug mode
   -profile                               profile mode
   -help                                  this help
@@ -416,6 +417,12 @@ if(isset($options['syslogident'])) {
 	define('CONFIG_SYSLOG_IDENTITY', $options['syslogident']);
 } else {
 	define('CONFIG_SYSLOG_IDENTITY', 'postgres');
+}
+
+if(isset($options['quiet'])) {
+	define('CONFIG_QUIET', true);
+} else {
+	define('CONFIG_QUIET', false);
 }
 
 if($logtype == 'csvlog') {
