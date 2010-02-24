@@ -1,6 +1,6 @@
 Summary:	PgFouine PostgreSQL log analyzer
 Name:		pgfouine
-Version:	1.1
+Version:	1.2
 Release:	1%{?dist}
 BuildArch:	noarch
 License:	GPLv2+
@@ -60,7 +60,10 @@ rm -rf %{buildroot}
 %attr(0755, root, root) %{_bindir}/pgfouine_vacuum.php
 %{_datadir}/%{name}
 
-%changelog 
+%changelog
+* Wed Feb 24 2010  Guillaume Smet <guillaume.smet@gmail.com> 1.2-1
+- Update to 1.2
+
 * Sun Apr 26 2009  Guillaume Smet <guillaume-pg@smet.org> - 1.1-1
 - Update to 1.1
 

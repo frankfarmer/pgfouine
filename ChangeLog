@@ -4,7 +4,8 @@
 	slightly modified by me
 	* fixed [#1010689] undefined method UselessLogObject::appendContext()
 	* fixed [#1010690] Incorrect results in report. Repeating examples, incorrect
-	statistics.
+	statistics
+	* released 1.2
 
 2009-09-01  Guillaume Smet <guillaume-pg@smet.org>
 

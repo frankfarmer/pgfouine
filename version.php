@@ -1,5 +1,5 @@
 <?php
 
-define('VERSION', '1.1.99');
+define('VERSION', '1.2');
 
 ?>
