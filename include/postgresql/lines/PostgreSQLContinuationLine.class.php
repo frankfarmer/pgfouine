@@ -31,6 +31,10 @@ class PostgreSQLContinuationLine extends PostgreSQLLogLine {
 		}
 		$this->PostgreSQLLogLine($text);
 	}
+	
+	function isContextual() {
+		return true;
+	}
 }
 
 ?>
