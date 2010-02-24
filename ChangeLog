@@ -2,6 +2,7 @@
 
 	* applied [#1010728] support for rsyslog timestamp format by Peter Eisentraut
 	slightly modified by me
+	* fixed [#1010689] undefined method UselessLogObject::appendContext()
 
 2009-09-01  Guillaume Smet <guillaume-pg@smet.org>
 

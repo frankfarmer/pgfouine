@@ -24,6 +24,11 @@
 class UselessLogObject extends LogObject {
 	function UselessLogObject() {
 	}
+	
+	function appendContext($context) {
+		// a context can be attached to a notice
+		// (see http://pgfoundry.org/tracker/index.php?func=detail&aid=1010689&group_id=1000152&atid=618)
+	}
 }
 
 ?>
