@@ -1,3 +1,8 @@
+2010-02-24  Guillaume Smet <guillaume.smet@gmail.com>
+
+	* applied [#1010728] support for rsyslog timestamp format by Peter Eisentraut
+	slightly modified by me
+
 2009-09-01  Guillaume Smet <guillaume-pg@smet.org>
 
 	* applied [#1010669] Add a '-quiet' option so unrecognised lines are not
