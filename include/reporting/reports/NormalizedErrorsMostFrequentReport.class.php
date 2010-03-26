@@ -70,24 +70,19 @@ class NormalizedErrorsMostFrequentReport extends NormalizedErrorsReport {
 		
 			for($i = 0; $i < $count; $i++) {
 				$error =& $errors[$i];
-				if($error->isTextAStatement()) {
-					$errorText = $error->getError();
-				} else {
-					$errorText = $error->getNormalizedText();
-				}
 				
 				$html .= '<tr class="'.$this->getRowStyle($i).'">
 					<td class="center top">'.($i+1).'</td>
 					<td class="relevantInformation top center"><div class="tooltipLink"><span class="information">'.$this->formatInteger($error->getTimesExecuted()).'</span>'.$this->getHourlyStatisticsTooltip($error).'</div></td>
-					<td><div class="error">Error: '.$error->getError().'</div>';
+					<td><div class="error">Error: '.htmlspecialchars($error->getError()).'</div>';
 				if($error->getDetail() || $error->getHint()) {
 					$html .= '<div class="errorInformation">';
 					if($error->getDetail()) {
-						$html .= 'Detail: '.$error->getDetail();
+						$html .= 'Detail: '.htmlspecialchars($error->getDetail());
 						$html .= '<br />';
 					}
 					if($error->getHint()) {
-						$html .= 'Hint: '.$error->getHint();
+						$html .= 'Hint: '.htmlspecialchars($error->getHint());
 						$html .= '<br />';
 					}
 					$html .= '</div>';

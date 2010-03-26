@@ -1,3 +1,7 @@
+2010-03-26  Guillaume Smet <guillaume.smet@openwide.fr>
+
+	* fixed several potential XSS issues in the error report, reported by Austin King
+
 2010-02-24  Guillaume Smet <guillaume.smet@gmail.com>
 
 	* applied [#1010728] support for rsyslog timestamp format by Peter Eisentraut

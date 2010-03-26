@@ -45,9 +45,10 @@ class NormalizedErrorsReport extends Report {
 				$example =& $examples[$i];
 				$title = $example->getDetailedInformation();
 				
-				$text = $example->getText();
 				if($example->isTextAStatement()) {
-					$text = $this->highlightSql($text);
+					$text = $this->highlightSql($example->getText());
+				} else {
+					$text = htmlspecialchars($example->getText());
 				}
 				$html .= '<div class="example'.($i%2).'" title="'.$title.'">';
 				$html .= $text;
