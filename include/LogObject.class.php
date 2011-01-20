@@ -81,6 +81,8 @@ class LogObject {
 		$regexpRemoveNumbers = '/([^a-zA-Z_\$-])-?([0-9]+)/';
 		$regexpRemoveHexadecimalNumbers = '/([^a-z_\$-])0x[0-9a-f]{1,10}/i';
 		$regexpRemoveIn = '/(IN\s*)\([\'0x,\s]*\)/i';
+		$regexpRemoveComments = '#/\*.*?\*/#s';
+		$regexpRemoveOneLineComments = '/--.*/';
 
 		$text = $this->text;
 		if($text) {
@@ -91,6 +93,8 @@ class LogObject {
 			$text = preg_replace($regexpRemoveNumbers, '${1}0', $text);
 			$text = preg_replace($regexpRemoveHexadecimalNumbers, '${1}0x', $text);
 			$text = preg_replace($regexpRemoveIn, '${1}(...)', $text);
+			$text = preg_replace($regexpRemoveComments, '/* ... */', $text);
+			$text = preg_replace($regexpRemoveOneLineComments, '-- ...', $text);
 		}
 		return $text;
 	}
