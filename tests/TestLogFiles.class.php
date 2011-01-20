@@ -164,7 +164,7 @@ class TestLogFiles extends UnitTestCase {
 		$this->assertEqual($commandNumber, $line->getCommandNumber());
 		$this->assertEqual($lineNumber, $line->getLineNumber());
 		$this->assertEqual($text, $line->getText());
-		$this->assertEqual(0, bccomp($duration, $line->getDuration()));
+		$this->assertEqual(0, round($duration-$line->getDuration(), 8));
 		$this->assertEqual($ignore, $line->isIgnored());
 		$this->assertEqual($database, $line->getDatabase());
 		$this->assertEqual($user, $line->getUser());
@@ -175,7 +175,7 @@ class TestLogFiles extends UnitTestCase {
 		$this->assertEqual($timestamp, $logObject->getTimestamp());
 		$this->assertEqual($commandNumber, $logObject->getCommandNumber());
 		$this->assertEqual($text, $logObject->getText());
-		$this->assertEqual(0, bccomp($duration, $logObject->getDuration()));
+		$this->assertEqual(0, round($duration-$logObject->getDuration(), 8));
 		$this->assertEqual($ignored, $logObject->isIgnored());
 		$this->assertEqual($database, $logObject->getDatabase());
 		$this->assertEqual($user, $logObject->getUser());
