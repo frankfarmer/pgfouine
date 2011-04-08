@@ -28,7 +28,8 @@ require_once('postgresql/postgresql.lib.php');
 require_once('reporting/reports.lib.php');
 
 abstract class Command {
-    abstract protected function usage($error = false);
+    abstract protected function getUsageInShort();
+    abstract protected function getUsageOptions();
     abstract protected function getMemoryLimitDefault();
     abstract protected function assignOptions();
     abstract protected function setupAggregation($filePath, $value);
@@ -37,6 +38,28 @@ abstract class Command {
 
     protected $outputToFiles = false;
     protected $executable;
+
+    final protected function usage($error = false) {
+        if($error) {
+            stderr('Error: '.$error);
+            echo "\n";
+        }
+        echo 'Usage: '.$this->executable.' -file <file> ' . trim($this->getUsageInShort()) . '
+    -file <file>                           log file to analyze
+    -                                      read the log from stdin instead of -file
+    '.trim($this->getUsageOptions()).'
+    -memorylimit <n>                       PHP memory limit in MB. Default is 512.
+    -quiet                                 quiet mode
+    -debug                                 debug mode
+    -profile                               profile mode
+    -help                                  this help
+        ';
+        if($error) {
+            exit(1);
+        } else {
+            exit(0);
+        }
+    }
 
     public function run() {
         global $argv;
@@ -153,7 +176,7 @@ abstract class Command {
                 }
 
                 if(empty($notSupportedBlocks)) {
-                    $outputFilePath = checkOutputFilePath($outputFilePath);
+                    $outputFilePath = $this->checkOutputFilePath($outputFilePath);
                     $reports[] = array(
                         'blocks' => $selectedBlocks,
                         'file' => $outputFilePath
@@ -169,9 +192,15 @@ abstract class Command {
             );
         }
 
+        /**
+         * @var $logReader GenericLogReader
+         */
         list($aggregator, $logReader) = $this->setupAggregation($filePath, $value);
 
         foreach($reports AS $report) {
+            /**
+             * @var $reportAggregator ReportAggregator
+             */
             $reportAggregator = new $aggregator($logReader, $report['file']);
             foreach($report['blocks'] AS $block) {
                 $reportAggregator->addReportBlock($this->getSupportedReportBlock($block));

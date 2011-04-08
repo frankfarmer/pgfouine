@@ -24,30 +24,19 @@ require_once('Command.class.php');
 require_once('postgresql/vacuum/vacuum.lib.php');
 
 class PgfouineVacuum extends Command {
-    protected function usage($error = false) {
-        if($error) {
-            stderr('Error: '.$error);
-            echo "\n";
-        }
-        echo 'Usage: '.$this->executable.' -file <file> [-report [outputfile=]<block1,block2>] [-filter <filter>]
-    -file <file>                           log file to analyze
-    -                                      read the log from stdin instead of -file
+    protected function getUsageOptions() {
+        return '
     -report [outputfile=]<block1,block2>   list of report blocks separated by a comma
                                          report blocks can be: overall, fsm, vacuumedtables, details
                                          you can add several -report options if you want to generate several reports at once
     -filter <filter>                       filter of the form: database or database.schema
                                          filter is applied on output only
     -title <title>                         define the title of the reports
-    -memorylimit <n>                       PHP memory limit in MB. Default is 128.
-    -debug                                 debug mode
-    -profile                               profile mode
-    -help                                  this help
         ';
-        if($error) {
-            exit(1);
-        } else {
-            exit(0);
-        }
+    }
+
+    protected function getUsageInShort() {
+        return '[-report [outputfile=]<block1,block2>] [-filter <filter>]';
     }
 
     protected function getMemoryLimitDefault() {

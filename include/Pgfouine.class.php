@@ -23,14 +23,11 @@
 include('Command.class.php');
 
 class Pgfouine extends Command {
-    protected function usage($error = false) {
-        if($error) {
-            stderr('Error: '.$error);
-            echo "\n";
-        }
-        echo 'Usage: '.$this->executable.' -file <file> [-top <n>] [-format <format>] [-logtype <logtype>] [-report [outputfile=]<block1,block2>]
-    -file <file>                           log file to analyze
-    -                                      read the log from stdin instead of -file
+    protected function getUsageInShort() {
+        return '[-top <n>] [-format <format>] [-logtype <logtype>] [-report [outputfile=]<block1,block2>]';
+    }
+    protected function getUsageOptions() {
+        return '
     -top <n>                               number of queries in lists. Default is 20.
     -format <format>                       output format: html, html-with-graphs or text. Default is html.
     -logtype <logtype>                     log type: syslog, stderr or csvlog. Default is syslog.
@@ -53,17 +50,7 @@ class Pgfouine extends Command {
     -durationunit <s|ms>                   unit used to display the durations. Default is s(econds).
     -title <title>                         define the title of the reports
     -syslogident <ident>                   PostgreSQL syslog identity. Default is postgres.
-    -memorylimit <n>                       PHP memory limit in MB. Default is 512.
-    -quiet                                 quiet mode
-    -debug                                 debug mode
-    -profile                               profile mode
-    -help                                  this help
         ';
-        if($error) {
-            exit(1);
-        } else {
-            exit(0);
-        }
     }
 
     protected function getMemoryLimitDefault() {
