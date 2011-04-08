@@ -51,24 +51,32 @@ class PgfouineVacuum extends Command {
         define('CONFIG_DATABASE', false);
         define('CONFIG_USER', false);
 
-        if(isset($options['filter']) && !empty($options['filter'])) {
-            define('CONFIG_FILTER', $options['filter']);
+        if(isset($this->options['filter']) && !empty($this->options['filter'])) {
+            define('CONFIG_FILTER', $this->options['filter']);
         } else {
             define('CONFIG_FILTER', false);
         }
 
-        if(isset($options['title'])) {
-            define('CONFIG_REPORT_TITLE', $options['title']);
+        if(isset($this->options['title'])) {
+            define('CONFIG_REPORT_TITLE', $this->options['title']);
         } else {
             define('CONFIG_REPORT_TITLE', 'pgFouine: PostgreSQL VACUUM log analysis report');
         }
     }
 
-    protected function setupAggregation($filePath, $value) {
-        return array(
-            'HtmlReportAggregator',
-            new GenericLogReader($filePath, 'PostgreSQLVacuumParser', 'PostgreSQLVacuumAccumulator')
-        );
+    /**
+     * @return ReportAggregator
+     */
+    protected function getAggregator()
+    {
+        return 'HtmlReportAggregator';
+    }
+
+    /**
+     * @return GenericLogReader
+     */
+    protected function getLogReader($filePath, $value) {
+        return new GenericLogReader($filePath, 'PostgreSQLVacuumParser', 'PostgreSQLVacuumAccumulator');
     }
 
     protected function getSupportedReportBlocks() {

@@ -32,12 +32,23 @@ abstract class Command {
     abstract protected function getUsageOptions();
     abstract protected function getMemoryLimitDefault();
     abstract protected function assignOptions();
-    abstract protected function setupAggregation($filePath, $value);
     abstract protected function getDefaultReportBlocks();
     abstract protected function getSupportedReportBlocks();
 
+    /**
+     * @return ReportAggregator
+     */
+    abstract protected function getAggregator();
+
+    /**
+     * @return GenericLogReader
+     */
+    abstract protected function getLogReader($filePath, $value);
+
+
     protected $outputToFiles = false;
     protected $executable;
+    protected $options = array();
 
     final protected function usage($error = false) {
         if($error) {
@@ -80,7 +91,7 @@ abstract class Command {
             $this->executable = 'unknown';
         }
 
-        $options = array();
+        $this->options = array();
         $argvCount = count($argv);
         for($i = 0; $i < $argvCount; $i++) {
             if(strpos($argv[$i], '-') === 0) {
@@ -94,12 +105,12 @@ abstract class Command {
                         $i++;
                     }
                     if($optionKey == 'report' || $optionKey == 'reports') {
-                        if(!isset($options['reports'])) {
-                            $options['reports'] = array();
+                        if(!isset($this->options['reports'])) {
+                            $this->options['reports'] = array();
                         }
-                        $options['reports'][] = $value;
+                        $this->options['reports'][] = $value;
                     } else {
-                        $options[$optionKey] = $value;
+                        $this->options[$optionKey] = $value;
                     }
                 }
             } else {
@@ -107,8 +118,8 @@ abstract class Command {
             }
         }
 
-        if(isset($options['memorylimit']) && ((int) $options['memorylimit']) > 0) {
-            $memoryLimit = (int) $options['memorylimit'];
+        if(isset($this->options['memorylimit']) && ((int) $this->options['memorylimit']) > 0) {
+            $memoryLimit = (int) $this->options['memorylimit'];
         } else {
             $memoryLimit = $this->getMemoryLimitDefault();
         }
@@ -118,30 +129,30 @@ abstract class Command {
             define('CONFIG_STDIN', false);
         }
 
-        if(isset($options['help']) || isset($options['h']) || isset($options['-help'])) {
+        if(isset($this->options['help']) || isset($this->options['h']) || isset($this->options['-help'])) {
             $this->usage();
         }
 
-        if(isset($options['debug'])) {
+        if(isset($this->options['debug'])) {
             define('DEBUG', 1);
         } else {
             define('DEBUG', 0);
         }
-        if(isset($options['profile'])) {
+        if(isset($this->options['profile'])) {
             define('PROFILE', 1);
         } else {
             define('PROFILE', 0);
         }
 
         if(!CONFIG_STDIN) {
-            if(!isset($options['file'])) {
+            if(!isset($this->options['file'])) {
                 $this->usage('the -file option is required');
-            } elseif(!$options['file']) {
+            } elseif(!$this->options['file']) {
                 $this->usage('you have to specify a file path');
-            } elseif(!is_readable($options['file'])) {
-                $this->usage('file '.$options['file'].' cannot be read');
+            } elseif(!is_readable($this->options['file'])) {
+                $this->usage('file '.$this->options['file'].' cannot be read');
             } else {
-                $filePath = realpath($options['file']);
+                $filePath = realpath($this->options['file']);
             }
         } else {
             $filePath = 'php://stdin';
@@ -150,8 +161,8 @@ abstract class Command {
         $this->assignOptions();
 
         $reports = array();
-        if(isset($options['reports'])) {
-            foreach($options['reports'] AS $report) {
+        if(isset($this->options['reports'])) {
+            foreach($this->options['reports'] AS $report) {
                 if(strpos($report, '=') !== false) {
                     list($outputFilePath, $blocks) = explode('=', $report);
                     $this->outputToFiles = true;
@@ -192,10 +203,8 @@ abstract class Command {
             );
         }
 
-        /**
-         * @var $logReader GenericLogReader
-         */
-        list($aggregator, $logReader) = $this->setupAggregation($filePath, $value);
+        $aggregator = $this->getAggregator();
+        $logReader = $this->getLogReader($filePath, $value);
 
         foreach($reports AS $report) {
             /**
