@@ -3,7 +3,7 @@
 
 /*
  * This file is part of pgFouine.
- * 
+ *
  * pgFouine - a PostgreSQL log analyzer
  * Copyright (c) 2005-2008 Guillaume Smet
  *
@@ -25,12 +25,6 @@
 ini_set('max_execution_time', 18000);
 ini_set('log_errors', true);
 ini_set('display_errors', false);
-
-if(strpos(phpversion(), '4.4') === 0) {
-	error_reporting(E_ALL - E_NOTICE);
-} else {
-	error_reporting(E_ALL);
-}
 
 include('version.php');
 require_once('include/lib/common.lib.php');
