@@ -73,50 +73,14 @@ abstract class Command {
     }
 
     public function run() {
-        global $argv;
-
         ini_set('max_execution_time', 18000);
         ini_set('log_errors', true);
         ini_set('display_errors', false);
 
         $stderr = fopen('php://stderr', 'w');
 
-        if(isset($_SERVER['argv']) && (!isset($argv) || empty($argv))) {
-            $argv = $_SERVER['argv'];
-        }
-        if(is_array($argv)) {
-            $this->executable = array_shift($argv);
-        } else {
-            $argv = array();
-            $this->executable = 'unknown';
-        }
-
-        $this->options = array();
-        $argvCount = count($argv);
-        for($i = 0; $i < $argvCount; $i++) {
-            if(strpos($argv[$i], '-') === 0) {
-                if($argv[$i] == '-') {
-                    define('CONFIG_STDIN', true);
-                } else {
-                    $optionKey = substr($argv[$i], 1);
-                    $value = false;
-                    if(($i+1 < $argvCount) && (strpos($argv[$i+1], '-') !== 0)) {
-                        $value = $argv[$i+1];
-                        $i++;
-                    }
-                    if($optionKey == 'report' || $optionKey == 'reports') {
-                        if(!isset($this->options['reports'])) {
-                            $this->options['reports'] = array();
-                        }
-                        $this->options['reports'][] = $value;
-                    } else {
-                        $this->options[$optionKey] = $value;
-                    }
-                }
-            } else {
-                $this->usage('invalid options format');
-            }
-        }
+        $argv = $this->getArgv();
+        $value = $this->parseOptions($argv);
 
         if(isset($this->options['memorylimit']) && ((int) $this->options['memorylimit']) > 0) {
             $memoryLimit = (int) $this->options['memorylimit'];
@@ -160,52 +124,10 @@ abstract class Command {
 
         $this->assignOptions();
 
-        $reports = array();
-        if(isset($this->options['reports'])) {
-            foreach($this->options['reports'] AS $report) {
-                if(strpos($report, '=') !== false) {
-                    list($outputFilePath, $blocks) = explode('=', $report);
-                    $this->outputToFiles = true;
-                } elseif(strpos($report, '.') !== false) {
-                    $outputFilePath = $report;
-                    $blocks = 'default';
-                    $this->outputToFiles = true;
-                } else {
-                    $outputFilePath = false;
-                    $blocks = $report;
-                    $this->outputToFiles = false;
-                }
-                if($blocks == 'default') {
-                    $selectedBlocks = $this->getDefaultReportBlocks();
-                    $notSupportedBlocks = array();
-                } elseif($blocks == 'all') {
-                    $selectedBlocks = array_keys($this->getSupportedReportBlocks());
-                    $notSupportedBlocks = array();
-                } else {
-                    $selectedBlocks = explode(',', $blocks);
-                    $notSupportedBlocks = array_diff($selectedBlocks, array_keys($this->getSupportedReportBlocks()));
-                }
-
-                if(empty($notSupportedBlocks)) {
-                    $outputFilePath = $this->checkOutputFilePath($outputFilePath);
-                    $reports[] = array(
-                        'blocks' => $selectedBlocks,
-                        'file' => $outputFilePath
-                    );
-                } else {
-                    $this->usage('report types not supported: '.implode(',', $notSupportedBlocks));
-                }
-            }
-        } else {
-            $reports[] = array(
-                'blocks' => $this->getDefaultReportBlocks(),
-                'file' => false
-            );
-        }
-
         $aggregator = $this->getAggregator();
         $logReader = $this->getLogReader($filePath, $value);
 
+        $reports = $this->getReports();
         foreach($reports AS $report) {
             /**
              * @var $reportAggregator ReportAggregator
@@ -252,5 +174,95 @@ abstract class Command {
     {
         $blocks = $this->getSupportedReportBlocks();
         return $blocks[$block];
+    }
+
+    private function parseOptions($argv) {
+        $this->options = array();
+        $argvCount = count($argv);
+        for($i = 0; $i < $argvCount; $i++) {
+            if(strpos($argv[$i], '-') === 0) {
+                if($argv[$i] == '-') {
+                    define('CONFIG_STDIN', true);
+                } else {
+                    $optionKey = substr($argv[$i], 1);
+                    $value = false;
+                    if(($i+1 < $argvCount) && (strpos($argv[$i+1], '-') !== 0)) {
+                        $value = $argv[$i+1];
+                        $i++;
+                    }
+                    if($optionKey == 'report' || $optionKey == 'reports') {
+                        if(!isset($this->options['reports'])) {
+                            $this->options['reports'] = array();
+                        }
+                        $this->options['reports'][] = $value;
+                    } else {
+                        $this->options[$optionKey] = $value;
+                    }
+                }
+            } else {
+                $this->usage('invalid options format');
+            }
+        }
+        return $value;
+    }
+
+    private function getArgv() {
+        global $argv;
+        if(isset($_SERVER['argv']) && (!isset($argv) || empty($argv))) {
+            $argv = $_SERVER['argv'];
+        }
+        if(is_array($argv)) {
+            $this->executable = array_shift($argv);
+        } else {
+            $argv = array();
+            $this->executable = 'unknown';
+        }
+        return $argv;
+    }
+
+    private function getReports() {
+        $reports = array();
+        if(isset($this->options['reports'])) {
+            foreach($this->options['reports'] AS $report) {
+                if(strpos($report, '=') !== false) {
+                    list($outputFilePath, $blocks) = explode('=', $report);
+                    $this->outputToFiles = true;
+                } elseif(strpos($report, '.') !== false) {
+                    $outputFilePath = $report;
+                    $blocks = 'default';
+                    $this->outputToFiles = true;
+                } else {
+                    $outputFilePath = false;
+                    $blocks = $report;
+                    $this->outputToFiles = false;
+                }
+                if($blocks == 'default') {
+                    $selectedBlocks = $this->getDefaultReportBlocks();
+                    $notSupportedBlocks = array();
+                } elseif($blocks == 'all') {
+                    $selectedBlocks = array_keys($this->getSupportedReportBlocks());
+                    $notSupportedBlocks = array();
+                } else {
+                    $selectedBlocks = explode(',', $blocks);
+                    $notSupportedBlocks = array_diff($selectedBlocks, array_keys($this->getSupportedReportBlocks()));
+                }
+
+                if(empty($notSupportedBlocks)) {
+                    $outputFilePath = $this->checkOutputFilePath($outputFilePath);
+                    $reports[] = array(
+                        'blocks' => $selectedBlocks,
+                        'file' => $outputFilePath
+                    );
+                } else {
+                    $this->usage('report types not supported: '.implode(',', $notSupportedBlocks));
+                }
+            }
+        } else {
+            $reports[] = array(
+                'blocks' => $this->getDefaultReportBlocks(),
+                'file' => false
+            );
+        }
+        return $reports;
     }
 }
