@@ -20,8 +20,8 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-require_once('Command.class.php');
-require_once('postgresql/vacuum/vacuum.lib.php');
+require_once('include/Command.class.php');
+require_once('include/postgresql/vacuum/vacuum.lib.php');
 
 class PgfouineVacuum extends Command {
     protected function getUsageOptions() {

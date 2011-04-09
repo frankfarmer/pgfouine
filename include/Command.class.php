@@ -20,12 +20,12 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-include('../version.php');
-require_once('lib/common.lib.php');
-require_once('base.lib.php');
-require_once('listeners/listeners.lib.php');
-require_once('postgresql/postgresql.lib.php');
-require_once('reporting/reports.lib.php');
+include('version.php');
+require_once('include/lib/common.lib.php');
+require_once('include/base.lib.php');
+require_once('include/listeners/listeners.lib.php');
+require_once('include/postgresql/postgresql.lib.php');
+require_once('include/reporting/reports.lib.php');
 
 abstract class Command {
     abstract protected function getUsageInShort();
@@ -74,8 +74,8 @@ abstract class Command {
 
     public function run() {
         ini_set('max_execution_time', 18000);
-        ini_set('log_errors', true);
-        ini_set('display_errors', false);
+//        ini_set('log_errors', true);
+//        ini_set('display_errors', false);
 
         $stderr = fopen('php://stderr', 'w');
 

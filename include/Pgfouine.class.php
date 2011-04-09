@@ -20,7 +20,7 @@
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-include('LogParsingCommand.class.php');
+include('include/LogParsingCommand.class.php');
 
 class Pgfouine extends LogParsingCommand {
     protected function getUsageInShort() {
