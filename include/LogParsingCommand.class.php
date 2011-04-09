@@ -23,6 +23,10 @@
 include('Command.class.php');
 
 abstract class LogParsingCommand extends Command {
+    protected function getUsageInShort() {
+        return '[-logtype <logtype>]';
+    }
+
     protected function getUsageOptions() {
         return '
     -examples <n>                          maximum number of examples for a normalized query

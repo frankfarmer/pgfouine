@@ -178,6 +178,7 @@ abstract class Command {
 
     private function parseOptions($argv) {
         $this->options = array();
+        $value = null;
         $argvCount = count($argv);
         for($i = 0; $i < $argvCount; $i++) {
             if(strpos($argv[$i], '-') === 0) {
