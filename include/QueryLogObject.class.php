@@ -74,7 +74,10 @@ class QueryLogObject extends LogObject {
 	}
 	
 	function isIgnored() {
-		return (parent::isIgnored() || (CONFIG_ONLY_SELECT && !$this->isSelect()));
+		return (parent::isIgnored() || (CONFIG_ONLY_SELECT && !$this->isSelect())
+			//I have postgres configured to log query plans for slow queries
+			//pgfouine misidentifies these as queries themselves, so they should be filtered
+			||  $this->check('plan'));
 	}
 	
 	function setDuration($duration) {
