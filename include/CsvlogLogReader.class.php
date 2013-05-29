@@ -32,7 +32,9 @@ class CsvlogLogReader extends GenericLogReader {
 		while ($csvLine = fgetcsv($filePointer)) {
 			$lineParsedCounter ++;
 			
-			if(count($csvLine) == 22) {
+                        $count = count($csvLine);
+                        //Postgres 9 has 23 fields, older versions have	22 fields
+                        if($count >= 22 && $count <= 23) {
 				$lines =& $lineParser->parse($csvLine);
 				
 				if($lines) {

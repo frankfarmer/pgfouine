@@ -96,8 +96,9 @@ class PostgreSQLParser {
 						strpos($postMatch, 'could not receive data from client') !== 0 &&
 						strpos($postMatch, 'checkpoints are occurring too frequently (') !== 0 &&
 						strpos($postMatch, 'invalid length of startup packet') !== 0 &&
-                                                strpos($postMatch, 'checkpoint starting') !== 0 &&
-                                                strpos($postMatch, 'checkpoint complete') !== 0 &&
+						strpos($postMatch, 'checkpoint starting') !== 0 &&
+						strpos($postMatch, 'checkpoint complete') !== 0 &&
+						strpos($postMatch, 'temporary file: path "') !== 0 &&
 						strpos($postMatch, 'incomplete startup packet') !== 0
 						)) {
 						stderr('Unrecognized LOG or DEBUG line: '.$text, true);
