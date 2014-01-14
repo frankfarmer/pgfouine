@@ -35,9 +35,9 @@ class PostgreSQLAccumulator extends Accumulator {
 			if(!isset($this->working[$connectionId])) {
 				$this->working[$connectionId] = new LogStream();
 			}
-			$query =& $this->working[$connectionId]->append($line);
+			$query = $this->working[$connectionId]->append($line);
 		} else {
-			$query =& $this->stream->append($line);
+			$query = $this->stream->append($line);
 		}
 		if($query) {
 			$query->accumulateTo($this);
